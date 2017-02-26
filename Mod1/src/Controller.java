@@ -1,9 +1,15 @@
-import java.util.Scanner; 
+import javafx.fxml.FXML;
+import javafx.stage.Stage;
+
+import java.util.Scanner;
 
 /**
  * Created by tobyf on 18/02/2017.
  */
 public class Controller {
+    // For interaction between controller and GUI
+    @FXML
+    private javafx.scene.control.MenuBar menu;
 	
     Airport model;
     View view;
@@ -65,5 +71,14 @@ public class Controller {
         controller.model.addObstacle(logRun2, o);
         controller.view.update(logRun1);
         controller.view.update(logRun2);
+    }
+
+    // Close option in MenuBar -> File -> Close
+    @FXML
+    protected void fileCloseMenuAction() {
+        // get a handle to the stage
+        Stage stage = (Stage) menu.getScene().getWindow();
+        // do what you have to do
+        stage.close();
     }
 }
