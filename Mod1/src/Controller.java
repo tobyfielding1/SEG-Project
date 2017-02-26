@@ -1,4 +1,5 @@
 import javafx.fxml.FXML;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.util.Scanner;
@@ -7,6 +8,9 @@ import java.util.Scanner;
  * Created by tobyf on 18/02/2017.
  */
 public class Controller {
+    // Output value text fields
+    public TextField oldToraField, newToraField, oldTodaField, newTodaField, oldAsdaField, newAsdaField, oldLdaField, newLdaField;
+
     // For interaction between controller and GUI
     @FXML
     private javafx.scene.control.MenuBar menu;
