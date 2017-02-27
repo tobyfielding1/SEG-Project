@@ -90,9 +90,9 @@ public class Controller extends Application {
         System.out.println("");
         System.out.println("Enter type of obstacle on runway :");
         obsType = scan.next();
-        System.out.println("Enter the distance from Threshold 1 (Is this the logical runway ??) (m):");
+        System.out.println("Enter the distance from Threshold 1 (m):");
         dist1stThresh = scan.nextInt();
-        System.out.println("Enter the distance from Threshold 2 (Is this the logical runway ??) (m):");
+        System.out.println("Enter the distance from Threshold 2 (m):");
         dist2ndThresh = scan.nextInt();
         System.out.println("Enter the distance from the centreline (m):");
         centerlineDist = scan.nextInt();

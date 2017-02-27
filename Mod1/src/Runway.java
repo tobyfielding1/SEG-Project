@@ -22,8 +22,22 @@ public class Runway {
 
     private Obstacle obstacle;
     private AvoidanceStrategy avoidanceStrategy = null;
+    
+    private String calculations;
 
-    public void setBlastAllowance(int blastAllowance) {
+    public String getName() {
+		return name;
+	}
+
+	public String getCalculations() {
+		return calculations;
+	}
+	
+	private void clearCalculations(){
+		calculations = "";
+	}
+
+	public void setBlastAllowance(int blastAllowance) {
         this.blastAllowance = blastAllowance;
     }
 
@@ -85,6 +99,9 @@ public class Runway {
         //returns false if obstacle is far away enough not to redeclare
         if (obstacle.centerlineDist > 75)
             return false;
+        
+        clearCalculations();
+        calculations.concat("Runway: " + this.name);
 
         //if this is 1st runway (1-18)
         if (this.getDirection() <= 18) {
@@ -117,11 +134,14 @@ public class Runway {
     }
 
     private void landingToward(int thresholdDist){
+    	calculations.concat("\nLanding Toward: ");
         LDA = thresholdDist - obstacle.RESA - stripEnd;
+        calculations.concat("\nLDA: "+thresholdDist+" - "+obstacle.RESA+" - "+stripEnd+" = "+LDA);
     }
 
     private void landingOver(int thresholdDist){
-
+    	calculations.concat("\nLanding Over: ");
+    	
         int safeGroundDistance = blastAllowance;
         if ( obstacle.RESA + stripEnd > safeGroundDistance)
             safeGroundDistance = obstacle.RESA + stripEnd;
@@ -131,13 +151,24 @@ public class Runway {
         int tallObsLDA = TORA - thresholdDist - safeALSDistance;
 
         //chooses smallest new LDA and makes sure the new LDA is not bigger than the old
-        if (tallObsLDA < newLDA && tallObsLDA < LDA)
+        if (tallObsLDA < newLDA && tallObsLDA < LDA){
+        	calculations.concat("\nLDA: "+TORA+" - "+thresholdDist+" - "+obstacle.height+" x "+ALSTOCSSlope+" - "+stripEnd);
             LDA = tallObsLDA;
-        else if (newLDA < LDA)
+            calculations.concat(" = "+LDA);
+        }
+        else if (newLDA < LDA){
+            if ( obstacle.RESA + stripEnd > blastAllowance)
+            	calculations.concat("\nLDA: "+thresholdDist+" + "+TORA+" - "+obstacle.RESA+" - "+stripEnd);
+            else
+            	calculations.concat("\nLDA: "+thresholdDist+" + "+TORA+" - "+blastAllowance);
+            
             LDA = newLDA;
+            calculations.concat(" = "+LDA);
+        }
     }
 
     private void takeoffOver(int thresholdDist){
+    	calculations.concat("\nTakeoff Over: ");
 
         int safeGroundDistance = obstacle.RESA + stripEnd;
         int newTORA = thresholdDist + (TORA - LDA) - safeGroundDistance;
@@ -145,16 +176,25 @@ public class Runway {
         int safeTOCSDistance = obstacle.height * ALSTOCSSlope + stripEnd;
         int tallObsTORA = thresholdDist + (TORA - LDA) - safeTOCSDistance;
 
-        if (tallObsTORA < newTORA)
+        if (tallObsTORA < newTORA){
+        	calculations.concat("\nTORA, TODA, ASDA: "+thresholdDist+" + "+TORA+" - "+LDA+" - "+obstacle.height+" x "+ALSTOCSSlope+" - "+stripEnd);
             TORA = ASDA = TODA = tallObsTORA;
-        else
+            calculations.concat(" = "+TORA);
+        }
+        else{
+        	calculations.concat("\nTORA, TODA, ASDA: "+thresholdDist+" + "+TORA+" - "+LDA+" - "+obstacle.RESA+" - "+stripEnd);
             TORA = ASDA = TODA = newTORA;
+            calculations.concat(" = "+TORA);
+        }
     }
 
     private void takeoffAway(int thresholdDist){
+    	calculations.concat("\nTakeoff Away: ");
         //makes sure values can only decrease or stay the same
         if (thresholdDist + blastAllowance > 0) {
+        	calculations.concat("\nTORA, TODA, ASDA: "+TORA+" - "+thresholdDist+" - "+blastAllowance);
             TORA = TORA - thresholdDist - blastAllowance;
+            calculations.concat(" = "+TORA);
             TODA = TODA - thresholdDist - blastAllowance;
             ASDA = ASDA - thresholdDist - blastAllowance;
         }
