@@ -63,8 +63,8 @@ public class Controller extends Application {
     @FXML
     protected void drawButtonAction() throws IOException {
         Scanner scan = new Scanner(System.in);
-        String logRun1,obsType;
-        int lR1TORA,lR1TODA,lR1ASDA,lR1LDA,dist1stThresh,dist2ndThresh,centerlineDist,objheight,objRESA;
+        String runwayName,obsType;
+        int TORA,TODA,ASDA,LDA,thresh1Distance,thresh2Distance,centerlineDistance,obsHeight,obsRESA;
         Airport airport;
 
         // Create an airport
@@ -81,28 +81,28 @@ public class Controller extends Application {
             airport.addObstacle(rw.getName(), getObstacle());
         } else if (input.equals("N") || input.equals("n")) {
             System.out.println("Enter Logical Runway 1 :");
-            logRun1 = scan.next();
-            System.out.println("Enter the TORA value for " + logRun1 + " (m):");
-            lR1TORA = scan.nextInt();
-            System.out.println("Enter the TODA value for " + logRun1 + " (m):");
-            lR1TODA = scan.nextInt();
-            System.out.println("Enter the ASDA value for " + logRun1 + " (m):");
-            lR1ASDA = scan.nextInt();
-            System.out.println("Enter the LDA value for " + logRun1 + " (m):");
-            lR1LDA = scan.nextInt();
+            runwayName = scan.next();
+            System.out.println("Enter the TORA value for " + runwayName + " (m):");
+            TORA = scan.nextInt();
+            System.out.println("Enter the TODA value for " + runwayName + " (m):");
+            TODA = scan.nextInt();
+            System.out.println("Enter the ASDA value for " + runwayName + " (m):");
+            ASDA = scan.nextInt();
+            System.out.println("Enter the LDA value for " + runwayName + " (m):");
+            LDA = scan.nextInt();
             System.out.println("------------------------------------------------------------------------------------------------");
             System.out.println("Enter type of obstacle on runway :");
             obsType = scan.next();
             System.out.println("Enter the distance from Threshold 1 (m):");
-            dist1stThresh = scan.nextInt();
+            thresh1Distance = scan.nextInt();
             System.out.println("Enter the distance from Threshold 2 (m):");
-            dist2ndThresh = scan.nextInt();
+            thresh2Distance = scan.nextInt();
             System.out.println("Enter the distance from the centreline (m):");
-            centerlineDist = scan.nextInt();
+            centerlineDistance = scan.nextInt();
             System.out.println("Enter the height of the object (m):");
-            objheight = scan.nextInt();
+            obsHeight = scan.nextInt();
             System.out.println("Enter the RESA value desired around the object (m):");
-            objRESA = scan.nextInt();
+            obsRESA = scan.nextInt();
             System.out.println("------------------------------------------------------------------------------------------------");
             System.out.println("");
 //        controller.model.addRunway(new Runway("09L",3902,3902,3902,3595));
@@ -110,9 +110,9 @@ public class Controller extends Application {
 //        Obstacle o = new Obstacle("tree",2500,500, 60, 25,240);
 
             airport = new Airport(apName);
-            airport.addRunway(new Runway(logRun1,lR1TORA,lR1TODA,lR1ASDA,lR1LDA));
-            Obstacle o = new Obstacle(obsType,dist1stThresh,dist2ndThresh, centerlineDist, objheight,objRESA);
-            airport.addObstacle(logRun1, o);
+            airport.addRunway(new Runway(runwayName,TORA,TODA,ASDA,LDA));
+            Obstacle o = new Obstacle(obsType,thresh1Distance,thresh2Distance, centerlineDistance, obsHeight,obsRESA);
+            airport.addObstacle(runwayName, o);
         }
 
         // Displays chosen runway
