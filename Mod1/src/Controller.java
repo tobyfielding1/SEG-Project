@@ -1,5 +1,7 @@
 import javafx.fxml.FXML;
+import javafx.scene.control.MenuBar;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 import java.util.Scanner;
@@ -11,9 +13,12 @@ public class Controller {
     // Output value text fields
     public TextField oldToraField, newToraField, oldTodaField, newTodaField, oldAsdaField, newAsdaField, oldLdaField, newLdaField;
 
+    // Graphical and calculations display panes
+    public AnchorPane topDownPane, sideOnPane, calculationsPane;
+
     // For interaction between controller and GUI
     @FXML
-    private javafx.scene.control.MenuBar menu;
+    private MenuBar menu;
 	
     Airport model;
     View view;
