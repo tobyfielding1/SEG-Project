@@ -177,12 +177,12 @@ public class Runway {
         int tallObsTORA = thresholdDist + (TORA - LDA) - safeTOCSDistance;
 
         if (tallObsTORA < newTORA){
-        	calculations = calculations.concat("\nTORA, TODA, ASDA: "+thresholdDist+" + "+TORA+" - "+LDA+" - "+obstacle.height+" x "+ALSTOCSSlope+" - "+stripEnd);
+        	calculations = calculations.concat("\nTORA, TODA, ASDA: "+thresholdDist+" + "+(TORA-LDA)+" - "+obstacle.height+" x "+ALSTOCSSlope+" - "+stripEnd);
             TORA = ASDA = TODA = tallObsTORA;
             calculations = calculations.concat(" = "+TORA);
         }
         else{
-        	calculations = calculations.concat("\nTORA, TODA, ASDA: "+thresholdDist+" + "+TORA+" - "+LDA+" - "+obstacle.RESA+" - "+stripEnd);
+        	calculations = calculations.concat("\nTORA, TODA, ASDA: "+thresholdDist+" + "+(TORA-LDA)+" - "+obstacle.RESA+" - "+stripEnd);
             TORA = ASDA = TODA = newTORA;
             calculations = calculations.concat(" = "+TORA);
         }
