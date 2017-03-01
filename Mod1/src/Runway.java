@@ -34,7 +34,7 @@ public class Runway {
 		return calculations;
 	}
 
-	public int getThreshold(){return (TORA - LDA)}
+	public int getThreshold(){return (TORA - LDA);}
 	
 	private void clearCalculations(){
 		calculations = "";
@@ -108,7 +108,13 @@ public class Runway {
         if (obstacle.centerlineDist > 75)
             return false;
         
-        
+        //returns without redeclaration if obstacle is more than 60m from TORA and 75m from centreline
+        if (this.getDirection() <= 18){
+        	if (obstacle.dist1stThresh + getThreshold() < -60 || obstacle.dist2ndThresh < -60)
+        		return false;
+        }else if (obstacle.dist2ndThresh + getThreshold() < -60 || obstacle.dist1stThresh < -60)
+        	return false;
+        	
         calculations = "Runway: " + this.name;
 
         //if this is 1st runway (1-18)
