@@ -43,11 +43,19 @@ public class Display{
 		this.sideOnPane = so;
 		
 		this.paneHeight = (int) Math.round(topDownPane.getHeight());
-		this.paneWidth = (int) Math.round(topDownPane.getWidth());
-	
-		this.runwayEndLeft = (int) Math.round( (topDownPane.getWidth() / 2) - (runwayStripLength / 2));  
-		this.runwayEndRight = (int) Math.round( (topDownPane.getWidth() / 2) + (runwayStripLength / 2));  
+		if (this.paneHeight == 0) 
+			this.paneHeight = (int) Math.round(sideOnPane.getHeight());
 		
+		this.paneWidth = (int) Math.round(topDownPane.getWidth());
+		if (this.paneWidth == 0) 
+			this.paneWidth = (int) Math.round(sideOnPane.getWidth());
+		
+		this.runwayEndLeft = (int) Math.round( (topDownPane.getWidth() / 2) - (runwayStripLength / 2)); 
+		if (this.runwayEndLeft == 0) this.runwayEndLeft = (int) Math.round( (sideOnPane.getWidth() / 2) - (runwayStripLength / 2)); 
+		 
+		this.runwayEndRight = (int) Math.round( (topDownPane.getWidth() / 2) + (runwayStripLength / 2));  
+		if (this.runwayEndRight == 0) this.runwayEndRight = (int) Math.round( (sideOnPane.getWidth() / 2) + (runwayStripLength / 2));  
+
 	}
 	
 	public void drawRunway(Runway rw) {
@@ -55,13 +63,15 @@ public class Display{
 		
 		drawRunwayTD(rw);
 		drawRunwaySO(rw);
+		drawDirection(rw.getName());
+		
 	}
 	
 	public void drawRunwaySO(Runway rw) {
 		sideOnPane.setStyle("-fx-background-color: white;");
     	
 		drawRunwaySO();
-		drawSlope(200, 100, 15);
+		drawThresholdSO(rw.getThreshold(),rw.getName());
 	}
 	
 	public void drawRunwayTD(Runway rw) {
@@ -69,9 +79,7 @@ public class Display{
     	
     	
     	drawRunwayTD();
-        drawThreshold(rw.threshold);
-        drawDistance(true,thresholdPoint,-30,400,"even longer long text for test");
-    	
+        drawThreshold(rw.getThreshold(),rw.getName());
     }
     
     public void drawDistance(Boolean dir, double startX, double startY, double length, String text) {
@@ -141,8 +149,7 @@ public class Display{
     	arrow.getChildren().addAll(main,h1,h2,h3,h4);	
     	return arrow;
     }
-    
-    
+        
     public Group makeVArrow(double x1, double y1, double length) {
     	double x2 = x1;
     	double y2 = y1 + length;
@@ -177,15 +184,14 @@ public class Display{
     
     }
 
-
-
-	
-
-    public void drawThreshold(int threshold) {
+    public void drawThreshold(int threshold, String rwnm) {
+	   int dir = Integer.parseInt(rwnm.substring(0, 2));
 	   int x;
-	   if (threshold > 0) x = runwayEndLeft +  (int) Math.round(threshold/scale);
-	   else x = runwayEndRight +  (int) Math.round(threshold/scale);
+	   if (dir < 18) x = runwayEndLeft +  (int) Math.round(threshold/scale);
+	   else x = runwayEndRight -  (int) Math.round(threshold/scale);
 	   
+	   System.out.println("dir" + dir);
+	   System.out.println("runway end right: "+runwayEndRight);
 	   thresholdPoint = x;
 	   
 	   Rectangle thresh = new Rectangle(x - 2,paneHeight / 2 - runwayStripWidth / 2, 5, runwayStripWidth);
@@ -230,4 +236,50 @@ public class Display{
     	tri.setVisible(true);
     	sideOnPane.getChildren().add(tri);
     }
+    
+    public void drawThresholdSO(int threshold, String rwnm) {
+ 	   int dir = Integer.parseInt(rwnm.substring(0, 2));
+ 	   int x;
+ 	   if (dir <= 18) x = runwayEndLeft +  (int) Math.round(threshold/scale);
+ 	   else x = runwayEndRight -  (int) Math.round(threshold/scale);
+ 	   
+ 	   thresholdPoint = x;
+ 	   
+ 	   Rectangle thresh = new Rectangle(x - 2,paneHeight / 2 - 2.5 / 2, 5, 5);
+ 	   thresh.setFill(Color.DARKRED);
+ 	   
+ 	   sideOnPane.getChildren().add(thresh);
+    }
+    
+    public void drawDirection(String rwnm) {
+    	int dir = Integer.parseInt(rwnm.substring(0, 2));
+    	
+    	int tipX;
+    	int wingX;
+    	int centreLine = paneHeight / 2;
+    	
+    	if (dir<=18) {
+    		tipX = runwayEndRight + 8;
+    		wingX = tipX - 8;
+    	} else {
+    		tipX = runwayEndLeft - 8;
+    		wingX = tipX + 8;
+    	}
+    	
+    	Line w1 = new Line(tipX,centreLine,wingX,centreLine + 15);
+    	w1.setStroke(Color.GREEN);
+    	w1.setStrokeWidth(3);
+    	
+    	Line w2 = new Line(tipX,centreLine,wingX,centreLine - 15);
+    	w2.setStroke(Color.GREEN);
+    	w2.setStrokeWidth(3);
+    	
+    	topDownPane.getChildren().addAll(w1,w2);
+    	sideOnPane.getChildren().addAll(w1,w2);
+    	
+    	System.out.println(tipX);
+    	System.out.println(wingX);
+    	System.out.println();
+    }
+
 }
