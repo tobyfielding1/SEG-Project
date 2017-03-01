@@ -36,6 +36,10 @@ public class Runway {
 
 	public int getThreshold(){return (TORA - LDA);}
 	
+	public int getStopway(){return (ASDA - TORA);}
+	
+	public int getClearway(){return (TODA - TORA);}
+	
 	private void clearCalculations(){
 		calculations = "";
 	}
