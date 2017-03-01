@@ -128,6 +128,8 @@ public class Controller extends Application {
         Runway rw = airport.getRunway(rwName);
         displayValues(rw);
         displayCalculations(rw);
+        Display screen = new Display(topDownPane,sideOnPane);
+        screen.drawRunway(rw);
     }
 
     /*
