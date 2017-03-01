@@ -16,9 +16,6 @@ public class Runway {
     private int ASDA;
     private int LDA;
     private int runwaySize;
-    
-    public int threshold = 200; // indicates the distance (in meters) where the threshold should be
-    						// positive numbers are calculated from left runway strip end, negative ones from right end	
 
     private int blastAllowance = 300;
     private int stripEnd = 60;
@@ -36,6 +33,8 @@ public class Runway {
 	public String getCalculations() {
 		return calculations;
 	}
+
+	public int getThreshold(){return (TORA - LDA)}
 	
 	private void clearCalculations(){
 		calculations = "";
