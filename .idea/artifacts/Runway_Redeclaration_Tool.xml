@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="Runway Redeclaration Tool">
+    <output-path>$PROJECT_DIR$/Mod1/out/artifacts/Runway_Redeclaration_Tool</output-path>
+    <root id="archive" name="Runway Redeclaration Tool.jar">
+      <element id="module-output" name="Mod1" />
+    </root>
+  </artifact>
+</component>
