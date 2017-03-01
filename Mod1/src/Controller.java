@@ -92,28 +92,34 @@ public class Controller extends Application {
             System.out.println("Enter the LDA value for " + runwayName + " (m):");
             LDA = scan.nextInt();
             System.out.println("------------------------------------------------------------------------------------------------");
-            System.out.println("Enter type of obstacle on runway :");
-            obsType = scan.next();
-            System.out.println("Enter the distance from Threshold 1 (m):");
-            thresh1Distance = scan.nextInt();
-            System.out.println("Enter the distance from Threshold 2 (m):");
-            thresh2Distance = scan.nextInt();
-            System.out.println("Enter the distance from the centreline (m):");
-            centerlineDistance = scan.nextInt();
-            System.out.println("Enter the height of the object (m):");
-            obsHeight = scan.nextInt();
-            System.out.println("Enter the RESA value desired around the object (m):");
-            obsRESA = scan.nextInt();
-            System.out.println("------------------------------------------------------------------------------------------------");
-            System.out.println("");
-//        controller.model.addRunway(new Runway("09L",3902,3902,3902,3595));
-//        controller.model.addRunway(new Runway("27R",3884,3962,3884,3884));
-//        Obstacle o = new Obstacle("tree",2500,500, 60, 25,240);
-
+            
             airport = new Airport(apName);
             airport.addRunway(new Runway(runwayName,TORA,TODA,ASDA,LDA));
-            Obstacle o = new Obstacle(obsType,thresh1Distance,thresh2Distance, centerlineDistance, obsHeight,obsRESA);
-            airport.addObstacle(runwayName, o);
+            
+            System.out.println("Would you like to add an obstacle? (Y/N)");
+            input = scan.next();
+            if (input.equals("Y") || input.equals("y")) {
+	            System.out.println("Enter type of obstacle on runway :");
+	            obsType = scan.next();
+	            System.out.println("Enter the distance from Threshold 1 (m):");
+	            thresh1Distance = scan.nextInt();
+	            System.out.println("Enter the distance from Threshold 2 (m):");
+	            thresh2Distance = scan.nextInt();
+	            System.out.println("Enter the distance from the centreline (m):");
+	            centerlineDistance = scan.nextInt();
+	            System.out.println("Enter the height of the object (m):");
+	            obsHeight = scan.nextInt();
+	            System.out.println("Enter the RESA value desired around the object (m):");
+	            obsRESA = scan.nextInt();
+	            System.out.println("------------------------------------------------------------------------------------------------");
+	            System.out.println("");
+	            
+	            Obstacle o = new Obstacle(obsType,thresh1Distance,thresh2Distance, centerlineDistance, obsHeight,obsRESA);
+	            airport.addObstacle(runwayName, o);
+            }
+//        controller.model.addRunway(new Runway("09L",3902,3902,3902,3595));
+//        controller.model.addRunway(new Runway("27R",3884,3962,3884,3884));
+//        Obstacle o = new Obstacle("tree",2500,500, 60, 25,240);  
         }
 
         // Displays chosen runway
