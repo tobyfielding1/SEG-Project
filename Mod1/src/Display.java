@@ -279,7 +279,7 @@ public class Display{
     	
     	System.out.println(tipX);
     	System.out.println(wingX);
-    	System.out.println(centreLine);
+    	System.out.println();
     }
 
 }

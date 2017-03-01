@@ -28,6 +28,9 @@ public class Controller extends Application {
     // Output value text fields
     public TextField oldToraField, newToraField, oldTodaField, newTodaField, oldAsdaField, newAsdaField, oldLdaField, newLdaField;
 
+    // Bottom info bar
+    public TextField additionalInfoBar;
+
     // Graphical and calculations display panes
     public AnchorPane topDownPane, sideOnPane;
     public TextArea calculationsTextArea;
@@ -35,16 +38,16 @@ public class Controller extends Application {
     // For interaction between controller and GUI
     @FXML
     private MenuBar menu;
-	
+
     Airport model;
     View view;
 
-    public static void main(String[]args){
+    public static void main(String[] args) {
         launch(args);
     }
 
     @Override
-    public void start(Stage primaryStage) throws Exception{
+    public void start(Stage primaryStage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
         primaryStage.setTitle("Hello World");
         primaryStage.setScene(new Scene(root, 900, 590));
@@ -64,72 +67,30 @@ public class Controller extends Application {
     @FXML
     protected void drawButtonAction() throws IOException {
         Scanner scan = new Scanner(System.in);
-        String runwayName,obsType;
-        int TORA,TODA,ASDA,LDA,thresh1Distance,thresh2Distance,centerlineDistance,obsHeight,obsRESA;
+        String runwayName, obsType;
+        int TORA, TODA, ASDA, LDA, thresh1Distance, thresh2Distance, centerlineDistance, obsHeight, obsRESA;
         Airport airport;
 
-        // Create an airport
-        System.out.println("Enter airport name:");
-        String apName = scan.next();
-        airport = new Airport(apName);
+        // Prompts user to enter values in command line
+        additionalInfoBar.setText("Provide input via the command line");
 
-        // Ask if user wants to read from command line or text file
-        System.out.println("Would you like to read data from a text file? (Y/N)");
-        String input = scan.next();
-        if (input.equals("Y") || input.equals("y")) {
-            Runway rw = getRunway();
-            airport.addRunway(rw);
+        // Create an airport
+        airport = new Airport("Airport");
+
+        // Imports runway and obstacle values from text file
+        Runway rw = getRunway();
+        airport.addRunway(rw);
+        if (!obstacleInputEmpty()) {
             airport.addObstacle(rw.getName(), getObstacle());
-        } else if (input.equals("N") || input.equals("n")) {
-            System.out.println("Enter Logical Runway 1 :");
-            runwayName = scan.next();
-            System.out.println("Enter the TORA value for " + runwayName + " (m):");
-            TORA = scan.nextInt();
-            System.out.println("Enter the TODA value for " + runwayName + " (m):");
-            TODA = scan.nextInt();
-            System.out.println("Enter the ASDA value for " + runwayName + " (m):");
-            ASDA = scan.nextInt();
-            System.out.println("Enter the LDA value for " + runwayName + " (m):");
-            LDA = scan.nextInt();
-            System.out.println("------------------------------------------------------------------------------------------------");
-            
-            airport = new Airport(apName);
-            airport.addRunway(new Runway(runwayName,TORA,TODA,ASDA,LDA));
-            
-            System.out.println("Would you like to add an obstacle? (Y/N)");
-            input = scan.next();
-            if (input.equals("Y") || input.equals("y")) {
-	            System.out.println("Enter type of obstacle on runway :");
-	            obsType = scan.next();
-	            System.out.println("Enter the distance from Threshold 1 (m):");
-	            thresh1Distance = scan.nextInt();
-	            System.out.println("Enter the distance from Threshold 2 (m):");
-	            thresh2Distance = scan.nextInt();
-	            System.out.println("Enter the distance from the centreline (m):");
-	            centerlineDistance = scan.nextInt();
-	            System.out.println("Enter the height of the object (m):");
-	            obsHeight = scan.nextInt();
-	            System.out.println("Enter the RESA value desired around the object (m):");
-	            obsRESA = scan.nextInt();
-	            System.out.println("------------------------------------------------------------------------------------------------");
-	            System.out.println("");
-	            
-	            Obstacle o = new Obstacle(obsType,thresh1Distance,thresh2Distance, centerlineDistance, obsHeight,obsRESA);
-	            airport.addObstacle(runwayName, o);
-            }
-//        controller.model.addRunway(new Runway("09L",3902,3902,3902,3595));
-//        controller.model.addRunway(new Runway("27R",3884,3962,3884,3884));
-//        Obstacle o = new Obstacle("tree",2500,500, 60, 25,240);  
         }
 
-        // Displays chosen runway
-        System.out.println("Enter chosen runway name:");
-        String rwName = scan.next();
-        Runway rw = airport.getRunway(rwName);
+        // Displays runway
         displayValues(rw);
         displayCalculations(rw);
-        Display screen = new Display(topDownPane,sideOnPane);
+        Display screen = new Display(topDownPane, sideOnPane);
         screen.drawRunway(rw);
+
+        additionalInfoBar.setText("Input successful");
     }
 
     /*
@@ -153,18 +114,21 @@ public class Controller extends Application {
      Displays chosen runway in runway panes
      */
     private Runway getRunway() throws IOException {
-        FileReader fr = new FileReader("runway1.txt");
-        BufferedReader br = new BufferedReader(fr);
+        BufferedReader br = new BufferedReader(new FileReader("runway1.txt"));
         String input = br.readLine();
         String[] values = input.split(",");
         return new Runway(values[0], Integer.parseInt(values[1]), Integer.parseInt(values[2]), Integer.parseInt(values[3]), Integer.parseInt(values[4]));
     }
 
     private Obstacle getObstacle() throws IOException {
-        FileReader fr = new FileReader("obstacle1.txt");
-        BufferedReader br = new BufferedReader(fr);
+        BufferedReader br = new BufferedReader(new FileReader("obstacle1.txt"));
         String input = br.readLine();
         String[] values = input.split(",");
         return new Obstacle(values[0], Integer.parseInt(values[1]), Integer.parseInt(values[2]), Integer.parseInt(values[3]), Integer.parseInt(values[4]), Integer.parseInt(values[5]));
+    }
+
+    private boolean obstacleInputEmpty() throws IOException {
+        BufferedReader br = new BufferedReader(new FileReader("obstacle1.txt"));
+        return br.readLine() == null;
     }
 }
