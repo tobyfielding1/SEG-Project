@@ -94,15 +94,15 @@
                 </AnchorPane>
             </children>
         </HBox>
-        <MenuBar fx:id="menu" prefHeight="25.0" prefWidth="900.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
-            <menus>
-                <Menu mnemonicParsing="false" text="File">
-                    <items>
-                        <MenuItem mnemonicParsing="false" onAction="#fileCloseMenuAction" text="Close" />
-                    </items>
-                </Menu>
-            </menus>
-        </MenuBar>
-        <TextField editable="false" layoutY="565.0" prefHeight="25.0" prefWidth="900.0" text="Additional Info" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+        <!--<MenuBar fx:id="menu" prefHeight="25.0" prefWidth="900.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">-->
+            <!--<menus>-->
+                <!--<Menu mnemonicParsing="false" text="File">-->
+                    <!--<items>-->
+                        <!--<MenuItem mnemonicParsing="false" onAction="#fileCloseMenuAction" text="Close" />-->
+                    <!--</items>-->
+                <!--</Menu>-->
+            <!--</menus>-->
+        <!--</MenuBar>-->
+        <TextField fx:id="additionalInfoBar" editable="false" layoutY="565.0" prefHeight="25.0" prefWidth="900.0" text="Additional Info" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
     </children>
 </AnchorPane>

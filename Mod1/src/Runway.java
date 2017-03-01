@@ -34,7 +34,7 @@ public class Runway {
 		return calculations;
 	}
 
-	public int getThreshold(){return (TORA - LDA)}
+	public int getThreshold(){return (TORA - LDA);}
 	
 	private void clearCalculations(){
 		calculations = "";
