@@ -15,6 +15,10 @@ public class Runway {
     private int TODA;
     private int ASDA;
     private int LDA;
+    private int runwaySize;
+    
+    public int threshold = 200; // indicates the distance (in meters) where the threshold should be
+    						// positive numbers are calculated from left runway strip end, negative ones from right end	
 
     private int blastAllowance = 300;
     private int stripEnd = 60;
@@ -64,7 +68,11 @@ public class Runway {
     public int getLDA() {
         return LDA;
     }
-
+    
+    public int getRunwaySize() {
+    	return runwaySize;
+    }
+    
     public int getBlastAllowance() {
         return blastAllowance;
     }
@@ -91,6 +99,7 @@ public class Runway {
         this.TODA = TODA;
         this.ASDA = ASDA;
         this.LDA = LDA;
+        this.runwaySize = TORA;
     }
 
     public boolean setObstacle(Obstacle obstacle){

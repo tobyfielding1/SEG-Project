@@ -9,6 +9,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
@@ -121,7 +122,6 @@ public class Controller extends Application {
         Runway rw = airport.getRunway(rwName);
         displayValues(rw);
         displayCalculations(rw);
-        drawRunway(rw);
     }
 
     /*
@@ -144,11 +144,6 @@ public class Controller extends Application {
     /*
      Displays chosen runway in runway panes
      */
-    private void drawRunway(Runway r) {
-
-    }
-
-
     private Runway getRunway() throws IOException {
         FileReader fr = new FileReader("runway1.txt");
         BufferedReader br = new BufferedReader(fr);
