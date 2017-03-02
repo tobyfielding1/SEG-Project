@@ -123,7 +123,17 @@ public class Display{
         	drawDistance(true,runwayEndLeft,100,runwayStripLength+rw.getClearway()/scale, "TODA = " + rw.getTODA());
         	drawDistance(true,thresholdPoint,-40,runwayEndRight-thresholdPoint,"LDA = " + rw.getLDA());
         } else {
-        	drawDistance(true,runwayEndLeft,60,runwayStripLength,"TORA = " + rw.getTORA());
+        	
+        	
+        	
+        	drawDistance(true,runwayEndLeft,60,((double)rw.getTORA()/(double)rw.getRunwaySize())*(double)runwayStripLength,"TORA = " + rw.getTORA());
+        	
+        	
+        	System.out.println(rw.getTORA());
+        	System.out.println(rw.getRunwaySize());
+        	System.out.println(runwayStripLength);
+        	System.out.println(((double)rw.getTORA()/(double)rw.getRunwaySize())*(double)runwayStripLength);
+        	
         	drawDistance(true,runwayEndLeft - rw.getStopway()/scale,80,runwayStripLength+rw.getStopway()/scale,"ASDA = " + rw.getASDA());
         	drawDistance(true,runwayEndLeft - rw.getClearway()/scale,100,runwayStripLength +rw.getClearway()/scale, "TODA = " + rw.getTODA());
         	drawDistance(true,runwayEndLeft,-40,thresholdPoint - runwayEndLeft,"LDA = " + rw.getLDA());
@@ -259,6 +269,7 @@ public class Display{
 	   int x;
 	   if (dir < 18) x = runwayEndLeft +  (int) Math.round(threshold/scale);
 	   else x = runwayEndRight -  (int) Math.abs(Math.round(threshold/scale));
+	   
 	   
 	   thresholdPoint = x;
 	   
