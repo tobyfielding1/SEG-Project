@@ -81,6 +81,7 @@ public class Controller extends Application {
         displayValues(rw);
         displayCalculations(rw);
         Display screen = new Display(topDownPane, sideOnPane);
+        screen.clearPanes();
         screen.drawRunway(rw);
 
         additionalInfoBar.setText("Input successful");

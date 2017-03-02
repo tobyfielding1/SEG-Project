@@ -411,7 +411,6 @@ public class Display{
     public void drawClearwayTD(Runway r) {
     	 int dir = Integer.parseInt(r.getName().substring(0, 2));
     	 double size = r.getClearway() / scale;
-    	 System.out.println(size);
     	 
     	 Rectangle cl = new Rectangle();
     	 
@@ -522,4 +521,10 @@ public class Display{
     	
     	target.getChildren().addAll(r1,r2,t1,t2);
     }
+
+    public void clearPanes() {
+    	sideOnPane.getChildren().clear();
+    	topDownPane.getChildren().clear();
+    }
+    
 }
