@@ -95,8 +95,8 @@ public class Display{
         	drawDistanceSO(true,thresholdPoint,-40,runwayEndRight-thresholdPoint,"LDA = " + rw.getLDA());
         } else {
         	drawDistanceSO(true,runwayEndLeft,60,runwayStripLength,"TORA = " + rw.getTORA());
-        	drawDistanceSO(true,runwayEndLeft - rw.getStopway()/scale,80,runwayStripLength+rw.getStopway(),"ASDA = " + rw.getASDA());
-        	drawDistanceSO(true,runwayEndLeft - rw.getClearway()/scale,100,runwayStripLength+rw.getClearway(), "TODA = " + rw.getTODA());
+        	drawDistanceSO(true,runwayEndLeft - rw.getStopway()/scale,80,runwayStripLength+rw.getStopway()/scale,"ASDA = " + rw.getASDA());
+        	drawDistanceSO(true,runwayEndLeft - rw.getClearway()/scale,100,runwayStripLength+rw.getClearway()/scale, "TODA = " + rw.getTODA());
         	drawDistanceSO(true,runwayEndLeft,-40,thresholdPoint - runwayEndLeft,"LDA = " + rw.getLDA());
         
         }
@@ -124,8 +124,8 @@ public class Display{
         	drawDistance(true,thresholdPoint,-40,runwayEndRight-thresholdPoint,"LDA = " + rw.getLDA());
         } else {
         	drawDistance(true,runwayEndLeft,60,runwayStripLength,"TORA = " + rw.getTORA());
-        	drawDistance(true,runwayEndLeft - rw.getStopway()/scale,80,runwayStripLength+rw.getStopway(),"ASDA = " + rw.getASDA());
-        	drawDistance(true,runwayEndLeft - rw.getClearway()/scale,100,runwayStripLength +rw.getClearway(), "TODA = " + rw.getTODA());
+        	drawDistance(true,runwayEndLeft - rw.getStopway()/scale,80,runwayStripLength+rw.getStopway()/scale,"ASDA = " + rw.getASDA());
+        	drawDistance(true,runwayEndLeft - rw.getClearway()/scale,100,runwayStripLength +rw.getClearway()/scale, "TODA = " + rw.getTODA());
         	drawDistance(true,runwayEndLeft,-40,thresholdPoint - runwayEndLeft,"LDA = " + rw.getLDA());
         
         }
