@@ -85,11 +85,21 @@ public class Display{
 		drawClearwaySO(rw);
 		drawStopwaySO(rw);
 		
-	    drawDistanceSO(true,runwayEndLeft,60,runwayStripLength,"TORA = " + rw.getTORA());
-        drawDistanceSO(true,runwayEndLeft,80,runwayStripLength+rw.getStopway()/scale,"ASDA = " + rw.getASDA());
-        drawDistanceSO(true,runwayEndLeft,100,runwayStripLength+rw.getClearway()/scale, "TODA = " + rw.getTODA());
-        drawDistanceSO(true,thresholdPoint,-40,runwayEndRight-thresholdPoint,"LDA = " + rw.getLDA());
-	
+		int dir = Integer.parseInt(rw.getName().substring(0, 2));
+        
+		
+		if (dir<=18) {
+        	drawDistanceSO(true,runwayEndLeft,60,runwayStripLength,"TORA = " + rw.getTORA());
+        	drawDistanceSO(true,runwayEndLeft,80,runwayStripLength+rw.getStopway()/scale,"ASDA = " + rw.getASDA());
+        	drawDistanceSO(true,runwayEndLeft,100,runwayStripLength+rw.getClearway()/scale, "TODA = " + rw.getTODA());
+        	drawDistanceSO(true,thresholdPoint,-40,runwayEndRight-thresholdPoint,"LDA = " + rw.getLDA());
+        } else {
+        	drawDistanceSO(true,runwayEndLeft,60,runwayStripLength,"TORA = " + rw.getTORA());
+        	drawDistanceSO(true,runwayEndLeft - rw.getStopway()/scale,80,runwayStripLength,"ASDA = " + rw.getASDA());
+        	drawDistanceSO(true,runwayEndLeft - rw.getClearway()/scale,100,runwayStripLength, "TODA = " + rw.getTODA());
+        	drawDistanceSO(true,runwayEndLeft,-40,thresholdPoint - runwayEndLeft,"LDA = " + rw.getLDA());
+        
+        }
         displayLegend(sideOnPane);
 	}
 	
@@ -105,11 +115,20 @@ public class Display{
         drawStopwayTD(rw);
         
         
-        drawDistance(true,runwayEndLeft,60,runwayStripLength,"TORA = " + rw.getTORA());
-        drawDistance(true,runwayEndLeft,80,runwayStripLength+rw.getStopway()/scale,"ASDA = " + rw.getASDA());
-        drawDistance(true,runwayEndLeft,100,runwayStripLength+rw.getClearway()/scale, "TODA = " + rw.getTODA());
-        drawDistance(true,thresholdPoint,-40,runwayEndRight-thresholdPoint,"LDA = " + rw.getLDA());
-	
+        int dir = Integer.parseInt(rw.getName().substring(0, 2));
+        
+        if (dir<=18) {
+        	drawDistance(true,runwayEndLeft,60,runwayStripLength,"TORA = " + rw.getTORA());
+        	drawDistance(true,runwayEndLeft,80,runwayStripLength+rw.getStopway()/scale,"ASDA = " + rw.getASDA());
+        	drawDistance(true,runwayEndLeft,100,runwayStripLength+rw.getClearway()/scale, "TODA = " + rw.getTODA());
+        	drawDistance(true,thresholdPoint,-40,runwayEndRight-thresholdPoint,"LDA = " + rw.getLDA());
+        } else {
+        	drawDistance(true,runwayEndLeft,60,runwayStripLength,"TORA = " + rw.getTORA());
+        	drawDistance(true,runwayEndLeft - rw.getStopway()/scale,80,runwayStripLength,"ASDA = " + rw.getASDA());
+        	drawDistance(true,runwayEndLeft - rw.getClearway()/scale,100,runwayStripLength, "TODA = " + rw.getTODA());
+        	drawDistance(true,runwayEndLeft,-40,thresholdPoint - runwayEndLeft,"LDA = " + rw.getLDA());
+        
+        }
         displayLegend(topDownPane);
 	}
     
