@@ -94,9 +94,9 @@ public class Display{
         	drawDistanceSO(true,runwayEndLeft,100,runwayStripLength+rw.getClearway()/scale, "TODA = " + rw.getTODA());
         	drawDistanceSO(true,thresholdPoint,-40,runwayEndRight-thresholdPoint,"LDA = " + rw.getLDA());
         } else {
-        	drawDistanceSO(true,runwayEndLeft,60,runwayStripLength,"TORA = " + rw.getTORA());
-        	drawDistanceSO(true,runwayEndLeft - rw.getStopway()/scale,80,runwayStripLength+rw.getStopway()/scale,"ASDA = " + rw.getASDA());
-        	drawDistanceSO(true,runwayEndLeft - rw.getClearway()/scale,100,runwayStripLength+rw.getClearway()/scale, "TODA = " + rw.getTODA());
+        	drawDistanceSO(true,runwayEndLeft + runwayStripLength -  ((double)rw.getTORA()/(double)rw.getRunwaySize())*(double)runwayStripLength,60,((double)rw.getTORA()/(double)rw.getRunwaySize())*(double)runwayStripLength,"TORA = " + rw.getTORA());    	
+        	drawDistanceSO(true,runwayEndLeft - rw.getStopway()/scale + runwayStripLength -  ((double)rw.getASDA()/(double)rw.getRunwaySize())*(double)runwayStripLength,80,((double)rw.getTORA()/(double)rw.getRunwaySize())*(double)runwayStripLength+rw.getStopway()/scale,"ASDA = " + rw.getASDA());
+        	drawDistanceSO(true,runwayEndLeft - rw.getClearway()/scale + runwayStripLength -  ((double)rw.getTODA()/(double)rw.getRunwaySize())*(double)runwayStripLength,100,((double)rw.getTODA()/(double)rw.getRunwaySize())*(double)runwayStripLength+rw.getClearway()/scale,"TODA = " + rw.getTODA());
         	drawDistanceSO(true,runwayEndLeft,-40,thresholdPoint - runwayEndLeft,"LDA = " + rw.getLDA());
         
         }
@@ -126,16 +126,9 @@ public class Display{
         	
         	
         	
-        	drawDistance(true,runwayEndLeft,60,((double)rw.getTORA()/(double)rw.getRunwaySize())*(double)runwayStripLength,"TORA = " + rw.getTORA());
-        	
-        	
-        	System.out.println(rw.getTORA());
-        	System.out.println(rw.getRunwaySize());
-        	System.out.println(runwayStripLength);
-        	System.out.println(((double)rw.getTORA()/(double)rw.getRunwaySize())*(double)runwayStripLength);
-        	
-        	drawDistance(true,runwayEndLeft - rw.getStopway()/scale,80,runwayStripLength+rw.getStopway()/scale,"ASDA = " + rw.getASDA());
-        	drawDistance(true,runwayEndLeft - rw.getClearway()/scale,100,runwayStripLength +rw.getClearway()/scale, "TODA = " + rw.getTODA());
+        	drawDistance(true,runwayEndLeft + runwayStripLength -  ((double)rw.getTORA()/(double)rw.getRunwaySize())*(double)runwayStripLength,60,((double)rw.getTORA()/(double)rw.getRunwaySize())*(double)runwayStripLength,"TORA = " + rw.getTORA());    	
+        	drawDistance(true,runwayEndLeft - rw.getStopway()/scale + runwayStripLength -  ((double)rw.getASDA()/(double)rw.getRunwaySize())*(double)runwayStripLength,80,((double)rw.getTORA()/(double)rw.getRunwaySize())*(double)runwayStripLength+rw.getStopway()/scale,"ASDA = " + rw.getASDA());
+        	drawDistance(true,runwayEndLeft - rw.getClearway()/scale + runwayStripLength -  ((double)rw.getTODA()/(double)rw.getRunwaySize())*(double)runwayStripLength,100,((double)rw.getTODA()/(double)rw.getRunwaySize())*(double)runwayStripLength+rw.getClearway()/scale,"TODA = " + rw.getTODA());
         	drawDistance(true,runwayEndLeft,-40,thresholdPoint - runwayEndLeft,"LDA = " + rw.getLDA());
         
         }
