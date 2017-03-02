@@ -14,6 +14,8 @@ import javafx.scene.paint.Paint;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -22,11 +24,15 @@ public class Display{
 	Pane sideOnPane;
 	
 	final Paint arrowColor = Color.RED;
+	final Paint clearwayColor = Color.YELLOW;
+	final Paint stopwayColor = new Color(0.3,0.3,1,0.98);
 	final double arrowThickness = 0.5;
 	
 	
-	final int runwayStripLength = 500;
+	final int runwayStripLength = 400;
 	final int runwayStripWidth = 40;
+	
+	final Font indicatorFont = Font.font("Arial Black",FontWeight.BOLD,18);
 	
 	int runwayEndLeft;
 	int runwayEndRight;
@@ -35,8 +41,10 @@ public class Display{
 	int paneWidth;
 	
 	int thresholdPoint;
+	int centreLine;
 	
 	double scale;
+	
 	
 	public Display (Pane td, Pane so) {
 		this.topDownPane = td;
@@ -56,6 +64,7 @@ public class Display{
 		this.runwayEndRight = (int) Math.round( (topDownPane.getWidth() / 2) + (runwayStripLength / 2));  
 		if (this.runwayEndRight == 0) this.runwayEndRight = (int) Math.round( (sideOnPane.getWidth() / 2) + (runwayStripLength / 2));  
 
+		centreLine = paneHeight /2;
 	}
 	
 	public void drawRunway(Runway rw) {
@@ -63,7 +72,6 @@ public class Display{
 		
 		drawRunwayTD(rw);
 		drawRunwaySO(rw);
-		drawDirection(rw.getName());
 		
 	}
 	
@@ -72,6 +80,17 @@ public class Display{
     	
 		drawRunwaySO();
 		drawThresholdSO(rw.getThreshold(),rw.getName());
+		drawDirectionSO(rw.getName());
+		drawIndicatorSO(rw.getName());
+		drawClearwaySO(rw);
+		drawStopwaySO(rw);
+		
+	    drawDistanceSO(true,runwayEndLeft,60,runwayStripLength,"TORA = " + rw.getTORA());
+        drawDistanceSO(true,runwayEndLeft,80,runwayStripLength+rw.getStopway()/scale,"ASDA = " + rw.getASDA());
+        drawDistanceSO(true,runwayEndLeft,100,runwayStripLength+rw.getClearway()/scale, "TODA = " + rw.getTODA());
+        drawDistanceSO(true,thresholdPoint,-40,runwayEndRight-thresholdPoint,"LDA = " + rw.getLDA());
+	
+        displayLegend(sideOnPane);
 	}
 	
 	public void drawRunwayTD(Runway rw) {
@@ -80,7 +99,19 @@ public class Display{
     	
     	drawRunwayTD();
         drawThreshold(rw.getThreshold(),rw.getName());
-    }
+        drawDirectionTD(rw.getName());
+        drawIndicatorTD(rw.getName());
+        drawClearwayTD(rw);
+        drawStopwayTD(rw);
+        
+        
+        drawDistance(true,runwayEndLeft,60,runwayStripLength,"TORA = " + rw.getTORA());
+        drawDistance(true,runwayEndLeft,80,runwayStripLength+rw.getStopway()/scale,"ASDA = " + rw.getASDA());
+        drawDistance(true,runwayEndLeft,100,runwayStripLength+rw.getClearway()/scale, "TODA = " + rw.getTODA());
+        drawDistance(true,thresholdPoint,-40,runwayEndRight-thresholdPoint,"LDA = " + rw.getLDA());
+	
+        displayLegend(topDownPane);
+	}
     
     public void drawDistance(Boolean dir, double startX, double startY, double length, String text) {
     	Group arrow;
@@ -100,6 +131,26 @@ public class Display{
     	arrow.getChildren().add(t);
     	topDownPane.getChildren().add(arrow);
     }
+    
+    public void drawDistanceSO(Boolean dir, double startX, double startY, double length, String text) {
+    	Group arrow;
+    	if (dir) arrow = makeHArrow(startX,(paneHeight / 2) + startY,length);
+    	else arrow = makeVArrow((paneWidth / 2) + startX,startY,length);
+    	
+    	Text t;
+    	if (dir) {
+    		t = new Text(startX + (length / 2),(paneHeight / 2) + startY - 5,text);
+        	t.setX(t.getX() - t.getText().length() *2.65);
+    	}
+    	else t = new Text((paneWidth / 2) + startX + 3, startY + (length / 2), text);
+    	
+    	t.setStroke(Color.GRAY);
+    	t.setStrokeWidth(0.7);
+    	
+    	arrow.getChildren().add(t);
+    	sideOnPane.getChildren().add(arrow);
+    }
+    
 	
     public void drawRunwayTD() {
     	double x = (topDownPane.getWidth() / 2) - (runwayStripLength/2);
@@ -188,10 +239,8 @@ public class Display{
 	   int dir = Integer.parseInt(rwnm.substring(0, 2));
 	   int x;
 	   if (dir < 18) x = runwayEndLeft +  (int) Math.round(threshold/scale);
-	   else x = runwayEndRight -  (int) Math.round(threshold/scale);
+	   else x = runwayEndRight -  (int) Math.abs(Math.round(threshold/scale));
 	   
-	   System.out.println("dir" + dir);
-	   System.out.println("runway end right: "+runwayEndRight);
 	   thresholdPoint = x;
 	   
 	   Rectangle thresh = new Rectangle(x - 2,paneHeight / 2 - runwayStripWidth / 2, 5, runwayStripWidth);
@@ -238,20 +287,20 @@ public class Display{
     }
     
     public void drawThresholdSO(int threshold, String rwnm) {
- 	   int dir = Integer.parseInt(rwnm.substring(0, 2));
+    	int dir = Integer.parseInt(rwnm.substring(0, 2));
  	   int x;
  	   if (dir <= 18) x = runwayEndLeft +  (int) Math.round(threshold/scale);
- 	   else x = runwayEndRight -  (int) Math.round(threshold/scale);
+ 	   else x = runwayEndRight -  (int) Math.abs(Math.round(threshold/scale));
  	   
  	   thresholdPoint = x;
  	   
- 	   Rectangle thresh = new Rectangle(x - 2,paneHeight / 2 - 2.5 / 2, 5, 5);
+ 	   Rectangle thresh = new Rectangle(x - 2,paneHeight / 2 - 7, 5, 15);
  	   thresh.setFill(Color.DARKRED);
  	   
  	   sideOnPane.getChildren().add(thresh);
     }
     
-    public void drawDirection(String rwnm) {
+    public void drawDirectionTD(String rwnm) {
     	int dir = Integer.parseInt(rwnm.substring(0, 2));
     	
     	int tipX;
@@ -259,11 +308,38 @@ public class Display{
     	int centreLine = paneHeight / 2;
     	
     	if (dir<=18) {
-    		tipX = runwayEndRight + 8;
-    		wingX = tipX - 8;
+    		tipX = runwayEndLeft-4;
+    		wingX = tipX - 15;
     	} else {
-    		tipX = runwayEndLeft - 8;
-    		wingX = tipX + 8;
+    		tipX = runwayEndRight+4;
+    		wingX = tipX + 20;
+    	}
+    	
+    	Line w1 = new Line(tipX,centreLine,wingX,centreLine + 30);
+    	w1.setStroke(Color.GREEN);
+    	w1.setStrokeWidth(3);
+    	
+    	Line w2 = new Line(tipX,centreLine,wingX,centreLine - 30);
+    	w2.setStroke(Color.GREEN);
+    	w2.setStrokeWidth(3);
+    		
+    	topDownPane.getChildren().addAll(w1,w2);
+    	
+    }
+    
+    public void drawDirectionSO(String rwnm) {
+    	int dir = Integer.parseInt(rwnm.substring(0, 2));
+    	
+    	int tipX;
+    	int wingX;
+    	int centreLine = paneHeight / 2;
+    	
+    	if (dir<=18) {
+    		tipX = runwayEndLeft -7;
+    		wingX = tipX - 10;
+    	} else {
+    		tipX = runwayEndRight+7;
+    		wingX = tipX + 10;
     	}
     	
     	Line w1 = new Line(tipX,centreLine,wingX,centreLine + 15);
@@ -274,12 +350,157 @@ public class Display{
     	w2.setStroke(Color.GREEN);
     	w2.setStrokeWidth(3);
     	
-    	topDownPane.getChildren().addAll(w1,w2);
     	sideOnPane.getChildren().addAll(w1,w2);
     	
-    	System.out.println(tipX);
-    	System.out.println(wingX);
-    	System.out.println();
+    }
+    
+    public void drawIndicatorTD(String rwnm) {
+
+    	Text t1 = new Text(thresholdPoint-10,centreLine+40,rwnm.substring(0,2));
+    	Text t2 = new Text(thresholdPoint-5,centreLine+55,rwnm.substring(2,3));
+    	
+    	t1.setFont(indicatorFont);
+    	t2.setFont(indicatorFont);
+    	
+    	t1.setFill(Color.DARKGREEN);
+    	t2.setFill(Color.DARKGREEN);
+    	
+    	t1.setStrokeWidth(2);
+    	t2.setStrokeWidth(2);
+    
+    	topDownPane.getChildren().addAll(t1,t2);
     }
 
+    public void drawIndicatorSO(String rwnm) {
+
+    	Text t1 = new Text(thresholdPoint-10,centreLine+30,rwnm.substring(0,2));
+    	Text t2 = new Text(thresholdPoint-5,centreLine+45,rwnm.substring(2,3));
+    	
+    	t1.setFont(indicatorFont);
+    	t2.setFont(indicatorFont);
+    	
+    	t1.setFill(Color.DARKGREEN);
+    	t2.setFill(Color.DARKGREEN);
+    	
+    	t1.setStrokeWidth(2);
+    	t2.setStrokeWidth(2);
+    
+    	sideOnPane.getChildren().addAll(t1,t2);
+
+    }
+    
+    public void drawClearwayTD(Runway r) {
+    	 int dir = Integer.parseInt(r.getName().substring(0, 2));
+    	 double size = r.getClearway() / scale;
+    	 System.out.println(size);
+    	 
+    	 Rectangle cl = new Rectangle();
+    	 
+    	 if (dir<=18) {
+    		 cl.setX(runwayEndRight);
+    		 cl.setY(centreLine - runwayStripWidth / 2 - 3);
+    		 cl.setWidth(size);
+    		 cl.setHeight(runwayStripWidth + 6);
+    	 }
+    	 else {
+    		 cl.setX(runwayEndLeft - size);
+    		 cl.setY(centreLine - runwayStripWidth / 2 - 3);
+    		 cl.setWidth(size);
+    		 cl.setHeight(runwayStripWidth + 6);	 
+    	 }
+    	 
+    	 cl.setFill(clearwayColor);
+    	 cl.setStroke(Color.BLACK);
+    	 
+    	 topDownPane.getChildren().add(cl);
+    }
+    
+    public void drawStopwayTD(Runway r) {
+   	 int dir = Integer.parseInt(r.getName().substring(0, 2));
+   	 double size = r.getStopway() / scale;
+   	 
+   	 Rectangle cl = new Rectangle();
+   	 
+   	 if (dir<=18) {
+   		 cl.setX(runwayEndRight);
+   		 cl.setY(centreLine - runwayStripWidth / 2);
+   		 cl.setWidth(size);
+   		 cl.setHeight(runwayStripWidth);
+   	 }
+   	 else {
+   		 cl.setX(runwayEndLeft - size);
+   		 cl.setY(centreLine - runwayStripWidth / 2);
+   		 cl.setWidth(size);
+   		 cl.setHeight(runwayStripWidth);	 
+   	 }
+   	 
+   	 cl.setFill(stopwayColor);
+   	 
+   	 topDownPane.getChildren().add(cl);
+   }
+    
+    public void drawClearwaySO(Runway r) {
+   	 int dir = Integer.parseInt(r.getName().substring(0, 2));
+   	 double size = r.getClearway() / scale;
+   	 
+   	 Rectangle cl = new Rectangle();
+   	 
+   	 if (dir<=18) {
+   		 cl.setX(runwayEndRight);
+   		 cl.setY(centreLine - 2.5 -2);
+   		 cl.setWidth(size);
+   		 cl.setHeight(6 + 4);
+   	 }
+   	 else {
+   		 cl.setX(runwayEndLeft - size);
+   		 cl.setY(centreLine - 2.5 - 2);
+   		 cl.setWidth(size);
+   		 cl.setHeight(6 + 4);	 
+   	 }
+   	 
+   	 cl.setFill(clearwayColor);
+   	 cl.setStroke(Color.BLACK);
+   	 
+   	 sideOnPane.getChildren().add(cl);
+   }
+    
+    public void drawStopwaySO(Runway r) {
+      	 int dir = Integer.parseInt(r.getName().substring(0, 2));
+      	 double size = r.getStopway() / scale;
+      	 
+      	 Rectangle cl = new Rectangle();
+      	 
+      	 if (dir<=18) {
+      		 cl.setX(runwayEndRight);
+      		 cl.setY(centreLine - 2.5);
+      		 cl.setWidth(size);
+      		 cl.setHeight(6);
+      	 }
+      	 else {
+      		 cl.setX(runwayEndLeft - size);
+      		 cl.setY(centreLine - 2.5);
+      		 cl.setWidth(size);
+      		 cl.setHeight(6);	 
+      	 }
+      	 
+      	 cl.setFill(stopwayColor);
+      	 
+      	 sideOnPane.getChildren().add(cl);
+      }
+
+    public void displayLegend(Pane target) {
+    	Rectangle r1 = new Rectangle(50,50,10,10);
+    	r1.setFill(stopwayColor);
+    	r1.setStroke(Color.BLACK);
+    	
+    	Rectangle r2 = new Rectangle(50,80,10,10);
+    	r2.setFill(clearwayColor);
+    	r2.setStroke(Color.BLACK);
+    	
+    	
+    	Text t1 = new Text(70,60,"Stopway");
+    	Text t2 = new Text(70,90,"Clearway");
+    	
+    	target.getChildren().addAll(r1,r2,t1,t2);
+    }
 }

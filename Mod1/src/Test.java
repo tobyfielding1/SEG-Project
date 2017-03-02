@@ -21,7 +21,7 @@ public class Test extends Application {
         
         
         primaryStage.setScene(new Scene(topDownPane, 630, 540));
-        //primaryStage.setScene(new Scene(sideOnPane, 630, 540));
+        primaryStage.setScene(new Scene(sideOnPane, 630, 540));
         
         Airport testAir = new Airport("TEST");
         Runway rw = getRunway();
