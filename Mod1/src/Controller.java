@@ -92,32 +92,32 @@ public class Controller extends Application {
 		Display screen = new Display(topDownPane, sideOnPane);
 		screen.clearPanes();
 		screen.drawRunway(rw);
-		PrinterJob job = PrinterJob.createPrinterJob();
-		if (job != null) {
-			if ( job.showPrintDialog(null)){
-				if (job.getJobSettings().getPageLayout().getPageOrientation().equals(PageOrientation.PORTRAIT)){
-					topDownPane.getTransforms().add(new Scale(0.45, 0.45));
-					topDownPane.getTransforms().add(new Translate(-50, 0));
-					sideOnPane.getTransforms().add(new Scale(0.45, 0.45));
-					sideOnPane.getTransforms().add(new Translate(-50, 0));
-				}
-				else{
-					topDownPane.getTransforms().add(new Scale(0.75, 0.75));
-					topDownPane.getTransforms().add(new Translate(150, 300));
-					sideOnPane.getTransforms().add(new Scale(0.75, 0.75));
-					sideOnPane.getTransforms().add(new Translate(150, 300));
-					calculationsTextArea.getTransforms().add(new Scale(0.75, 0.75));
-					calculationsTextArea.getTransforms().add(new Translate(150, 300));
-				}
-			}
-			boolean print3 = job.printPage(topDownPane);
-			//boolean print3 = job.printPage(sideOnPane);
-			//boolean print3 = job.printPage(calculationsTextArea);
-			if (print3) {
-				job.endJob();
-				topDownPane.getTransforms().clear();
-			}
-		}
+//		PrinterJob job = PrinterJob.createPrinterJob();
+//		if (job != null) {
+//			if ( job.showPrintDialog(null)){
+//				if (job.getJobSettings().getPageLayout().getPageOrientation().equals(PageOrientation.PORTRAIT)){
+//					topDownPane.getTransforms().add(new Scale(0.45, 0.45));
+//					topDownPane.getTransforms().add(new Translate(-50, 0));
+//					sideOnPane.getTransforms().add(new Scale(0.45, 0.45));
+//					sideOnPane.getTransforms().add(new Translate(-50, 0));
+//				}
+//				else{
+//					topDownPane.getTransforms().add(new Scale(0.75, 0.75));
+//					topDownPane.getTransforms().add(new Translate(150, 300));
+//					sideOnPane.getTransforms().add(new Scale(0.75, 0.75));
+//					sideOnPane.getTransforms().add(new Translate(150, 300));
+//					calculationsTextArea.getTransforms().add(new Scale(0.75, 0.75));
+//					calculationsTextArea.getTransforms().add(new Translate(150, 300));
+//				}
+//			}
+//			boolean print3 = job.printPage(topDownPane);
+//			//boolean print3 = job.printPage(sideOnPane);
+//			//boolean print3 = job.printPage(calculationsTextArea);
+//			if (print3) {
+//				job.endJob();
+//				topDownPane.getTransforms().clear();
+//			}
+//		}
 
 
 		additionalInfoBar.setText("Input successful");

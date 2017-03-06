@@ -25,19 +25,19 @@
                             <columnConstraints>
                                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="90.0" />
                                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="90.0" />
-                                <!--<ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="90.0" />-->
+                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="90.0" />
                             </columnConstraints>
                             <rowConstraints>
                                 <RowConstraints minHeight="10.0" prefHeight="25.0" vgrow="SOMETIMES" />
                                 <RowConstraints minHeight="10.0" prefHeight="25.0" vgrow="SOMETIMES" />
                                 <RowConstraints minHeight="10.0" prefHeight="25.0" vgrow="SOMETIMES" />
                                 <RowConstraints minHeight="10.0" prefHeight="25.0" vgrow="SOMETIMES" />
-                                <!--<RowConstraints minHeight="10.0" prefHeight="25.0" vgrow="SOMETIMES" />-->
+                                <RowConstraints minHeight="10.0" prefHeight="25.0" vgrow="SOMETIMES" />
                                 <RowConstraints />
                             </rowConstraints>
                             <children>
-                                <!--<Label text="Value" GridPane.columnIndex="0" GridPane.rowIndex="0" />-->
-                                <!--<Label text="New" GridPane.columnIndex="1" GridPane.rowIndex="0" />-->
+                                <Label text="Value" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                                <Label text="New" GridPane.columnIndex="1" GridPane.rowIndex="0" />
                                 <Label text="TORA" GridPane.columnIndex="0" GridPane.rowIndex="0" />
                                 <TextField fx:id="newToraField" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="0" />
                                 <Label text="TODA" GridPane.columnIndex="0" GridPane.rowIndex="1" />
@@ -46,21 +46,21 @@
                                 <TextField fx:id="newAsdaField" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                                 <Label text="LDA" GridPane.columnIndex="0" GridPane.rowIndex="3" />
                                 <TextField fx:id="newLdaField" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                                <!--<Label text="Value" GridPane.columnIndex="0" GridPane.rowIndex="0" />-->
-                                <!--<Label text="Old" GridPane.columnIndex="1" GridPane.rowIndex="0" />-->
-                                <!--<Label text="New" GridPane.columnIndex="2" GridPane.rowIndex="0" />-->
-                                <!--<Label text="TORA" GridPane.columnIndex="0" GridPane.rowIndex="1" />-->
-                                <!--<TextField fx:id="oldToraField" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="1" />-->
-                                <!--<TextField fx:id="newToraField" editable="false" GridPane.columnIndex="2" GridPane.rowIndex="1" />-->
-                                <!--<Label text="TODA" GridPane.columnIndex="0" GridPane.rowIndex="2" />-->
-                                <!--<TextField fx:id="oldTodaField" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="2" />-->
-                                <!--<TextField fx:id="newTodaField" editable="false" GridPane.columnIndex="2" GridPane.rowIndex="2" />-->
-                                <!--<Label text="ASDA" GridPane.columnIndex="0" GridPane.rowIndex="3" />-->
-                                <!--<TextField fx:id="oldAsdaField" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="3" />-->
-                                <!--<TextField fx:id="newAsdaField" editable="false" GridPane.columnIndex="2" GridPane.rowIndex="3" />-->
-                                <!--<Label text="LDA" GridPane.columnIndex="0" GridPane.rowIndex="4" />-->
-                                <!--<TextField fx:id="oldLdaField" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="4" />-->
-                                <!--<TextField fx:id="newLdaField" editable="false" GridPane.columnIndex="2" GridPane.rowIndex="4" />-->
+                                <Label text="Value" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                                <Label text="Old" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                                <Label text="New" GridPane.columnIndex="2" GridPane.rowIndex="0" />
+                                <Label text="TORA" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                                <TextField fx:id="oldToraField" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                <TextField fx:id="newToraField" editable="false" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                                <Label text="TODA" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                                <TextField fx:id="oldTodaField" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                <TextField fx:id="newTodaField" editable="false" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                                <Label text="ASDA" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+                                <TextField fx:id="oldAsdaField" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                <TextField fx:id="newAsdaField" editable="false" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                                <Label text="LDA" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+                                <TextField fx:id="oldLdaField" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                <TextField fx:id="newLdaField" editable="false" GridPane.columnIndex="2" GridPane.rowIndex="4" />
                             </children>
                         </GridPane>
                   <Button fx:id="drawButton" layoutX="109.0" layoutY="464.0" mnemonicParsing="false" onAction="#drawButtonAction" text="Draw" />
@@ -94,15 +94,15 @@
                 </AnchorPane>
             </children>
         </HBox>
-        <!--<MenuBar fx:id="menu" prefHeight="25.0" prefWidth="900.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">-->
-            <!--<menus>-->
-                <!--<Menu mnemonicParsing="false" text="File">-->
-                    <!--<items>-->
-                        <!--<MenuItem mnemonicParsing="false" onAction="#fileCloseMenuAction" text="Close" />-->
-                    <!--</items>-->
-                <!--</Menu>-->
-            <!--</menus>-->
-        <!--</MenuBar>-->
+        <MenuBar fx:id="menu" prefHeight="25.0" prefWidth="900.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+            <menus>
+                <Menu mnemonicParsing="false" text="File">
+                    <items>
+                        <MenuItem mnemonicParsing="false" onAction="#fileCloseMenuAction" text="Close" />
+                    </items>
+                </Menu>
+            </menus>
+        </MenuBar>
         <TextField fx:id="additionalInfoBar" editable="false" layoutY="565.0" prefHeight="25.0" prefWidth="900.0" text="Additional Info" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
     </children>
 </AnchorPane>
