@@ -1,13 +1,4 @@
-
-
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-
-import javafx.application.Application;
-import javafx.fxml.FXML;
 import javafx.scene.Group;
-import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
@@ -17,7 +8,6 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
-import javafx.stage.Stage;
 
 public class Display {
     private Pane topDownPane;
@@ -69,6 +59,9 @@ public class Display {
         centreLine = paneHeight / 2;
     }
 
+    /*
+     Draws both views of runway
+     */
     public void drawRunway(Runway rw) {
         scale = rw.getRunwaySize() / runwayStripLength;
 
@@ -77,6 +70,9 @@ public class Display {
 
     }
 
+    /*
+     Draws side-on view of a runway with indicators
+     */
     private void drawRunwaySO(Runway rw) {
         sideOnPane.setStyle("-fx-background-color: white;");
 
@@ -105,12 +101,15 @@ public class Display {
         displayLegend(sideOnPane);
     }
 
+    /*
+     Draws top-down view of a runway with indicators
+     */
     private void drawRunwayTD(Runway rw) {
         topDownPane.setStyle("-fx-background-color: white;");
 
 
         drawRunwayTD();
-        drawThreshold(rw.getThreshold(), rw.getName());
+        drawThresholdTD(rw.getThreshold(), rw.getName());
         drawDirectionTD(rw.getName());
         drawIndicatorTD(rw.getName());
         drawClearwayTD(rw);
@@ -120,23 +119,26 @@ public class Display {
         int dir = Integer.parseInt(rw.getName().substring(0, 2));
 
         if (dir <= 18) {
-            drawDistance(true, runwayEndLeft, 60, runwayStripLength, "TORA = " + rw.getTORA());
-            drawDistance(true, runwayEndLeft, 80, runwayStripLength + rw.getStopway() / scale, "ASDA = " + rw.getASDA());
-            drawDistance(true, runwayEndLeft, 100, runwayStripLength + rw.getClearway() / scale, "TODA = " + rw.getTODA());
-            drawDistance(true, thresholdPoint, -40, runwayEndRight - thresholdPoint, "LDA = " + rw.getLDA());
+            drawDistanceTD(true, runwayEndLeft, 60, runwayStripLength, "TORA = " + rw.getTORA());
+            drawDistanceTD(true, runwayEndLeft, 80, runwayStripLength + rw.getStopway() / scale, "ASDA = " + rw.getASDA());
+            drawDistanceTD(true, runwayEndLeft, 100, runwayStripLength + rw.getClearway() / scale, "TODA = " + rw.getTODA());
+            drawDistanceTD(true, thresholdPoint, -40, runwayEndRight - thresholdPoint, "LDA = " + rw.getLDA());
         } else {
 
 
-            drawDistance(true, runwayEndLeft + runwayStripLength - ((double) rw.getTORA() / (double) rw.getRunwaySize()) * (double) runwayStripLength, 60, ((double) rw.getTORA() / (double) rw.getRunwaySize()) * (double) runwayStripLength, "TORA = " + rw.getTORA());
-            drawDistance(true, runwayEndLeft - rw.getStopway() / scale + runwayStripLength - ((double) rw.getASDA() / (double) rw.getRunwaySize()) * (double) runwayStripLength, 80, ((double) rw.getTORA() / (double) rw.getRunwaySize()) * (double) runwayStripLength + rw.getStopway() / scale, "ASDA = " + rw.getASDA());
-            drawDistance(true, runwayEndLeft - rw.getClearway() / scale + runwayStripLength - ((double) rw.getTODA() / (double) rw.getRunwaySize()) * (double) runwayStripLength, 100, ((double) rw.getTODA() / (double) rw.getRunwaySize()) * (double) runwayStripLength + rw.getClearway() / scale, "TODA = " + rw.getTODA());
-            drawDistance(true, runwayEndLeft, -40, thresholdPoint - runwayEndLeft, "LDA = " + rw.getLDA());
+            drawDistanceTD(true, runwayEndLeft + runwayStripLength - ((double) rw.getTORA() / (double) rw.getRunwaySize()) * (double) runwayStripLength, 60, ((double) rw.getTORA() / (double) rw.getRunwaySize()) * (double) runwayStripLength, "TORA = " + rw.getTORA());
+            drawDistanceTD(true, runwayEndLeft - rw.getStopway() / scale + runwayStripLength - ((double) rw.getASDA() / (double) rw.getRunwaySize()) * (double) runwayStripLength, 80, ((double) rw.getTORA() / (double) rw.getRunwaySize()) * (double) runwayStripLength + rw.getStopway() / scale, "ASDA = " + rw.getASDA());
+            drawDistanceTD(true, runwayEndLeft - rw.getClearway() / scale + runwayStripLength - ((double) rw.getTODA() / (double) rw.getRunwaySize()) * (double) runwayStripLength, 100, ((double) rw.getTODA() / (double) rw.getRunwaySize()) * (double) runwayStripLength + rw.getClearway() / scale, "TODA = " + rw.getTODA());
+            drawDistanceTD(true, runwayEndLeft, -40, thresholdPoint - runwayEndLeft, "LDA = " + rw.getLDA());
 
         }
         displayLegend(topDownPane);
     }
 
-    private void drawDistance(Boolean dir, double startX, double startY, double length, String text) {
+    /*
+     Draws an arrow of a given size on the top-down view
+     */
+    private void drawDistanceTD(Boolean dir, double startX, double startY, double length, String text) {
         Group arrow;
         if (dir) arrow = makeHArrow(startX, (paneHeight / 2) + startY, length);
         else arrow = makeVArrow((paneWidth / 2) + startX, startY, length);
@@ -154,6 +156,9 @@ public class Display {
         topDownPane.getChildren().add(arrow);
     }
 
+    /*
+     Draws an arrow of a given size on the side-on view
+     */
     private void drawDistanceSO(Boolean dir, double startX, double startY, double length, String text) {
         Group arrow;
         if (dir) arrow = makeHArrow(startX, (paneHeight / 2) + startY, length);
@@ -172,7 +177,9 @@ public class Display {
         sideOnPane.getChildren().add(arrow);
     }
 
-
+    /*
+     Draws the top-down view of the runway strip
+     */
     private void drawRunwayTD() {
         double x = (topDownPane.getWidth() / 2) - (runwayStripLength / 2);
         double y = (topDownPane.getHeight() / 2) - (runwayStripWidth / 2);
@@ -191,11 +198,13 @@ public class Display {
         topDownPane.getChildren().add(centerLine);
     }
 
+    /*
+     Returns a group of lines making the shape of a horizontal arrow with the given parameters
+     */
     private Group makeHArrow(double x1, double y1, double length) {
         double x2 = x1 + length;
-        double y2 = y1;
 
-        Line main = new Line(x1, y1, x2, y2);
+        Line main = new Line(x1, y1, x2, y1);
         main.setStroke(arrowColor);
         main.setStrokeWidth(arrowThickness);
 
@@ -207,11 +216,11 @@ public class Display {
         h2.setStroke(arrowColor);
         h2.setStrokeWidth(arrowThickness);
 
-        Line h3 = new Line(x2, y2, x2 - 10, y2 + 10);
+        Line h3 = new Line(x2, y1, x2 - 10, y1 + 10);
         h3.setStroke(arrowColor);
         h3.setStrokeWidth(arrowThickness);
 
-        Line h4 = new Line(x2, y2, x2 - 10, y2 - 10);
+        Line h4 = new Line(x2, y1, x2 - 10, y1 - 10);
         h4.setStroke(arrowColor);
         h4.setStrokeWidth(arrowThickness);
 
@@ -222,11 +231,13 @@ public class Display {
         return arrow;
     }
 
+    /*
+     Returns a group of lines making the shape of a vertical arrow with the given parameters
+     */
     private Group makeVArrow(double x1, double y1, double length) {
-        double x2 = x1;
         double y2 = y1 + length;
 
-        Line main = new Line(x1, y1, x2, y2);
+        Line main = new Line(x1, y1, x1, y2);
         main.setStroke(arrowColor);
         main.setStrokeWidth(arrowThickness);
 
@@ -239,12 +250,12 @@ public class Display {
         h2.setStroke(arrowColor);
         h2.setStrokeWidth(arrowThickness);
 
-        Line h3 = new Line(x2, y2, x2 + 10, y2 - 10);
+        Line h3 = new Line(x1, y2, x1 + 10, y2 - 10);
         h3.setStroke(arrowColor);
         h3.setStrokeWidth(arrowThickness);
 
 
-        Line h4 = new Line(x2, y2, x2 - 10, y2 - 10);
+        Line h4 = new Line(x1, y2, x1 - 10, y2 - 10);
         h4.setStroke(arrowColor);
         h4.setStrokeWidth(arrowThickness);
 
@@ -256,8 +267,11 @@ public class Display {
 
     }
 
-    private void drawThreshold(int threshold, String rwnm) {
-        int dir = Integer.parseInt(rwnm.substring(0, 2));
+    /*
+     Draws a threshold at a given distance on the top-down view of a given runway
+     */
+    private void drawThresholdTD(int threshold, String runwayName) {
+        int dir = Integer.parseInt(runwayName.substring(0, 2));
         int x;
         if (dir < 18) x = runwayEndLeft + (int) Math.round(threshold / scale);
         else x = runwayEndRight - (int) Math.abs(Math.round(threshold / scale));
@@ -271,6 +285,9 @@ public class Display {
         topDownPane.getChildren().add(thresh);
     }
 
+    /*
+     Draws the side-on view of the runway strip
+     */
     private void drawRunwaySO() {
         double x = (sideOnPane.getWidth() / 2) - (runwayStripLength / 2);
         double y = (sideOnPane.getHeight() / 2) - 2;
@@ -289,6 +306,9 @@ public class Display {
         sideOnPane.getChildren().add(centerLine);
     }
 
+    /*
+     Draws the landing/take-off slope on the side-on view
+     */
     private void drawSlope(int topX, int height, int angle) {
         Polygon tri = new Polygon();
 
@@ -308,6 +328,9 @@ public class Display {
         sideOnPane.getChildren().add(tri);
     }
 
+    /*
+     Draws a threshold at a given distance on the side-on view of a given runway
+     */
     private void drawThresholdSO(int threshold, String rwnm) {
         int dir = Integer.parseInt(rwnm.substring(0, 2));
         int x;
@@ -322,6 +345,9 @@ public class Display {
         sideOnPane.getChildren().add(thresh);
     }
 
+    /*
+     Draws the arrow in the top-down view to show the direction of landing/take-off on a given runway
+     */
     private void drawDirectionTD(String rwnm) {
         int dir = Integer.parseInt(rwnm.substring(0, 2));
 
@@ -349,6 +375,9 @@ public class Display {
 
     }
 
+    /*
+     Draws the arrow in the side-on view to show the direction of landing/take-off on a given runway
+     */
     private void drawDirectionSO(String rwnm) {
         int dir = Integer.parseInt(rwnm.substring(0, 2));
 
@@ -376,6 +405,9 @@ public class Display {
 
     }
 
+    /*
+     Draws the name of a threshold in the top-down view
+     */
     private void drawIndicatorTD(String rwnm) {
 
         Text t1 = new Text(thresholdPoint - 10, centreLine + 40, rwnm.substring(0, 2));
@@ -393,6 +425,9 @@ public class Display {
         topDownPane.getChildren().addAll(t1, t2);
     }
 
+    /*
+     Draws the name of a threshold in the side-on view
+     */
     private void drawIndicatorSO(String rwnm) {
 
         Text t1 = new Text(thresholdPoint - 10, centreLine + 30, rwnm.substring(0, 2));
@@ -411,6 +446,9 @@ public class Display {
 
     }
 
+    /*
+     Draws a runway's clearway in the top-down view
+     */
     private void drawClearwayTD(Runway r) {
         int dir = Integer.parseInt(r.getName().substring(0, 2));
         double size = r.getClearway() / scale;
@@ -435,6 +473,9 @@ public class Display {
         topDownPane.getChildren().add(cl);
     }
 
+    /*
+     Draws a runway's stopway in the top-down view
+     */
     private void drawStopwayTD(Runway r) {
         int dir = Integer.parseInt(r.getName().substring(0, 2));
         double size = r.getStopway() / scale;
@@ -458,6 +499,9 @@ public class Display {
         topDownPane.getChildren().add(cl);
     }
 
+    /*
+     Draws a runway's clearway in the side-on view
+     */
     private void drawClearwaySO(Runway r) {
         int dir = Integer.parseInt(r.getName().substring(0, 2));
         double size = r.getClearway() / scale;
@@ -482,6 +526,9 @@ public class Display {
         sideOnPane.getChildren().add(cl);
     }
 
+    /*
+     Draws a runway's stopway in the side-on view
+     */
     private void drawStopwaySO(Runway r) {
         int dir = Integer.parseInt(r.getName().substring(0, 2));
         double size = r.getStopway() / scale;
@@ -505,6 +552,9 @@ public class Display {
         sideOnPane.getChildren().add(cl);
     }
 
+    /*
+     Draws the legend on a given pane, showing what different indicators mean
+     */
     private void displayLegend(Pane target) {
         Rectangle r1 = new Rectangle(50, 50, 10, 10);
         r1.setFill(stopwayColor);
@@ -521,6 +571,9 @@ public class Display {
         target.getChildren().addAll(r1, r2, t1, t2);
     }
 
+    /*
+     Clears the side-on and top-down panes
+     */
     public void clearPanes() {
         sideOnPane.getChildren().clear();
         topDownPane.getChildren().clear();
