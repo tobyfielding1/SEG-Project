@@ -1,28 +1,17 @@
 import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Point2D;
-import javafx.print.PageLayout;
-import javafx.print.PageOrientation;
-import javafx.print.Paper;
-import javafx.print.Printer.MarginType;
-import javafx.print.PrinterJob;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
-import javafx.scene.transform.Scale;
-import javafx.scene.transform.Translate;
 import javafx.stage.Stage;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.Scanner;
 
 /**
  * Created by tobyf on 18/02/2017.
@@ -69,15 +58,9 @@ public class Controller extends Application {
 
 	@FXML
 	protected void drawButtonAction() throws IOException {
-		Scanner scan = new Scanner(System.in);
-		String runwayName, obsType;
-		int TORA, TODA, ASDA, LDA, thresh1Distance, thresh2Distance, centerlineDistance, obsHeight, obsRESA;
-		Airport airport;
-		// Prompts user to enter values in command line
-		additionalInfoBar.setText("Provide input via the command line");
 
 		// Create an airport
-		airport = new Airport("Airport");
+		Airport airport = new Airport("Airport");
 
 		// Imports runway and obstacle values from text file
 		Runway rw = getRunway();
