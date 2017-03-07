@@ -222,10 +222,10 @@ public class Runway {
     	calculations = calculations.concat("\nTakeoff Over: ");
 
         int safeGroundDistance = obstacle.RESA + stripEnd;
-        int newTORA = thresholdDist + (TORA - LDA) - safeGroundDistance;
+        int newTORA = thresholdDist + getThreshold() - safeGroundDistance;
 
         int safeTOCSDistance = obstacle.height * ALSTOCSSlope + stripEnd;
-        int tallObsTORA = thresholdDist + (TORA - LDA) - safeTOCSDistance;
+        int tallObsTORA = thresholdDist + getThreshold() - safeTOCSDistance;
 
         if (tallObsTORA < newTORA){
         	calculations = calculations.concat("\nTORA, TODA, ASDA: "+thresholdDist+" + "+(TORA-LDA)+" - "+obstacle.height+" x "+ALSTOCSSlope+" - "+stripEnd);
@@ -245,14 +245,14 @@ public class Runway {
     	calculations = calculations.concat("\nTakeoff Away: ");
         //makes sure values can only decrease or stay the same
         if (thresholdDist + blastAllowance > 0) {
-        	calculations = calculations.concat("\nTODA: "+TODA+" - "+thresholdDist+" - "+blastAllowance+" - "+(TORA-LDA));
-            TODA = TODA - thresholdDist - blastAllowance - (TORA - LDA);
+        	calculations = calculations.concat("\nTODA: "+TODA+" - "+thresholdDist+" - "+blastAllowance+" - "+getThreshold());
+            TODA = TODA - thresholdDist - blastAllowance - getThreshold();
             calculations = calculations.concat(" = "+TODA);
-            calculations = calculations.concat("\nASDA: "+ASDA+" - "+thresholdDist+" - "+blastAllowance+" - "+(TORA-LDA));
-            ASDA = ASDA - thresholdDist - blastAllowance - (TORA - LDA);
+            calculations = calculations.concat("\nASDA: "+ASDA+" - "+thresholdDist+" - "+blastAllowance+" - "+getThreshold());
+            ASDA = ASDA - thresholdDist - blastAllowance - getThreshold();
             calculations = calculations.concat(" = "+ASDA);
-            calculations = calculations.concat("\nTORA: "+TORA+" - "+thresholdDist+" - "+blastAllowance+" - "+(TORA-LDA));
-        	TORA = TORA - thresholdDist - blastAllowance - (TORA - LDA);
+            calculations = calculations.concat("\nTORA: "+TORA+" - "+thresholdDist+" - "+blastAllowance+" - "+getThreshold());
+        	TORA = TORA - thresholdDist - blastAllowance - getThreshold();
         	calculations = calculations.concat(" = "+TORA);
             takeoffThresholdLabel = "Blast Allowance=" + getThreshold();
         }
