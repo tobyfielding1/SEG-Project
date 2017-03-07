@@ -127,10 +127,10 @@ public class Runway {
 
     public Runway(String name, int TORA, int TODA, int ASDA, int LDA) {
         this.name = name;
-        this.TORA = TORA;
-        this.TODA = TODA;
-        this.ASDA = ASDA;
-        this.LDA = LDA;
+        this.TORA = originalTORA = TORA;
+        this.TODA = originalTODA  = TODA;
+        this.ASDA  = originalASDA = ASDA;
+        this.LDA  = originalLDA = LDA;
         takeoffThresholdLabel = ""+getThreshold();
     }
 
