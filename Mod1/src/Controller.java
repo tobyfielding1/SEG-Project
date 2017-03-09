@@ -3,15 +3,16 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.MenuBar;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 /**
  * Created by tobyf on 18/02/2017.
@@ -27,9 +28,11 @@ public class Controller extends Application {
 	public AnchorPane topDownPane, sideOnPane;
 	public TextArea calculationsTextArea;
 
-	// For interaction between controller and GUI
+    // For interaction between controller and GUI
 	@FXML
 	private MenuBar menu;
+    @FXML
+    private CheckMenuItem viewAlwaysShowLegend;
 
 	Airport model;
 	View view;
@@ -47,7 +50,9 @@ public class Controller extends Application {
 		//        primaryStage.setResizable(false);
 	}
 
-	// Close option in MenuBar -> File -> Close
+	/*
+	 Close option in MenuBar -> File -> Close
+	 */
 	@FXML
 	protected void fileCloseMenuAction() {
 		// get a handle to the stage
@@ -55,6 +60,27 @@ public class Controller extends Application {
 		// do what you have to do
 		stage.close();
 	}
+
+	/*
+	 Shows ReadMe file to user
+	 */
+	@FXML
+    protected void helpViewReadMeAction() throws IOException {
+        Alert readme = new Alert(Alert.AlertType.INFORMATION);
+        readme.setResizable(true);
+        readme.setTitle("View ReadMe");
+        readme.setHeaderText(null);
+
+        byte[] encoded = Files.readAllBytes(Paths.get("readme.txt"));
+        TextArea textArea = new TextArea(new String(encoded, Charset.defaultCharset()));
+        textArea.setEditable(false);
+        textArea.setWrapText(true);
+        textArea.setMaxWidth(Double.MAX_VALUE);
+        textArea.setMaxHeight(Double.MAX_VALUE);
+
+        readme.getDialogPane().setContent(textArea);
+        readme.showAndWait();
+    }
 
 	@FXML
 	protected void drawButtonAction() throws IOException {
@@ -72,7 +98,8 @@ public class Controller extends Application {
 		// Displays runway
 		displayValues(rw);
 		displayCalculations(rw);
-		Display screen = new Display(topDownPane, sideOnPane);
+        Display screen = new Display(topDownPane, sideOnPane);
+        screen.setAlwaysShowLegend(viewAlwaysShowLegend.isSelected());
 		screen.clearPanes();
 		screen.drawRunway(rw);
 //		PrinterJob job = PrinterJob.createPrinterJob();

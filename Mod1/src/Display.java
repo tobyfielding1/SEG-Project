@@ -35,6 +35,8 @@ public class Display {
 
     private double scale;
 
+    private boolean alwaysShowLegend = false;
+
 
     public Display(Pane td, Pane so) {
         this.topDownPane = td;
@@ -484,7 +486,7 @@ public class Display {
      */
     private void displayLegend(Pane target, Runway rw) {
 
-        if (rw.getStopway() > 0) {
+        if (rw.getStopway() > 0 || alwaysShowLegend) {
             Rectangle r1 = new Rectangle(50, 50, 10, 10);
             r1.setFill(STOPWAY_COLOR);
             r1.setStroke(Color.BLACK);
@@ -492,7 +494,7 @@ public class Display {
             target.getChildren().addAll(r1, t1);
         }
 
-        if (rw.getClearway() > 0) {
+        if (rw.getClearway() > 0 || alwaysShowLegend) {
             Rectangle r2 = new Rectangle(50, 80, 10, 10);
             r2.setFill(CLEARWAY_COLOR);
             r2.setStroke(Color.BLACK);
@@ -578,4 +580,7 @@ public class Display {
         topDownPane.getChildren().clear();
     }
 
+    public void setAlwaysShowLegend(boolean alwaysShowLegend) {
+        this.alwaysShowLegend = alwaysShowLegend;
+    }
 }
