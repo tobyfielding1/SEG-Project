@@ -67,7 +67,6 @@ public class Display {
 
         drawRunwayTD(rw);
         drawRunwaySO(rw);
-
     }
 
     /*
@@ -96,7 +95,6 @@ public class Display {
             drawDistanceSO(true, runwayEndLeft - rw.getStopway() / scale + RUNWAY_STRIP_LENGTH - ((double) rw.getASDA() / (double) rw.getOriginalTORA()) * (double) RUNWAY_STRIP_LENGTH, 80, ((double) rw.getTORA() / (double) rw.getOriginalTORA()) * (double) RUNWAY_STRIP_LENGTH + rw.getStopway() / scale, "ASDA = " + rw.getASDA());
             drawDistanceSO(true, runwayEndLeft - rw.getClearway() / scale + RUNWAY_STRIP_LENGTH - ((double) rw.getTODA() / (double) rw.getOriginalTORA()) * (double) RUNWAY_STRIP_LENGTH, 100, ((double) rw.getTODA() / (double) rw.getOriginalTORA()) * (double) RUNWAY_STRIP_LENGTH + rw.getClearway() / scale, "TODA = " + rw.getTODA());
             drawDistanceSO(true, runwayEndLeft, -40, thresholdPoint - runwayEndLeft, "LDA = " + rw.getLDA());
-
         }
         displayLegend(sideOnPane, rw);
     }
@@ -124,8 +122,6 @@ public class Display {
             drawDistanceTD(true, runwayEndLeft, 100, RUNWAY_STRIP_LENGTH + rw.getClearway() / scale, "TODA = " + rw.getTODA());
             drawDistanceTD(true, thresholdPoint, -40, runwayEndRight - thresholdPoint, "LDA = " + rw.getLDA());
         } else {
-
-
             drawDistanceTD(true, runwayEndLeft + RUNWAY_STRIP_LENGTH - ((double) rw.getTORA() / (double) rw.getOriginalTORA()) * (double) RUNWAY_STRIP_LENGTH, 60, ((double) rw.getTORA() / (double) rw.getOriginalTORA()) * (double) RUNWAY_STRIP_LENGTH, "TORA = " + rw.getTORA());
             drawDistanceTD(true, runwayEndLeft - rw.getStopway() / scale + RUNWAY_STRIP_LENGTH - ((double) rw.getASDA() / (double) rw.getOriginalTORA()) * (double) RUNWAY_STRIP_LENGTH, 80, ((double) rw.getTORA() / (double) rw.getOriginalTORA()) * (double) RUNWAY_STRIP_LENGTH + rw.getStopway() / scale, "ASDA = " + rw.getASDA());
             drawDistanceTD(true, runwayEndLeft - rw.getClearway() / scale + RUNWAY_STRIP_LENGTH - ((double) rw.getTODA() / (double) rw.getOriginalTORA()) * (double) RUNWAY_STRIP_LENGTH, 100, ((double) rw.getTODA() / (double) rw.getOriginalTORA()) * (double) RUNWAY_STRIP_LENGTH + rw.getClearway() / scale, "TODA = " + rw.getTODA());
@@ -471,12 +467,12 @@ public class Display {
         double x1 = Math.round(topX / scale) + runwayEndLeft;
         double y1 = paneHeight / 2 - height / scale;
         double x2 = (double) Math.round(topX / scale) + runwayEndLeft;
-        ;
+
         double y2 = paneHeight / 2;
         double x3 = x1 + (height / Math.tan(Math.toRadians(angle))) / scale;
         double y3 = paneHeight / 2;
 
-        tri.getPoints().addAll(new Double[]{x1, y1, x2, y2, x3, y3});
+        tri.getPoints().addAll(x1, y1, x2, y2, x3, y3);
         tri.setFill(Color.GREEN);
 
         tri.setVisible(true);
