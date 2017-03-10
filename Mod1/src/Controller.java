@@ -18,6 +18,11 @@ import java.nio.file.Paths;
  * Created by tobyf on 18/02/2017.
  */
 public class Controller extends Application {
+
+    // Input value text fields
+    public TextField toraInputField, todaInputField, asdaInputField, ldaInputField, distLowerThreshInputField, rNameInputField;
+    public TextField distUpperThreshInputField, distCentrelineInputField, obstacleHeightInputField, resaInputField;
+
 	// Output value text fields
 	public TextField oldToraField, newToraField, oldTodaField, newTodaField, oldAsdaField, newAsdaField, oldLdaField, newLdaField;
 
@@ -104,7 +109,7 @@ public class Controller extends Application {
 		displayValues(rw);
 		displayCalculations(rw);
         Display screen = new Display(topDownPane, sideOnPane);
-        screen.setAlwaysShowLegend(viewAlwaysShowLegend.isSelected());
+        //screen.setAlwaysShowLegend(viewAlwaysShowLegend.isSelected());
 		screen.clearPanes();
 		screen.drawRunway(rw);
 //		PrinterJob job = PrinterJob.createPrinterJob();
@@ -137,6 +142,28 @@ public class Controller extends Application {
 
 		additionalInfoBar.setText("Input successful");
 	}
+    /*
+     Gets values from input text fields and draws runway
+     */
+    @FXML
+	protected void submitButtonAction() {
+
+        // Create an airport
+        Airport airport = new Airport("Airport");
+
+        // Imports runway and obstacle values from text fields
+        Runway rw = getRunwayTextFields();
+        airport.addRunway(rw);
+        airport.addObstacle(rw.getName(), getObstacleTextFields());
+
+        // Displays runway
+        displayValues(rw);
+        displayCalculations(rw);
+        Display screen = new Display(topDownPane, sideOnPane);
+        //screen.setAlwaysShowLegend(viewAlwaysShowLegend.isSelected());
+        screen.clearPanes();
+        screen.drawRunway(rw);
+    }
 
 	/*
      Updates textboxes with runway values
@@ -165,6 +192,18 @@ public class Controller extends Application {
 		return new Runway(values[0], Integer.parseInt(values[1]), Integer.parseInt(values[2]), Integer.parseInt(values[3]), Integer.parseInt(values[4]));
 	}
 
+	/*
+	 Gets Runway from text fields
+	 */
+	private Runway getRunwayTextFields() {
+	    String name = rNameInputField.getText();
+	    int tora = Integer.parseInt(toraInputField.getText());
+        int toda = Integer.parseInt(todaInputField.getText());
+        int asda = Integer.parseInt(asdaInputField.getText());
+        int lda = Integer.parseInt(ldaInputField.getText());
+        return new Runway(name, tora, toda, asda, lda);
+    }
+
 	private Obstacle getObstacle() throws IOException {
 		BufferedReader br = new BufferedReader(new FileReader("obstacle1.txt"));
 		String input = br.readLine();
@@ -176,4 +215,16 @@ public class Controller extends Application {
 		BufferedReader br = new BufferedReader(new FileReader("obstacle1.txt"));
 		return br.readLine() == null;
 	}
+
+	/*
+	 Gets obstacle from text fields
+	 */
+	private Obstacle getObstacleTextFields() {
+	    int distLowerThreshold = Integer.parseInt(distLowerThreshInputField.getText());
+        int distUpperThreshold = Integer.parseInt(distUpperThreshInputField.getText());
+        int distCentreThreshold = Integer.parseInt(distCentrelineInputField.getText());
+        int obstacleHeight = Integer.parseInt(obstacleHeightInputField.getText());
+        int resa = Integer.parseInt(resaInputField.getText());
+        return new Obstacle ("watermelon", distLowerThreshold, distUpperThreshold, distCentreThreshold, obstacleHeight, resa);
+    }
 }
