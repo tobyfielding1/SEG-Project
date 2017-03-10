@@ -46,6 +46,7 @@ public class Display{
 	double scale;
 	boolean low;
 	int dir;
+	int xi;
 	
 	
 	public Display (Pane td, Pane so) {
@@ -85,6 +86,10 @@ public class Display{
 		
 		drawClearway(rw);
 		drawStopway(rw);
+		
+		drawTORA(rw);
+		drawTODA(rw);
+		drawASDA(rw);
 		
 		
         displayLegend(topDownPane);
@@ -436,6 +441,8 @@ public class Display{
     	} else {
     		dir = -1;
     	}
+    	
+    	xi = runwayEndLeft;
     }
 
     public void drawSlope(int topX, int height, int angle) {
@@ -457,5 +464,61 @@ public class Display{
     	sideOnPane.getChildren().add(tri);
     }
     
-   
+    
+    public void drawTORA(Runway r) {
+    	double end1;
+    	double end2;
+    	
+    	if (r.getAvoidanceStrategy()==Runway.AvoidanceStrategy.LANDINGOVER_TAKEOFFAWAY) {
+    		end1 = (dir*r.getTakeoffThreshold()/scale) + xi;
+    	} else {
+    		end1 = xi;
+    	}
+    	
+    	end2 = end1 + (r.getTORA() * dir / scale);
+    	
+    	System.out.println(end1);
+    	System.out.println(end2);
+    	
+    	drawDistance(end1,end2,50,"TORA = " + r.getTORA());
+    };  
+
+    
+    public void drawTODA( Runway r) {
+    	double end1;
+    	double end2;
+    	
+    	if (r.getAvoidanceStrategy()==Runway.AvoidanceStrategy.LANDINGOVER_TAKEOFFAWAY) {
+    		end1 = (dir*r.getTakeoffThreshold()/scale) + xi;
+    	} else {
+    		end1 = xi;
+    	}
+    	
+    	end2 = end1 + (r.getTODA() * dir / scale);
+    	
+    	System.out.println(end1);
+    	System.out.println(end2);
+    	
+    	drawDistance(end1,end2,90,"TODA = " + r.getTODA());
+    
+    }
+    
+    public void drawASDA(Runway r) {
+    	double end1;
+    	double end2;
+    	
+    	if (r.getAvoidanceStrategy()==Runway.AvoidanceStrategy.LANDINGOVER_TAKEOFFAWAY) {
+    		end1 = (dir*r.getTakeoffThreshold()/scale) + xi;
+    	} else {
+    		end1 = xi;
+    	}
+    	
+    	end2 = end1 + (r.getASDA() * dir / scale);
+    	
+    	System.out.println(end1);
+    	System.out.println(end2);
+    	
+    	drawDistance(end1,end2,70,"ASDA = " + r.getASDA());
+    
+    }
 }
