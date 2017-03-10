@@ -23,6 +23,9 @@ public class Controller extends Application {
     public TextField toraInputField, todaInputField, asdaInputField, ldaInputField, distLowerThreshInputField, rNameInputField;
     public TextField distUpperThreshInputField, distCentrelineInputField, obstacleHeightInputField, resaInputField;
 
+    // Combo box of obstacle types
+    public ComboBox obstacleTypeComboBox;
+
 	// Output value text fields
 	public TextField oldToraField, newToraField, oldTodaField, newTodaField, oldAsdaField, newAsdaField, oldLdaField, newLdaField;
 
