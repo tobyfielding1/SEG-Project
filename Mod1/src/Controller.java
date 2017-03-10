@@ -223,11 +223,12 @@ public class Controller extends Application {
 	 Gets obstacle from text fields
 	 */
 	private Obstacle getObstacleTextFields() {
+		String obstacleType = (String)obstacleTypeComboBox.getValue();
 	    int distLowerThreshold = Integer.parseInt(distLowerThreshInputField.getText());
         int distUpperThreshold = Integer.parseInt(distUpperThreshInputField.getText());
         int distCentreThreshold = Integer.parseInt(distCentrelineInputField.getText());
         int obstacleHeight = Integer.parseInt(obstacleHeightInputField.getText());
         int resa = Integer.parseInt(resaInputField.getText());
-        return new Obstacle ("watermelon", distLowerThreshold, distUpperThreshold, distCentreThreshold, obstacleHeight, resa);
+        return new Obstacle (obstacleType, distLowerThreshold, distUpperThreshold, distCentreThreshold, obstacleHeight, resa);
     }
 }

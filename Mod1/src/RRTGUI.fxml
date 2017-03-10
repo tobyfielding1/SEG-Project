@@ -68,14 +68,14 @@
                             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                 <children>
                                     <Label layoutX="5.0" layoutY="5.0" text="Obstacle Type" />
-                                    <ComboBox fx:id="obstacleTypeComboBox" layoutX="5.0" layoutY="30.0" prefWidth="120.0" />
+                                    <ComboBox fx:id="obstacleTypeComboBox" editable="true" layoutX="5.0" layoutY="30.0" prefWidth="120.0" promptText="Type" />
                                     <Label layoutX="140.0" layoutY="5.0" text="Dist. Lower Threshold" />
                                     <TextField fx:id="distLowerThreshInputField" layoutX="140.0" layoutY="30.0" prefWidth="100" />
                                     <Label layoutX="5.0" layoutY="65.0" text="Dist. Upper Threshold" />
                                     <TextField fx:id="distUpperThreshInputField" layoutX="5.0" layoutY="90.0" prefWidth="100" />
                                     <Label layoutX="140.0" layoutY="65.0" text="Dist. Centreline" />
                                     <TextField fx:id="distCentrelineInputField" layoutX="140.0" layoutY="90.0" prefWidth="100" />
-                                    <Label layoutX="5.0" layoutY="125.0" text="Obstacel Height" />
+                                    <Label layoutX="5.0" layoutY="125.0" text="Obstacle Height" />
                                     <TextField fx:id="obstacleHeightInputField" layoutX="5.0" layoutY="150.0" prefWidth="100" />
                                     <Label layoutX="140.0" layoutY="125.0" text="RESA" />
                                     <TextField fx:id="resaInputField" layoutX="140.0" layoutY="150.0" prefWidth="100" />
