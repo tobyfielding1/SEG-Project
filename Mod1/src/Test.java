@@ -6,6 +6,7 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import javafx.stage.Window;
 
 public class Test extends Application {
 
@@ -19,10 +20,18 @@ public class Test extends Application {
         Pane topDownPane = new Pane();
         Pane sideOnPane = new Pane();
         
+        Stage w2 = new Stage();
+        w2.setScene(new Scene(sideOnPane, 630, 540));
+        w2.show();
         
+        primaryStage.setX(20);
+        primaryStage.setY(50);
+        
+        w2.setX(680);
+        w2.setY(50);
+        
+       	
         primaryStage.setScene(new Scene(topDownPane, 630, 540));
-        //primaryStage.setScene(new Scene(sideOnPane, 630, 540));
-        
         Airport testAir = new Airport("TEST");
         Runway rw = getRunway();
         testAir.addRunway(rw);
