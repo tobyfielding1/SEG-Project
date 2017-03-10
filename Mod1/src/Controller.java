@@ -71,15 +71,20 @@ public class Controller extends Application {
         readme.setTitle("View ReadMe");
         readme.setHeaderText(null);
 
-        byte[] encoded = Files.readAllBytes(Paths.get("readme.txt"));
-        TextArea textArea = new TextArea(new String(encoded, Charset.defaultCharset()));
-        textArea.setEditable(false);
-        textArea.setWrapText(true);
-        textArea.setMaxWidth(Double.MAX_VALUE);
-        textArea.setMaxHeight(Double.MAX_VALUE);
+        try {
+			byte[] encoded = Files.readAllBytes(Paths.get("readme.txt"));
+			TextArea textArea = new TextArea(new String(encoded, Charset.defaultCharset()));
+			textArea.setEditable(false);
+			textArea.setWrapText(true);
+			textArea.setMaxWidth(Double.MAX_VALUE);
+			textArea.setMaxHeight(Double.MAX_VALUE);
 
-        readme.getDialogPane().setContent(textArea);
-        readme.showAndWait();
+			readme.getDialogPane().setContent(textArea);
+			readme.showAndWait();
+		} catch (IOException noReadmeFile) {
+        	additionalInfoBar.setText("No ReadMe file found");
+		}
+
     }
 
 	@FXML
