@@ -430,7 +430,7 @@ public class Display{
     public void setValues(Runway r){
     	int x = Integer.parseInt(r.getName().substring(0, 2));
     	this.low = (x<=18);
-    	this.scale = r.getRunwaySize() / runwayStripLength;
+    	this.scale = r.getOriginalTORA() / runwayStripLength;
     	if (low) {
     		dir = 1;
     	} else {
