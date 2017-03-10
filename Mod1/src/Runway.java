@@ -58,7 +58,8 @@ public class Runway {
 	}
 
 	public int getThreshold(){
-        return originalTORA-LDA;}
+        return originalTORA-LDA;
+    }
 
     public int getTakeoffThreshold(){
         return originalTORA-TORA;}

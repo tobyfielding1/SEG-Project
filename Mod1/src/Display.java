@@ -55,7 +55,7 @@ public class Display{
 
 		setValues(500);
 
-		drawRunway(30);
+		drawRunway(runwayPixelWidth = 30);
 
 		drawThreshold();
 		drawIndicator();
@@ -67,6 +67,7 @@ public class Display{
 		drawTORA();
 		drawTODA();
 		drawASDA();
+		drawLDA();
 
         displayLegend(topDownPane);
         displayLegend(sideOnPane);
@@ -77,7 +78,7 @@ public class Display{
     public void drawRunway(int concreteWidth) {
     	Color runwayFill = new Color(0.2, 0.2, 0.2, 0.5);
 
-		Rectangle runwayStrip = Rectangle(xi,centreLine,xi+rw.getOriginalTORA()*scaleDir,concreteWidth);
+		Rectangle runwayStrip = Rectangle(xi,centreLine-concreteWidth/2,xi+rw.getOriginalTORA()*scaleDir,concreteWidth);
   		runwayStrip.setFill(runwayFill);
 		runwayStrip.setStroke(Color.BLACK);
 		topDownPane.getChildren().add(runwayStrip);
@@ -99,7 +100,7 @@ public class Display{
     }
 
     private Rectangle Rectangle(double end1,double y,double end2, double height){
-	    return new Rectangle((end1+end2)/2,y,Math.abs(end1-end2),height);
+	    return new Rectangle(Math.min(end1,end2),y,Math.abs(end1-end2),height);
     }
 
    
@@ -211,19 +212,24 @@ public class Display{
  
     
     public void drawThreshold() {
+        double thresh;
+        if (rw.getAvoidanceStrategy()==Runway.AvoidanceStrategy.LANDINGOVER_TAKEOFFAWAY)
+            thresh = xi+rw.getThreshold()*scaleDir;
+        else
+            thresh = xi;
 	   
-    	Rectangle thresh = new Rectangle(xi+rw.getThreshold()*scaleDir,paneHeight / 2 - runwayPixelWidth / 2, 5, runwayPixelWidth);
-    	thresh.setFill(Color.DARKSALMON);
+    	Rectangle threshold = new Rectangle(thresh,paneHeight / 2 - runwayPixelWidth / 2, 5, runwayPixelWidth);
+    	threshold.setFill(Color.DARKSALMON);
 	   
-    	topDownPane.getChildren().add(thresh);
+    	topDownPane.getChildren().add(threshold);
 	   
-    	Rectangle thresh2 = new Rectangle(xi+rw.getThreshold()*scaleDir,paneHeight / 2 - runwayPixelWidth / 2, 5, runwayPixelWidth);
+    	Rectangle threshold2 = new Rectangle(thresh,paneHeight / 2 - runwayPixelWidth / 2, 5, runwayPixelWidth);
     	
-    	thresh2.setHeight(thresh.getHeight()/2);
-    	thresh2.setY(thresh.getY() + thresh2.getHeight()/2);
-    	thresh2.setFill(Color.DARKSALMON);
+    	threshold2.setHeight(threshold.getHeight()/2);
+    	threshold2.setY(threshold.getY() + threshold2.getHeight()/2);
+    	threshold2.setFill(Color.DARKSALMON);
     	
-    	sideOnPane.getChildren().add(thresh2);
+    	sideOnPane.getChildren().add(threshold2);
     }    
 
     public void drawDirection() {
@@ -262,9 +268,14 @@ public class Display{
     	sideOnPane.getChildren().addAll(w12,w22);
     }   
     public void drawIndicator() {
+        double thresh;
+        if (rw.getAvoidanceStrategy()==Runway.AvoidanceStrategy.LANDINGOVER_TAKEOFFAWAY)
+            thresh=xi+rw.getThreshold()*scaleDir;
+        else
+            thresh = xi;
 
-    	Text t1 = new Text(xi+rw.getThreshold()*scaleDir-10,centreLine+40,rw.getName().substring(0,2));
-    	Text t2 = new Text(xi+rw.getThreshold()*scaleDir-5,centreLine+55,rw.getName().substring(2,3));
+        Text t1 = new Text(thresh-10,centreLine+40,rw.getName().substring(0,2));
+    	Text t2 = new Text(thresh-5,centreLine+55,rw.getName().substring(2,3));
     	
     	t1.setFont(indicatorFont);
     	t2.setFont(indicatorFont);
@@ -278,8 +289,8 @@ public class Display{
     	topDownPane.getChildren().addAll(t1,t2);
     	
 
-    	Text t1a = new Text(xi+rw.getThreshold()*scaleDir-10,centreLine+30,rw.getName().substring(0,2));
-    	Text t2a = new Text(xi+rw.getThreshold()*scaleDir-5,centreLine+45,rw.getName().substring(2,3));
+    	Text t1a = new Text(thresh-10,centreLine+30,rw.getName().substring(0,2));
+    	Text t2a = new Text(thresh-5,centreLine+45,rw.getName().substring(2,3));
     	
     	t1a.setFont(indicatorFont);
     	t2a.setFont(indicatorFont);
@@ -391,7 +402,7 @@ public class Display{
     	topDownPane.getChildren().clear();
     }
     
-    public void setValues(int endSpace){
+    public void setValues(double endSpace){
     	int x = Integer.parseInt(rw.getName().substring(0, 2));
     	scaleDir = this.paneWidth/(rw.getOriginalTORA()+2*endSpace);
 		xi = (int) (endSpace*scaleDir);
@@ -460,10 +471,10 @@ public class Display{
     	drawDistance(end1,end2,90,"TODA = " + rw.getTODA());
     
     }
-    
+
     public void drawASDA() {
-    	double end1;
-    	double end2;
+        double end1;
+        double end2;
 
         if (rw.getAvoidanceStrategy()==Runway.AvoidanceStrategy.LANDINGOVER_TAKEOFFAWAY) {
             end1 = scaleDir*rw.getTakeoffThreshold()+xi;
@@ -472,11 +483,49 @@ public class Display{
             end1 = xi;
             end2 = xi+rw.getASDA()*scaleDir;
         }
-    	
-    	System.out.println(end1);
-    	System.out.println(end2);
-    	
-    	drawDistance(end1,end2,70,"ASDA = " + rw.getASDA());
-    
+
+        System.out.println(end1);
+        System.out.println(end2);
+
+        drawDistance(end1,end2,70,"ASDA = " + rw.getASDA());
     }
+
+    public void drawLDA() {
+        double end1;
+        double end2;
+
+        if (rw.getAvoidanceStrategy()==null || rw.getAvoidanceStrategy()==Runway.AvoidanceStrategy.LANDINGOVER_TAKEOFFAWAY) {
+            end1 = xi+rw.getThreshold()*scaleDir;;
+            end2 = end1+rw.getLDA()*scaleDir;
+        } else {
+            end1 = xi;
+            end2 = xi+rw.getLDA()*scaleDir;
+        }
+
+        System.out.println(end1);
+        System.out.println(end2);
+
+        drawDistance(end1,end2,-30,"LDA = " + rw.getLDA());
+
+    }
+/*
+    public void drawLDA() {
+        double end1;
+        double end2;
+
+        if (rw.getAvoidanceStrategy()==Runway.AvoidanceStrategy.LANDINGOVER_TAKEOFFAWAY) {
+            end1 = xi+rw.getThreshold()*scaleDir;;
+            end2 = end1+rw.getLDA()*scaleDir;
+        } else {
+            end1 = xi;
+            end2 = xi+rw.getThreshold()*scaleDir;
+        }
+
+        System.out.println(end1);
+        System.out.println(end2);
+
+        drawDistance(end1,end2,-30,"LDA = " + rw.getLDA());
+
+    }
+    */
 }
