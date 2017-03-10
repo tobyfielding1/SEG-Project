@@ -37,6 +37,14 @@ public class Runway {
         return originalTORA;
     }
 
+    public void clearObstacle(){
+        obstacle = null;
+        this.TORA = originalTORA;
+        this.TODA = originalTODA;
+        this.ASDA = originalASDA;
+        this.LDA = originalLDA;
+        takeoffThresholdLabel = ""+getThreshold();
+    }
     public int getOriginalTODA() {
         return originalTODA;
     }

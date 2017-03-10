@@ -68,13 +68,37 @@ public class Display{
 		drawTODA();
 		drawASDA();
 		drawLDA();
+		if(rw.getObstacle()!=null)
+		    drawObstacle();
 
         displayLegend(topDownPane);
         displayLegend(sideOnPane);
 	}
-    
 
-	
+    private void drawObstacle() {
+	    Rectangle obs;
+	    if(scaleDir>0)
+            obs = new Rectangle(rw.getObstacle().dist1stThresh*scaleDir+xi-10,rw.getObstacle().centerlineDist+centreLine-10,20,20);
+        else
+            obs = new Rectangle(rw.getObstacle().dist2ndThresh*scaleDir+xi-10,rw.getObstacle().centerlineDist+centreLine-10,20,20);
+
+        obs.setFill(Color.RED);
+        obs.setStroke(Color.BLACK);
+        topDownPane.getChildren().add(obs);
+
+        Rectangle obs2;
+        if(scaleDir>0)
+            obs2 = new Rectangle(rw.getObstacle().dist1stThresh*scaleDir+xi-10,centreLine-rw.getObstacle().height,20,rw.getObstacle().height);
+        else
+            obs2 = new Rectangle(rw.getObstacle().dist2ndThresh*scaleDir+xi-10,centreLine-rw.getObstacle().height,20,rw.getObstacle().height);
+
+        obs2.setFill(Color.RED);
+        obs2.setStroke(Color.BLACK);
+        sideOnPane.getChildren().add(obs2);
+    }
+
+
+
     public void drawRunway(int concreteWidth) {
     	Color runwayFill = new Color(0.2, 0.2, 0.2, 0.5);
 
