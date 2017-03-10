@@ -106,10 +106,10 @@ public class Display{
     	
     	Color runwayFill = new Color(0.2, 0.2, 0.2, 0.5);
   		
-  		Rectangle runwayStrip = new Rectangle(x,y,runwayStripLength,runwayStripWidth);
+  		Rectangle runwayStrip = new Rectangle(x,y,runwayStripLength,runwayStripWidth); new Rectangle
   		runwayStrip.setFill(runwayFill);
   		runwayStrip.setStroke(Color.BLACK);
-  		topDownPane.getChildren().add(runwayStrip);
+  		topDownPane.getChildren().add(runwayStrip);topDownPane.getChildren().add()
   		
   		Line centerLine = new Line(x, y + (runwayStripWidth/2) , x + runwayStripLength, y + (runwayStripWidth/2));
   		centerLine.setStroke(Color.WHITE);
@@ -132,6 +132,10 @@ public class Display{
   		centerLine.setStroke(Color.WHITE);
   		centerLine.getStrokeDashArray().addAll(20.0,20.0);
   		sideOnPane.getChildren().add(centerLine);
+    }
+
+    private Rectangle Rectangle(double y,double end1,double end2, double height){
+	    return new Rectangle((end1+end2)/2,y,Math.abs(end1-end2),height);
     }
 
    
