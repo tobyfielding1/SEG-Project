@@ -1,6 +1,8 @@
 import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.print.PageOrientation;
+import javafx.print.PrinterJob;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -10,6 +12,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.transform.Scale;
+import javafx.scene.transform.Translate;
 import javafx.stage.Stage;
 
 import java.awt.Graphics2D;
@@ -126,33 +130,6 @@ public class Controller extends Application {
 		//screen.setAlwaysShowLegend(viewAlwaysShowLegend.isSelected());
 		screen.clearPanes();
 		screen.drawRunway(rw);
-
-		//		PrinterJob job = PrinterJob.createPrinterJob();
-		//		if (job != null) {
-		//			if ( job.showPrintDialog(null)){
-		//				if (job.getJobSettings().getPageLayout().getPageOrientation().equals(PageOrientation.PORTRAIT)){
-		//					topDownPane.getTransforms().add(new Scale(0.45, 0.45));
-		//					topDownPane.getTransforms().add(new Translate(-50, 0));
-		//					sideOnPane.getTransforms().add(new Scale(0.45, 0.45));
-		//					sideOnPane.getTransforms().add(new Translate(-50, 0));
-		//				}
-		//				else{
-		//					topDownPane.getTransforms().add(new Scale(0.75, 0.75));
-		//					topDownPane.getTransforms().add(new Translate(150, 300));
-		//					sideOnPane.getTransforms().add(new Scale(0.75, 0.75));
-		//					sideOnPane.getTransforms().add(new Translate(150, 300));
-		//					calculationsTextArea.getTransforms().add(new Scale(0.75, 0.75));
-		//					calculationsTextArea.getTransforms().add(new Translate(150, 300));
-		//				}
-		//			}
-		//			boolean print3 = job.printPage(topDownPane);
-		//			//boolean print3 = job.printPage(sideOnPane);
-		//			//boolean print3 = job.printPage(calculationsTextArea);
-		//			if (print3) {
-		//				job.endJob();
-		//				topDownPane.getTransforms().clear();
-		//			}
-		//		}
 		additionalInfoBar.setText("Input successful");
 	}
 
@@ -167,6 +144,26 @@ public class Controller extends Application {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	protected void printToPrinter(Node pan){
+		PrinterJob job = PrinterJob.createPrinterJob();
+				if (job != null) {
+					if ( job.showPrintDialog(null)){
+						if (job.getJobSettings().getPageLayout().getPageOrientation().equals(PageOrientation.PORTRAIT)){
+							pan.getTransforms().add(new Scale(0.45, 0.45));
+							pan.getTransforms().add(new Translate(-50, 0));
+						}
+						else{
+							pan.getTransforms().add(new Scale(0.75, 0.75));
+							pan.getTransforms().add(new Translate(150, 300));
+						}
+					}
+					boolean printsucc = job.printPage(pan);
+					if (printsucc) {
+						job.endJob();
+						pan.getTransforms().clear();
+					}
+				}
 	}
 	/*
      Gets values from input text fields and draws runway
