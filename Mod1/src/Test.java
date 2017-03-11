@@ -35,7 +35,7 @@ public class Test extends Application {
         Runway rw = getRunway();
         testAir.addRunway(rw);
         Obstacle ob = getObstacle();
-        testAir.addObstacle("09L", ob);
+        testAir.addObstacle("09R", ob);
         
         Display test = new Display(topDownPane,sideOnPane);
         test.drawRunway(rw);

@@ -16,6 +16,10 @@ public class Display {
 
     final Paint clearwayColor = Color.YELLOW;
     final Paint stopwayColor = new Color(0.3, 0.3, 1, 0.98);
+    final Paint obstacleColor = Color.RED;
+    final Paint slopeColor = Color.TURQUOISE;
+    
+    
     final double arrowThickness = 0.8;
     int runwayPixelWidth;
 
@@ -77,8 +81,7 @@ public class Display {
             }
         }
 
-        displayLegend(topDownPane);
-        displayLegend(sideOnPane);
+        displayLegend();
     }
 
     private double drawObstacle() {
@@ -90,7 +93,7 @@ public class Display {
         else
             obs = new Rectangle(x = (rw.getObstacle().dist2ndThresh + (rw.getOriginalTORA() - rw.getOriginalLDA())) * scaleDir + xi - 10, rw.getObstacle().centerlineDist + centreLine - 10, 20, 20);
 
-        obs.setFill(Color.RED);
+        obs.setFill(obstacleColor);
         obs.setStroke(Color.BLACK);
         topDownPane.getChildren().add(obs);
 
@@ -100,7 +103,7 @@ public class Display {
         else
             obs2 = new Rectangle(x, centreLine - rw.getObstacle().height, 20, rw.getObstacle().height);
 
-        obs2.setFill(Color.RED);
+        obs2.setFill(obstacleColor);
         obs2.setStroke(Color.BLACK);
         sideOnPane.getChildren().add(obs2);
         return x + 10;
@@ -387,22 +390,32 @@ public class Display {
     }
 
 
-    public void displayLegend(Pane target) {
-        Rectangle r1 = new Rectangle(50, 50, 10, 10);
-        r1.setFill(stopwayColor);
-        r1.setStroke(Color.BLACK);
+    public void displayLegend() {
+        addLegendItem(clearwayColor,"Clearway",60,true);
+        addLegendItem(stopwayColor,"Stopway",80,true);
+        addLegendItem(obstacleColor,"Obstacle",100,true);
+        addLegendItem(slopeColor,"Slope",120,false);
+        
+        
+     }
 
-        Rectangle r2 = new Rectangle(50, 80, 10, 10);
-        r2.setFill(clearwayColor);
+    public void addLegendItem(Paint color, String name, int y, boolean bothPanels) {
+    	Rectangle r1 = new Rectangle(50, y, 10, 10);
+        r1.setFill(color);
+        r1.setStroke(Color.BLACK);
+        
+        Rectangle r2 = new Rectangle(50, y, 10, 10);
+        r2.setFill(color);
         r2.setStroke(Color.BLACK);
 
 
-        Text t1 = new Text(70, 60, "Stopway");
-        Text t2 = new Text(70, 90, "Clearway");
+        Text t1 = new Text(70, y+10, name);
+        Text t2 = new Text(70, y+10, name);
 
-        target.getChildren().addAll(r1, r2, t1, t2);
+        if (bothPanels) topDownPane.getChildren().addAll(r1, t1);
+        sideOnPane.getChildren().addAll(r2, t2);
     }
-
+    
     public void clearPanes() {
         sideOnPane.getChildren().clear();
         topDownPane.getChildren().clear();
@@ -514,13 +527,13 @@ public class Display {
         Line w;
         if (rw.getLandingStrategy() == Runway.AvoidanceStrategy.LANDINGOVER) {
             w = new Line(xObs, centreLine - rw.getObstacle().height - 2, xObs + rw.getALSTOCSSlope() * rw.getObstacle().height * scaleDir, centreLine);
-            w.setStroke(Color.CYAN);
+            w.setStroke(slopeColor);
             w.setStrokeWidth(5);
             sideOnPane.getChildren().add(w);
         }
         if (rw.getTakeoffStrategy() == Runway.AvoidanceStrategy.TAKEOFFOVER) {
             w = new Line(xObs, centreLine - rw.getObstacle().height - 2, xObs - rw.getALSTOCSSlope() * rw.getObstacle().height * scaleDir, centreLine);
-            w.setStroke(Color.CYAN);
+            w.setStroke(slopeColor);
             w.setStrokeWidth(5);
             sideOnPane.getChildren().add(w);
         }
