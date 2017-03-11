@@ -129,80 +129,57 @@ public class Display{
 
    
 	public Group makeHArrow(double start, double end, double y) {
-	    	double x1;
-	    	double x2;
-	    	double y1 = y;
-	    	double y2 = y;
-	    	
-	    	
-	    	if (start<end) {
-	    		x1 = start;
-	    		x2 = end;
-	    	} else {
-	    		x1 = end;
-	    		x2 = start;
-	    	}
-	    	
-	    	
-	    	Line main = new Line(x1, y1, x2, y2);
-	    	main.setStroke(arrowColor);
-	    	main.setStrokeWidth(arrowThickness);
-	    	
-	    	Line h1 = new Line(x1,y1,x1+10,y1-10);
-	    	h1.setStroke(arrowColor);
-	    	h1.setStrokeWidth(arrowThickness);
-	    	
-	    	Line h2 = new Line(x1,y1,x1+10,y1+10);
-	    	h2.setStroke(arrowColor);
-	    	h2.setStrokeWidth(arrowThickness);
-	    	
-	    	Line h3 = new Line(x2,y2,x2-10,y2+10);
-	    	h3.setStroke(arrowColor);
-	    	h3.setStrokeWidth(arrowThickness);
-	    
-	    	Line h4 = new Line(x2,y2,x2-10,y2-10);
-	    	h4.setStroke(arrowColor);
-	    	h4.setStrokeWidth(arrowThickness);
-	    	
-	    	
-	    	Group arrow = new Group();
-	    	
-	    	arrow.getChildren().addAll(main,h1,h2,h3,h4);	
-	    	return arrow;
-	    }
-	public Group makeVArrow(double x1, double y1, double length) {
-	    	double x2 = x1;
-	    	double y2 = y1 + length;
-	    	
-	    	Line main = new Line(x1, y1, x2, y2);
-	    	main.setStroke(arrowColor);
-	    	main.setStrokeWidth(arrowThickness);
-	    	
-	    	
-	    	Line h1 = new Line(x1,y1,x1-10,y1+10);
-	    	h1.setStroke(arrowColor);
-	    	h1.setStrokeWidth(arrowThickness);
-	    	
-	    	Line h2 = new Line(x1,y1,x1+10,y1+10);
-	    	h2.setStroke(arrowColor);
-	    	h2.setStrokeWidth(arrowThickness);
-	    	
-	    	Line h3 = new Line(x2,y2,x2+10,y2-10);
-	    	h3.setStroke(arrowColor);
-	    	h3.setStrokeWidth(arrowThickness);
-	    	
-	    	
-	    	Line h4 = new Line(x2,y2,x2-10,y2-10);
-	    	h4.setStroke(arrowColor);
-	    	h4.setStrokeWidth(arrowThickness);
-	    	
+        double x1;
+        double x2;
+        double x3;
+        double x4;
+        double y1 = y;
+        double y2 = y;
 
-	    	Group arrow = new Group();
-	    	
-	    	arrow.getChildren().addAll(main,h1,h2,h3,h4);
-	    	return arrow;
-	    
+
+        if (start < end) {
+            x1 = start;
+            x2 = end;
+        } else {
+            x1 = end;
+            x2 = start;
+        }
+
+        if (scaleDir < 0) {
+            x3 = x1+10;
+            x4 = x2;
+        }else{
+            x3 = x1;
+            x4 = x2-10;
+         }
+
+        Line main = new Line(x1, y1, x2, y2);
+        main.setStroke(arrowColor);
+        main.setStrokeWidth(arrowThickness);
+
+        Line h1 = new Line(x1,y1,x3,y1-10);
+        h1.setStroke(arrowColor);
+        h1.setStrokeWidth(arrowThickness);
+
+        Line h2 = new Line(x1,y1,x3,y1+10);
+        h2.setStroke(arrowColor);
+        h2.setStrokeWidth(arrowThickness);
+
+        Line h3 = new Line(x2,y2,x4,y2+10);
+        h3.setStroke(arrowColor);
+        h3.setStrokeWidth(arrowThickness);
+
+        Line h4 = new Line(x2,y2,x4,y2-10);
+        h4.setStroke(arrowColor);
+        h4.setStrokeWidth(arrowThickness);
+
+
+        Group arrow = new Group();
+
+        arrow.getChildren().addAll(main,h1,h2,h3,h4);
+        return arrow;
 	    }
+
     public void drawDistance(double startX, double endX, double y, String text) {
     	Group arrow;
     	
@@ -426,7 +403,8 @@ public class Display{
     	topDownPane.getChildren().clear();
     }
     
-    public void setValues(double endSpace){
+    public void setValues(){
+        double endSpace = Math.max(rw.getOriginalTODA() + 200,400);
     	int x = Integer.parseInt(rw.getName().substring(0, 2));
     	scaleDir = this.paneWidth/(rw.getOriginalTORA()+2*endSpace);
 		xi = (int) (endSpace*scaleDir);
