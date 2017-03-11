@@ -8,16 +8,16 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.control.*;
-import javafx.scene.image.ImageView;
-import javafx.scene.image.WritableImage;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.VBox;
 import javafx.scene.transform.Scale;
 import javafx.scene.transform.Translate;
 import javafx.stage.Stage;
 
-import java.awt.Graphics2D;
-import java.awt.Panel;
+import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.File;
@@ -26,8 +26,6 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-
-import javax.imageio.ImageIO;
 
 /**
  * Created by tobyf on 18/02/2017.
@@ -68,9 +66,9 @@ public class Controller extends Application {
 	public void start(Stage primaryStage) throws Exception {
 		Parent root = FXMLLoader.load(getClass().getResource("RRTGUI.fxml"));
 		primaryStage.setTitle("Runway Redeclaration Tool");
-		primaryStage.setScene(new Scene(root, 900, 590));
+		primaryStage.setScene(new Scene(root));
 		primaryStage.show();
-		//        primaryStage.setResizable(false);
+		primaryStage.setResizable(true);
 	}
 
 	/*

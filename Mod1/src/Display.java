@@ -13,8 +13,7 @@ import javafx.scene.text.Text;
 public class Display{
 	Pane topDownPane;
 	Pane sideOnPane;
-	
-	final Paint arrowColor = Color.RED;
+
 	final Paint clearwayColor = Color.YELLOW;
 	final Paint stopwayColor = new Color(0.3,0.3,1,0.98);
 	final double arrowThickness = 0.5;
@@ -64,10 +63,11 @@ public class Display{
 		drawClearway();
 		drawStopway();
 
-		drawTORA();
+		double TORAEnds[] = drawTORA();
 		drawTODA();
 		drawASDA();
-		drawLDA();
+        double LDAEnds[] = drawLDA();
+
 		if(rw.getObstacle()!=null)
 		    drawObstacle();
 
@@ -75,12 +75,14 @@ public class Display{
         displayLegend(sideOnPane);
 	}
 
-    private void drawObstacle() {
+    private double drawObstacle() {
+	    double x=(rw.getObstacle().dist1stThresh+(rw.getOriginalTORA()-rw.getOriginalLDA()))*scaleDir+xi-10;
+
 	    Rectangle obs;
 	    if(scaleDir>0)
-            obs = new Rectangle(rw.getObstacle().dist1stThresh*scaleDir+xi-10,rw.getObstacle().centerlineDist+centreLine-10,20,20);
+            obs = new Rectangle(x,rw.getObstacle().centerlineDist+centreLine-10,20,20);
         else
-            obs = new Rectangle(rw.getObstacle().dist2ndThresh*scaleDir+xi-10,rw.getObstacle().centerlineDist+centreLine-10,20,20);
+            obs = new Rectangle(x,rw.getObstacle().centerlineDist+centreLine-10,20,20);
 
         obs.setFill(Color.RED);
         obs.setStroke(Color.BLACK);
@@ -88,13 +90,14 @@ public class Display{
 
         Rectangle obs2;
         if(scaleDir>0)
-            obs2 = new Rectangle(rw.getObstacle().dist1stThresh*scaleDir+xi-10,centreLine-rw.getObstacle().height,20,rw.getObstacle().height);
+            obs2 = new Rectangle(x,centreLine-rw.getObstacle().height,20,rw.getObstacle().height);
         else
-            obs2 = new Rectangle(rw.getObstacle().dist2ndThresh*scaleDir+xi-10,centreLine-rw.getObstacle().height,20,rw.getObstacle().height);
+            obs2 = new Rectangle(x,centreLine-rw.getObstacle().height,20,rw.getObstacle().height);
 
         obs2.setFill(Color.RED);
         obs2.setStroke(Color.BLACK);
         sideOnPane.getChildren().add(obs2);
+        return x;
     }
 
 
@@ -128,7 +131,7 @@ public class Display{
     }
 
    
-	public Group makeHArrow(double start, double end, double y) {
+	public Group makeHArrow(double start, double end, double y,Color arrowColor) {
         double x1;
         double x2;
         double x3;
@@ -183,7 +186,7 @@ public class Display{
     public void drawDistance(double startX, double endX, double y, String text) {
     	Group arrow;
     	
-    	arrow = makeHArrow(startX,endX,(paneHeight/2) + y);
+    	arrow = makeHArrow(startX,endX,(paneHeight/2) + y,Color.RED);
     	
     	Text t;
     	t = new Text((startX+endX) / 2,(paneHeight / 2) + y - 5,text);
@@ -197,7 +200,7 @@ public class Display{
     
     	Group arrow2;
     	
-    	arrow2 = makeHArrow(startX,endX,(paneHeight/2) + y);
+    	arrow2 = makeHArrow(startX,endX,(paneHeight/2) + y,Color.RED);
     	
     	Text t2;
     	t2 = new Text((startX+endX) / 2,(paneHeight / 2) + y - 5,text);
@@ -217,7 +220,7 @@ public class Display{
         if (rw.getAvoidanceStrategy()==Runway.AvoidanceStrategy.LANDINGOVER_TAKEOFFAWAY)
             thresh = xi+rw.getThreshold()*scaleDir;
         else
-            thresh = xi;
+            thresh = xi+(rw.getOriginalTORA()-rw.getOriginalLDA())*scaleDir;
 	   
     	Rectangle threshold = new Rectangle(thresh,paneHeight / 2 - runwayPixelWidth / 2, 5, runwayPixelWidth);
     	threshold.setFill(Color.DARKSALMON);
@@ -273,7 +276,7 @@ public class Display{
         if (rw.getAvoidanceStrategy()==Runway.AvoidanceStrategy.LANDINGOVER_TAKEOFFAWAY)
             thresh=xi+rw.getThreshold()*scaleDir;
         else
-            thresh = xi;
+            thresh = xi+(rw.getOriginalTORA()-rw.getOriginalLDA())*scaleDir;
 
         Text t1 = new Text(thresh-10,centreLine+40,rw.getName().substring(0,2));
     	Text t2 = new Text(thresh-5,centreLine+55,rw.getName().substring(2,3));
@@ -436,7 +439,7 @@ public class Display{
     */
     
     
-    public void drawTORA() {
+    public double[] drawTORA() {
     	double end1;
     	double end2;
     	
@@ -452,6 +455,8 @@ public class Display{
     	System.out.println(end2);
     	
     	drawDistance(end1,end2,50,"TORA = " + rw.getTORA());
+        double a[] = {end1,end2};
+    	return a;
     };  
 
     
@@ -492,7 +497,7 @@ public class Display{
         drawDistance(end1,end2,70,"ASDA = " + rw.getASDA());
     }
 
-    public void drawLDA() {
+    public double[] drawLDA() {
         double end1;
         double end2;
 
@@ -500,15 +505,16 @@ public class Display{
             end1 = xi+rw.getThreshold()*scaleDir;;
             end2 = end1+rw.getLDA()*scaleDir;
         } else {
-            end1 = xi;
-            end2 = xi+rw.getLDA()*scaleDir;
+            end1 = xi+(rw.getOriginalTORA()-rw.getOriginalLDA())*scaleDir;
+            end2 = end1+rw.getLDA()*scaleDir;
         }
 
         System.out.println(end1);
         System.out.println(end2);
 
         drawDistance(end1,end2,-30,"LDA = " + rw.getLDA());
-
+        double a[] = {end1,end2};
+        return a;
     }
 /*
     public void drawLDA() {
