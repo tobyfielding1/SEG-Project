@@ -16,10 +16,5 @@ public class View {
                 "ASDA: " + runway.getASDA() + "\n"+
                 "LDA: " + runway.getLDA()
         );
-
-        if (runway.getObstacle() != null){
-            System.out.println(runway.getAvoidanceStrategy());
-        }
-
     }
 }

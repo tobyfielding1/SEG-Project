@@ -10,128 +10,133 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 
-public class Display{
-	Pane topDownPane;
-	Pane sideOnPane;
+public class Display {
+    Pane topDownPane;
+    Pane sideOnPane;
 
-	final Paint clearwayColor = Color.YELLOW;
-	final Paint stopwayColor = new Color(0.3,0.3,1,0.98);
-	final double arrowThickness = 0.5;
-	int runwayPixelWidth;
-	
-	final Font indicatorFont = Font.font("Arial Black",FontWeight.BOLD,18);
-	
-	int paneHeight;
-	int paneWidth;
+    final Paint clearwayColor = Color.YELLOW;
+    final Paint stopwayColor = new Color(0.3, 0.3, 1, 0.98);
+    final double arrowThickness = 0.8;
+    int runwayPixelWidth;
 
-	int centreLine;
+    final Font indicatorFont = Font.font("Arial Black", FontWeight.BOLD, 18);
 
-	Runway rw;
-	double scaleDir;
-	int xi;
+    int paneHeight;
+    int paneWidth;
 
-	public Display (Pane td, Pane so) {
-		this.topDownPane = td;
-		this.sideOnPane = so;
-		
-		this.paneHeight = (int) Math.round(topDownPane.getHeight());
-		if (this.paneHeight == 0) 
-			this.paneHeight = (int) Math.round(sideOnPane.getHeight());
-		
-		this.paneWidth = (int) Math.round(topDownPane.getWidth());
-		if (this.paneWidth == 0) 
-			this.paneWidth = (int) Math.round(sideOnPane.getWidth());
+    int centreLine;
 
-		centreLine = paneHeight /2;
-	}
-	
-	
-	public void drawRunway(Runway rw) {
-		topDownPane.setStyle("-fx-background-color: white;");
-		sideOnPane.setStyle("-fx-background-color: white;");
+    Runway rw;
+    double scaleDir;
+    int xi;
 
-		this.rw = rw;
+    public Display(Pane td, Pane so) {
+        this.topDownPane = td;
+        this.sideOnPane = so;
 
-		setValues();
+        this.paneHeight = (int) Math.round(topDownPane.getHeight());
+        if (this.paneHeight == 0)
+            this.paneHeight = (int) Math.round(sideOnPane.getHeight());
 
-		drawRunway(runwayPixelWidth = 30);
+        this.paneWidth = (int) Math.round(topDownPane.getWidth());
+        if (this.paneWidth == 0)
+            this.paneWidth = (int) Math.round(sideOnPane.getWidth());
 
-		drawThreshold();
-		drawIndicator();
-		drawDirection();
+        centreLine = paneHeight / 2;
+    }
 
-		drawClearway();
-		drawStopway();
 
-		double TORAEnds[] = drawTORA();
-		drawTODA();
-		drawASDA();
+    public void drawRunway(Runway rw) {
+        topDownPane.setStyle("-fx-background-color: white;");
+        sideOnPane.setStyle("-fx-background-color: white;");
+
+        this.rw = rw;
+
+        setValues();
+
+        drawRunway(runwayPixelWidth = 30);
+
+        drawThreshold();
+        drawIndicator();
+        drawDirection();
+
+        drawClearway();
+        drawStopway();
+
+        double TORAEnds[] = drawTORA();
+        drawTODA();
+        drawASDA();
         double LDAEnds[] = drawLDA();
 
-		if(rw.getObstacle()!=null)
-		    drawObstacle();
+        if (rw.getObstacle() != null) {
+            double XObs = drawObstacle();
+            if (rw.getTakeoffStrategy() != null) {
+                drawLDADisplacement(LDAEnds, XObs);
+                drawTakeoffDisplacement(TORAEnds, XObs);
+                drawALSTOCS(XObs);
+            }
+        }
 
         displayLegend(topDownPane);
         displayLegend(sideOnPane);
-	}
+    }
 
     private double drawObstacle() {
-	    double x=(rw.getObstacle().dist1stThresh+(rw.getOriginalTORA()-rw.getOriginalLDA()))*scaleDir+xi-10;
+        double x;
 
-	    Rectangle obs;
-	    if(scaleDir>0)
-            obs = new Rectangle(x,rw.getObstacle().centerlineDist+centreLine-10,20,20);
+        Rectangle obs;
+        if (scaleDir > 0)
+            obs = new Rectangle(x = (rw.getObstacle().dist1stThresh + (rw.getOriginalTORA() - rw.getOriginalLDA())) * scaleDir + xi - 10, rw.getObstacle().centerlineDist + centreLine - 10, 20, 20);
         else
-            obs = new Rectangle(x,rw.getObstacle().centerlineDist+centreLine-10,20,20);
+            obs = new Rectangle(x = (rw.getObstacle().dist2ndThresh + (rw.getOriginalTORA() - rw.getOriginalLDA())) * scaleDir + xi - 10, rw.getObstacle().centerlineDist + centreLine - 10, 20, 20);
 
         obs.setFill(Color.RED);
         obs.setStroke(Color.BLACK);
         topDownPane.getChildren().add(obs);
 
         Rectangle obs2;
-        if(scaleDir>0)
-            obs2 = new Rectangle(x,centreLine-rw.getObstacle().height,20,rw.getObstacle().height);
+        if (scaleDir > 0)
+            obs2 = new Rectangle(x, centreLine - rw.getObstacle().height, 20, rw.getObstacle().height);
         else
-            obs2 = new Rectangle(x,centreLine-rw.getObstacle().height,20,rw.getObstacle().height);
+            obs2 = new Rectangle(x, centreLine - rw.getObstacle().height, 20, rw.getObstacle().height);
 
         obs2.setFill(Color.RED);
         obs2.setStroke(Color.BLACK);
         sideOnPane.getChildren().add(obs2);
-        return x;
+        return x + 10;
     }
-
 
 
     public void drawRunway(int concreteWidth) {
-    	Color runwayFill = new Color(0.2, 0.2, 0.2, 0.5);
+        Color runwayFill = new Color(0.2, 0.2, 0.2, 0.5);
 
-		Rectangle runwayStrip = Rectangle(xi,centreLine-concreteWidth/2,xi+rw.getOriginalTORA()*scaleDir,concreteWidth);
-  		runwayStrip.setFill(runwayFill);
-		runwayStrip.setStroke(Color.BLACK);
-		topDownPane.getChildren().add(runwayStrip);
+        Rectangle runwayStrip = Rectangle(xi, centreLine - concreteWidth / 2, xi + rw.getOriginalTORA() * scaleDir, concreteWidth);
+        runwayStrip.setFill(runwayFill);
+        runwayStrip.setStroke(Color.BLACK);
+        topDownPane.getChildren().add(runwayStrip);
 
-		Line centerLine = new Line(xi,this.centreLine,xi+rw.getOriginalTORA()*scaleDir,this.centreLine);
-		centerLine.setStroke(Color.WHITE);
-  		centerLine.getStrokeDashArray().addAll(20.0,20.0);
-  		topDownPane.getChildren().add(centerLine);
+        Line centerLine = new Line(xi, this.centreLine, xi + rw.getOriginalTORA() * scaleDir, this.centreLine);
+        centerLine.setStroke(Color.WHITE);
+        centerLine.getStrokeDashArray().addAll(20.0, 20.0);
+        topDownPane.getChildren().add(centerLine);
 
-		runwayStrip = Rectangle(xi,centreLine,xi+rw.getOriginalTORA()*scaleDir,5);
-		runwayStrip.setFill(runwayFill);
-		runwayStrip.setStroke(Color.BLACK);
-		sideOnPane.getChildren().add(runwayStrip);
+        runwayStrip = Rectangle(xi, centreLine, xi + rw.getOriginalTORA() * scaleDir, 5);
+        runwayStrip.setFill(runwayFill);
+        runwayStrip.setStroke(Color.BLACK);
+        sideOnPane.getChildren().add(runwayStrip);
 
-		centerLine = new Line(xi,this.centreLine,xi+rw.getOriginalTORA()*scaleDir,this.centreLine);
-		centerLine.setStroke(Color.WHITE);
-		centerLine.getStrokeDashArray().addAll(20.0,20.0);
-		sideOnPane.getChildren().add(centerLine);
+        centerLine = new Line(xi, this.centreLine, xi + rw.getOriginalTORA() * scaleDir, this.centreLine);
+        centerLine.setStroke(Color.WHITE);
+        centerLine.getStrokeDashArray().addAll(20.0, 20.0);
+        sideOnPane.getChildren().add(centerLine);
     }
 
-    private Rectangle Rectangle(double end1,double y,double end2, double height){
-	    return new Rectangle(Math.min(end1,end2),y,Math.abs(end1-end2),height);
+    private Rectangle Rectangle(double end1, double y, double end2, double height) {
+        return new Rectangle(Math.min(end1, end2), y, Math.abs(end1 - end2), height);
     }
 
-   
-	public Group makeHArrow(double start, double end, double y,Color arrowColor) {
+
+    public Group makeHArrow(double start, double end, double y, Color arrowColor) {
         double x1;
         double x2;
         double x3;
@@ -149,272 +154,269 @@ public class Display{
         }
 
         if (scaleDir < 0) {
-            x3 = x1+10;
+            x3 = x1 + 10;
             x4 = x2;
-        }else{
+        } else {
             x3 = x1;
-            x4 = x2-10;
-         }
+            x4 = x2 - 10;
+        }
 
         Line main = new Line(x1, y1, x2, y2);
         main.setStroke(arrowColor);
         main.setStrokeWidth(arrowThickness);
 
-        Line h1 = new Line(x1,y1,x3,y1-10);
+        Line h1 = new Line(x1, y1, x3, y1 - 10);
         h1.setStroke(arrowColor);
         h1.setStrokeWidth(arrowThickness);
 
-        Line h2 = new Line(x1,y1,x3,y1+10);
+        Line h2 = new Line(x1, y1, x3, y1 + 10);
         h2.setStroke(arrowColor);
         h2.setStrokeWidth(arrowThickness);
 
-        Line h3 = new Line(x2,y2,x4,y2+10);
+        Line h3 = new Line(x2, y2, x4, y2 + 10);
         h3.setStroke(arrowColor);
         h3.setStrokeWidth(arrowThickness);
 
-        Line h4 = new Line(x2,y2,x4,y2-10);
+        Line h4 = new Line(x2, y2, x4, y2 - 10);
         h4.setStroke(arrowColor);
         h4.setStrokeWidth(arrowThickness);
 
 
         Group arrow = new Group();
 
-        arrow.getChildren().addAll(main,h1,h2,h3,h4);
+        arrow.getChildren().addAll(main, h1, h2, h3, h4);
         return arrow;
-	    }
-
-    public void drawDistance(double startX, double endX, double y, String text) {
-    	Group arrow;
-    	
-    	arrow = makeHArrow(startX,endX,(paneHeight/2) + y,Color.RED);
-    	
-    	Text t;
-    	t = new Text((startX+endX) / 2,(paneHeight / 2) + y - 5,text);
-        t.setX(t.getX() - t.getText().length() *2.65);
-    	
-    	t.setStroke(Color.GRAY);
-    	t.setStrokeWidth(0.7);
-    	
-    	arrow.getChildren().add(t);
-    	topDownPane.getChildren().add(arrow);
-    
-    	Group arrow2;
-    	
-    	arrow2 = makeHArrow(startX,endX,(paneHeight/2) + y,Color.RED);
-    	
-    	Text t2;
-    	t2 = new Text((startX+endX) / 2,(paneHeight / 2) + y - 5,text);
-        t2.setX(t2.getX() - t2.getText().length() *2.65);
-    	
-    	t2.setStroke(Color.GRAY);
-    	t2.setStrokeWidth(0.7);
-    	
-    	arrow2.getChildren().add(t2);
-    	sideOnPane.getChildren().add(arrow2);
-    
     }
- 
-    
+
+    public void drawDistance(double startX, double endX, double y, String text, Color color) {
+        Group arrow;
+
+        arrow = makeHArrow(startX, endX, (paneHeight / 2) + y, color);
+
+        Text t;
+        t = new Text((startX + endX) / 2, (paneHeight / 2) + y - 5, text);
+        t.setX(t.getX() - t.getText().length() * 2.65);
+
+        t.setStroke(Color.GRAY);
+        t.setStrokeWidth(0.7);
+
+        arrow.getChildren().add(t);
+        topDownPane.getChildren().add(arrow);
+
+        Group arrow2;
+
+        arrow2 = makeHArrow(startX, endX, (paneHeight / 2) + y, color);
+
+        Text t2;
+        t2 = new Text((startX + endX) / 2, (paneHeight / 2) + y - 5, text);
+        t2.setX(t2.getX() - t2.getText().length() * 2.65);
+
+        t2.setStroke(Color.GRAY);
+        t2.setStrokeWidth(0.7);
+
+        arrow2.getChildren().add(t2);
+        sideOnPane.getChildren().add(arrow2);
+
+    }
+
+
     public void drawThreshold() {
         double thresh;
-        if (rw.getAvoidanceStrategy()==Runway.AvoidanceStrategy.LANDINGOVER_TAKEOFFAWAY)
-            thresh = xi+rw.getThreshold()*scaleDir;
+        if (rw.getLandingStrategy() == Runway.AvoidanceStrategy.LANDINGOVER)
+            thresh = xi + rw.getThreshold() * scaleDir;
         else
-            thresh = xi+(rw.getOriginalTORA()-rw.getOriginalLDA())*scaleDir;
-	   
-    	Rectangle threshold = new Rectangle(thresh,paneHeight / 2 - runwayPixelWidth / 2, 5, runwayPixelWidth);
-    	threshold.setFill(Color.DARKSALMON);
-	   
-    	topDownPane.getChildren().add(threshold);
-	   
-    	Rectangle threshold2 = new Rectangle(thresh,paneHeight / 2 - runwayPixelWidth / 2, 5, runwayPixelWidth);
-    	
-    	threshold2.setHeight(threshold.getHeight()/2);
-    	threshold2.setY(threshold.getY() + threshold2.getHeight()/2);
-    	threshold2.setFill(Color.DARKSALMON);
-    	
-    	sideOnPane.getChildren().add(threshold2);
-    }    
+            thresh = xi + (rw.getOriginalTORA() - rw.getOriginalLDA()) * scaleDir;
+
+        Rectangle threshold = new Rectangle(thresh, paneHeight / 2 - runwayPixelWidth / 2, 5, runwayPixelWidth);
+        threshold.setFill(Color.DARKSALMON);
+
+        topDownPane.getChildren().add(threshold);
+
+        Rectangle threshold2 = new Rectangle(thresh, paneHeight / 2 - runwayPixelWidth / 2, 5, runwayPixelWidth);
+
+        threshold2.setHeight(threshold.getHeight() / 2);
+        threshold2.setY(threshold.getY() + threshold2.getHeight() / 2);
+        threshold2.setFill(Color.DARKSALMON);
+
+        sideOnPane.getChildren().add(threshold2);
+    }
 
     public void drawDirection() {
-    	int tipX;
-    	int wingX;
-    	int centreLine = paneHeight / 2;
-    	
-    	if (scaleDir>0) {
-    		tipX = xi-4;
-    		wingX = tipX - 15;
-    	} else {
-    		tipX = xi+4;
-    		wingX = tipX + 20;
-    	}
-    	
-    	Line w1 = new Line(tipX,centreLine,wingX,centreLine + 30);
-    	w1.setStroke(Color.GREEN);
-    	w1.setStrokeWidth(3);
-    	
-    	Line w2 = new Line(tipX,centreLine,wingX,centreLine - 30);
-    	w2.setStroke(Color.GREEN);
-    	w2.setStrokeWidth(3);
-    		
-    	topDownPane.getChildren().addAll(w1,w2);
-    	
-    	
-    	Line w12 = new Line(tipX,centreLine,wingX,centreLine + 10);
-    	w12.setStroke(Color.GREEN);
-    	w12.setStrokeWidth(3);
-    	
-    	Line w22 = new Line(tipX,centreLine,wingX,centreLine - 10);
-    	w22.setStroke(Color.GREEN);
-    	w22.setStrokeWidth(3);
-    		
-    	
-    	sideOnPane.getChildren().addAll(w12,w22);
-    }   
+        int tipX;
+        int wingX;
+        int centreLine = paneHeight / 2;
+
+        if (scaleDir > 0) {
+            tipX = xi - 4;
+            wingX = tipX - 15;
+        } else {
+            tipX = xi + 4;
+            wingX = tipX + 20;
+        }
+
+        Line w1 = new Line(tipX, centreLine, wingX, centreLine + 30);
+        w1.setStroke(Color.GREEN);
+        w1.setStrokeWidth(3);
+
+        Line w2 = new Line(tipX, centreLine, wingX, centreLine - 30);
+        w2.setStroke(Color.GREEN);
+        w2.setStrokeWidth(3);
+
+        topDownPane.getChildren().addAll(w1, w2);
+
+
+        Line w12 = new Line(tipX, centreLine, wingX, centreLine + 10);
+        w12.setStroke(Color.GREEN);
+        w12.setStrokeWidth(3);
+
+        Line w22 = new Line(tipX, centreLine, wingX, centreLine - 10);
+        w22.setStroke(Color.GREEN);
+        w22.setStrokeWidth(3);
+
+
+        sideOnPane.getChildren().addAll(w12, w22);
+    }
+
     public void drawIndicator() {
         double thresh;
-        if (rw.getAvoidanceStrategy()==Runway.AvoidanceStrategy.LANDINGOVER_TAKEOFFAWAY)
-            thresh=xi+rw.getThreshold()*scaleDir;
+        if (rw.getLandingStrategy() == Runway.AvoidanceStrategy.LANDINGOVER)
+            thresh = xi + rw.getThreshold() * scaleDir;
         else
-            thresh = xi+(rw.getOriginalTORA()-rw.getOriginalLDA())*scaleDir;
+            thresh = xi + (rw.getOriginalTORA() - rw.getOriginalLDA()) * scaleDir;
 
-        Text t1 = new Text(thresh-10,centreLine+40,rw.getName().substring(0,2));
-    	Text t2 = new Text(thresh-5,centreLine+55,rw.getName().substring(2,3));
-    	
-    	t1.setFont(indicatorFont);
-    	t2.setFont(indicatorFont);
-    	
-    	t1.setFill(Color.DARKGREEN);
-    	t2.setFill(Color.DARKGREEN);
-    	
-    	t1.setStrokeWidth(2);
-    	t2.setStrokeWidth(2);
-    	
-    	topDownPane.getChildren().addAll(t1,t2);
-    	
+        Text t1 = new Text(thresh - 10, centreLine + 40, rw.getName().substring(0, 2));
+        Text t2 = new Text(thresh - 5, centreLine + 55, rw.getName().substring(2, 3));
 
-    	Text t1a = new Text(thresh-10,centreLine+30,rw.getName().substring(0,2));
-    	Text t2a = new Text(thresh-5,centreLine+45,rw.getName().substring(2,3));
-    	
-    	t1a.setFont(indicatorFont);
-    	t2a.setFont(indicatorFont);
-    	
-    	t1a.setFill(Color.DARKGREEN);
-    	t2a.setFill(Color.DARKGREEN);
-    	
-    	t1a.setStrokeWidth(2);
-    	t2a.setStrokeWidth(2);
-    
-    	sideOnPane.getChildren().addAll(t1a,t2a);
+        t1.setFont(indicatorFont);
+        t2.setFont(indicatorFont);
+
+        t1.setFill(Color.DARKGREEN);
+        t2.setFill(Color.DARKGREEN);
+
+        t1.setStrokeWidth(2);
+        t2.setStrokeWidth(2);
+
+        topDownPane.getChildren().addAll(t1, t2);
+
+
+        Text t1a = new Text(thresh - 10, centreLine + 30, rw.getName().substring(0, 2));
+        Text t2a = new Text(thresh - 5, centreLine + 45, rw.getName().substring(2, 3));
+
+        t1a.setFont(indicatorFont);
+        t2a.setFont(indicatorFont);
+
+        t1a.setFill(Color.DARKGREEN);
+        t2a.setFill(Color.DARKGREEN);
+
+        t1a.setStrokeWidth(2);
+        t2a.setStrokeWidth(2);
+
+        sideOnPane.getChildren().addAll(t1a, t2a);
     }
 
-    
-    
+
     public void drawClearway() {
-    	 double size = rw.getClearway()*Math.abs(scaleDir);
-    	 
-    	 Rectangle cl = new Rectangle();
-    	 
-    	 if (scaleDir > 0) {
-    		 cl.setX(xi+rw.getOriginalTORA()*scaleDir);
-    		 cl.setY(centreLine - runwayPixelWidth / 2 - 3);
-    		 cl.setWidth(size);
-    		 cl.setHeight(runwayPixelWidth + 6);
-    	 }
-    	 else {
-    		 cl.setX(xi+rw.getOriginalTORA()*scaleDir - size);
-    		 cl.setY(centreLine - runwayPixelWidth / 2 - 3);
-    		 cl.setWidth(size);
-    		 cl.setHeight(runwayPixelWidth + 6);
-    	 }
-    	 
-    	 cl.setFill(clearwayColor);
-    	 cl.setStroke(Color.BLACK);
-    	 
-    	 topDownPane.getChildren().add(cl);
-    	 
-    	 Rectangle cl2 = new Rectangle();
-    	 cl2.setX(cl.getX());
-    	 cl2.setWidth(cl.getWidth());
-    	 cl2.setHeight(10);
-    	 cl2.setY(cl.getY()+(cl.getHeight() - cl2.getHeight())/2);
-    	 
-    	 cl2.setFill(clearwayColor);
-    	 cl2.setStroke(Color.BLACK);
-    	 
-    	 
-    	 
-    	 sideOnPane.getChildren().add(cl2);
-    	 
-    }        
-    public void drawStopway() {
-      	 double size = rw.getStopway()*Math.abs(scaleDir);
-      	 
-      	 Rectangle st = new Rectangle();
-      	 
-      	 if (scaleDir > 0) {
-      		 st.setX(xi+rw.getOriginalTORA()*scaleDir);
-      		 st.setY(centreLine - runwayPixelWidth / 2);
-      		 st.setWidth(size);
-      		 st.setHeight(runwayPixelWidth);
-      	 }
-      	 else {
-      		 st.setX(xi+rw.getOriginalTORA()*scaleDir - size);
-      		 st.setY(centreLine - runwayPixelWidth / 2);
-      		 st.setWidth(size);
-      		 st.setHeight(runwayPixelWidth);
-      	 }
-      	 
-      	 st.setFill(stopwayColor);
-      	 
-      	 topDownPane.getChildren().add(st);
-      
-    	 Rectangle st2 = new Rectangle();
-    	 st2.setX(st.getX());
-    	 st2.setWidth(st.getWidth());
-    	 st2.setHeight(8);
-    	 st2.setY(st.getY()+(st.getHeight() - st2.getHeight())/2);
-    	 
-    	 st2.setFill(stopwayColor);
-    	 st2.setStroke(Color.BLACK);
-    	 
-    	 
-    	 
-    	 sideOnPane.getChildren().add(st2);
-    
+        double size = rw.getClearway() * Math.abs(scaleDir);
+
+        Rectangle cl = new Rectangle();
+
+        if (scaleDir > 0) {
+            cl.setX(xi + rw.getOriginalTORA() * scaleDir);
+            cl.setY(centreLine - runwayPixelWidth / 2 - 3);
+            cl.setWidth(size);
+            cl.setHeight(runwayPixelWidth + 6);
+        } else {
+            cl.setX(xi + rw.getOriginalTORA() * scaleDir - size);
+            cl.setY(centreLine - runwayPixelWidth / 2 - 3);
+            cl.setWidth(size);
+            cl.setHeight(runwayPixelWidth + 6);
+        }
+
+        cl.setFill(clearwayColor);
+        cl.setStroke(Color.BLACK);
+
+        topDownPane.getChildren().add(cl);
+
+        Rectangle cl2 = new Rectangle();
+        cl2.setX(cl.getX());
+        cl2.setWidth(cl.getWidth());
+        cl2.setHeight(10);
+        cl2.setY(cl.getY() + (cl.getHeight() - cl2.getHeight()) / 2);
+
+        cl2.setFill(clearwayColor);
+        cl2.setStroke(Color.BLACK);
+
+
+        sideOnPane.getChildren().add(cl2);
+
     }
-    
-    
+
+    public void drawStopway() {
+        double size = rw.getStopway() * Math.abs(scaleDir);
+
+        Rectangle st = new Rectangle();
+
+        if (scaleDir > 0) {
+            st.setX(xi + rw.getOriginalTORA() * scaleDir);
+            st.setY(centreLine - runwayPixelWidth / 2);
+            st.setWidth(size);
+            st.setHeight(runwayPixelWidth);
+        } else {
+            st.setX(xi + rw.getOriginalTORA() * scaleDir - size);
+            st.setY(centreLine - runwayPixelWidth / 2);
+            st.setWidth(size);
+            st.setHeight(runwayPixelWidth);
+        }
+
+        st.setFill(stopwayColor);
+
+        topDownPane.getChildren().add(st);
+
+        Rectangle st2 = new Rectangle();
+        st2.setX(st.getX());
+        st2.setWidth(st.getWidth());
+        st2.setHeight(8);
+        st2.setY(st.getY() + (st.getHeight() - st2.getHeight()) / 2);
+
+        st2.setFill(stopwayColor);
+        st2.setStroke(Color.BLACK);
+
+
+        sideOnPane.getChildren().add(st2);
+
+    }
+
+
     public void displayLegend(Pane target) {
-    	Rectangle r1 = new Rectangle(50,50,10,10);
-    	r1.setFill(stopwayColor);
-    	r1.setStroke(Color.BLACK);
-    	
-    	Rectangle r2 = new Rectangle(50,80,10,10);
-    	r2.setFill(clearwayColor);
-    	r2.setStroke(Color.BLACK);
-    	
-    	
-    	Text t1 = new Text(70,60,"Stopway");
-    	Text t2 = new Text(70,90,"Clearway");
-    	
-    	target.getChildren().addAll(r1,r2,t1,t2);
+        Rectangle r1 = new Rectangle(50, 50, 10, 10);
+        r1.setFill(stopwayColor);
+        r1.setStroke(Color.BLACK);
+
+        Rectangle r2 = new Rectangle(50, 80, 10, 10);
+        r2.setFill(clearwayColor);
+        r2.setStroke(Color.BLACK);
+
+
+        Text t1 = new Text(70, 60, "Stopway");
+        Text t2 = new Text(70, 90, "Clearway");
+
+        target.getChildren().addAll(r1, r2, t1, t2);
     }
 
     public void clearPanes() {
-    	sideOnPane.getChildren().clear();
-    	topDownPane.getChildren().clear();
+        sideOnPane.getChildren().clear();
+        topDownPane.getChildren().clear();
     }
-    
-    public void setValues(){
-        double endSpace = Math.max(rw.getOriginalTODA()-rw.getOriginalTORA() + 200,400);
-    	int x = Integer.parseInt(rw.getName().substring(0, 2));
-    	scaleDir = this.paneWidth/(rw.getOriginalTORA()+2*endSpace);
-		xi = (int) (endSpace*scaleDir);
-    	if (x>18){
-			scaleDir *= -1;
-			xi = this.paneWidth-xi;
-		}
+
+    public void setValues() {
+        double endSpace = Math.max(rw.getOriginalTODA() - rw.getOriginalTORA() + 200, 400);
+        int x = Integer.parseInt(rw.getName().substring(0, 2));
+        scaleDir = this.paneWidth / (rw.getOriginalTORA() + 2 * endSpace);
+        xi = (int) (endSpace * scaleDir);
+        if (x > 18) {
+            scaleDir *= -1;
+            xi = this.paneWidth - xi;
+        }
     }
 
     /*
@@ -437,103 +439,120 @@ public class Display{
     	sideOnPane.getChildren().add(tri);
     }
     */
-    
-    
+
+
     public double[] drawTORA() {
-    	double end1;
-    	double end2;
-    	
-    	if (rw.getAvoidanceStrategy()==Runway.AvoidanceStrategy.LANDINGOVER_TAKEOFFAWAY) {
-    		end1 = scaleDir*rw.getTakeoffThreshold()+xi;
-            end2 = end1 + scaleDir*rw.getTORA();
-    	} else {
-    		end1 = xi;
-            end2 = xi+rw.getTORA()*scaleDir;
-    	}
-    	
-    	System.out.println(end1);
-    	System.out.println(end2);
-    	
-    	drawDistance(end1,end2,50,"TORA = " + rw.getTORA());
-        double a[] = {end1,end2};
-    	return a;
-    };  
+        double end1;
+        double end2;
 
-    
-    public void drawTODA() {
-    	double end1;
-    	double end2;
-
-        if (rw.getAvoidanceStrategy()==Runway.AvoidanceStrategy.LANDINGOVER_TAKEOFFAWAY) {
-            end1 = scaleDir*rw.getTakeoffThreshold()+xi;
-            end2 = end1 + scaleDir*rw.getTODA();
+        if (rw.getTakeoffStrategy() == Runway.AvoidanceStrategy.TAKEOFFAWAY) {
+            end1 = scaleDir * rw.getTakeoffThreshold() + xi;
+            end2 = end1 + scaleDir * rw.getTORA();
         } else {
             end1 = xi;
-            end2 = xi+rw.getTODA()*scaleDir;
+            end2 = xi + rw.getTORA() * scaleDir;
         }
-    	
-    	System.out.println(end1);
-    	System.out.println(end2);
-    	
-    	drawDistance(end1,end2,90,"TODA = " + rw.getTODA());
-    
+
+        drawDistance(end1, end2, 50, "TORA = " + rw.getTORA(), Color.BLACK);
+        double a[] = {end1, end2};
+        return a;
+    }
+
+    ;
+
+
+    public void drawTODA() {
+        double end1;
+        double end2;
+
+        if (rw.getTakeoffStrategy() == Runway.AvoidanceStrategy.TAKEOFFAWAY) {
+            end1 = scaleDir * rw.getTakeoffThreshold() + xi;
+            end2 = end1 + scaleDir * rw.getTODA();
+        } else {
+            end1 = xi;
+            end2 = xi + rw.getTODA() * scaleDir;
+        }
+
+        drawDistance(end1, end2, 90, "TODA = " + rw.getTODA(), Color.BLACK);
+
     }
 
     public void drawASDA() {
         double end1;
         double end2;
 
-        if (rw.getAvoidanceStrategy()==Runway.AvoidanceStrategy.LANDINGOVER_TAKEOFFAWAY) {
-            end1 = scaleDir*rw.getTakeoffThreshold()+xi;
-            end2 = end1 + scaleDir*rw.getASDA();
+        if (rw.getTakeoffStrategy() == Runway.AvoidanceStrategy.TAKEOFFAWAY) {
+            end1 = scaleDir * rw.getTakeoffThreshold() + xi;
+            end2 = end1 + scaleDir * rw.getASDA();
         } else {
             end1 = xi;
-            end2 = xi+rw.getASDA()*scaleDir;
+            end2 = xi + rw.getASDA() * scaleDir;
         }
 
-        System.out.println(end1);
-        System.out.println(end2);
-
-        drawDistance(end1,end2,70,"ASDA = " + rw.getASDA());
+        drawDistance(end1, end2, 70, "ASDA = " + rw.getASDA(), Color.BLACK);
     }
 
     public double[] drawLDA() {
         double end1;
         double end2;
 
-        if (rw.getAvoidanceStrategy()==null || rw.getAvoidanceStrategy()==Runway.AvoidanceStrategy.LANDINGOVER_TAKEOFFAWAY) {
-            end1 = xi+rw.getThreshold()*scaleDir;;
-            end2 = end1+rw.getLDA()*scaleDir;
+        if (rw.getLandingStrategy() == null || rw.getLandingStrategy() == Runway.AvoidanceStrategy.LANDINGOVER) {
+            end1 = xi + rw.getThreshold() * scaleDir;
+            ;
+            end2 = end1 + rw.getLDA() * scaleDir;
         } else {
-            end1 = xi+(rw.getOriginalTORA()-rw.getOriginalLDA())*scaleDir;
-            end2 = end1+rw.getLDA()*scaleDir;
+            end1 = xi + (rw.getOriginalTORA() - rw.getOriginalLDA()) * scaleDir;
+            end2 = end1 + rw.getLDA() * scaleDir;
         }
 
-        System.out.println(end1);
-        System.out.println(end2);
-
-        drawDistance(end1,end2,-30,"LDA = " + rw.getLDA());
-        double a[] = {end1,end2};
+        drawDistance(end1, end2, -30, "LDA = " + rw.getLDA(), Color.BLACK);
+        double a[] = {end1, end2};
         return a;
     }
-/*
-    public void drawLDA() {
+
+    private void drawALSTOCS(double xObs) {
+        Line w;
+        if (rw.getLandingStrategy() == Runway.AvoidanceStrategy.LANDINGOVER) {
+            w = new Line(xObs, centreLine - rw.getObstacle().height - 2, xObs + rw.getALSTOCSSlope() * rw.getObstacle().height * scaleDir, centreLine);
+            w.setStroke(Color.CYAN);
+            w.setStrokeWidth(5);
+            sideOnPane.getChildren().add(w);
+        }
+        if (rw.getTakeoffStrategy() == Runway.AvoidanceStrategy.TAKEOFFOVER) {
+            w = new Line(xObs, centreLine - rw.getObstacle().height - 2, xObs - rw.getALSTOCSSlope() * rw.getObstacle().height * scaleDir, centreLine);
+            w.setStroke(Color.CYAN);
+            w.setStrokeWidth(5);
+            sideOnPane.getChildren().add(w);
+        }
+    }
+
+    private void drawTakeoffDisplacement(double[] toraEnds, double xObs) {
         double end1;
         double end2;
 
-        if (rw.getAvoidanceStrategy()==Runway.AvoidanceStrategy.LANDINGOVER_TAKEOFFAWAY) {
-            end1 = xi+rw.getThreshold()*scaleDir;;
-            end2 = end1+rw.getLDA()*scaleDir;
+        if (rw.getTakeoffStrategy() == Runway.AvoidanceStrategy.TAKEOFFAWAY) {
+            end1 = xObs;
+            end2 = toraEnds[0];
         } else {
-            end1 = xi;
-            end2 = xi+rw.getThreshold()*scaleDir;
+            end1 = toraEnds[1];
+            end2 = xObs;
         }
 
-        System.out.println(end1);
-        System.out.println(end2);
-
-        drawDistance(end1,end2,-30,"LDA = " + rw.getLDA());
-
+        drawDistance(end1, end2, 50, rw.getTakeoffThresholdLabel(), Color.RED);
     }
-    */
+
+    private void drawLDADisplacement(double[] ldaEnds, double xObs) {
+        double end1;
+        double end2;
+
+        if (rw.getLandingStrategy() == Runway.AvoidanceStrategy.LANDINGOVER) {
+            end1 = xObs;
+            end2 = ldaEnds[0];
+        } else {
+            end1 = ldaEnds[1];
+            end2 = xObs;
+        }
+
+        drawDistance(end1, end2, -30, rw.getThresholdLabel(), Color.RED);
+    }
 }
