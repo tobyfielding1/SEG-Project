@@ -53,7 +53,7 @@ public class Display{
 
 		this.rw = rw;
 
-		setValues(500);
+		setValues();
 
 		drawRunway(runwayPixelWidth = 30);
 
