@@ -404,7 +404,7 @@ public class Display{
     }
     
     public void setValues(){
-        double endSpace = Math.max(rw.getOriginalTODA() + 200,400);
+        double endSpace = Math.max(rw.getOriginalTODA()-rw.getOriginalTORA() + 200,400);
     	int x = Integer.parseInt(rw.getName().substring(0, 2));
     	scaleDir = this.paneWidth/(rw.getOriginalTORA()+2*endSpace);
 		xi = (int) (endSpace*scaleDir);
