@@ -1,12 +1,11 @@
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import javafx.stage.Window;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 
 public class Test extends Application {
 
@@ -57,7 +56,7 @@ public class Test extends Application {
         BufferedReader br = new BufferedReader(fr);
         String input = br.readLine();
         String[] values = input.split(",");
-        return new Obstacle(values[0], Integer.parseInt(values[1]), Integer.parseInt(values[2]), Integer.parseInt(values[3]), Integer.parseInt(values[4]), Integer.parseInt(values[5]));
+        return new Obstacle(values[0], Integer.parseInt(values[1]), Integer.parseInt(values[2]), Integer.parseInt(values[3]), Integer.parseInt(values[4]));
     }
 
 }

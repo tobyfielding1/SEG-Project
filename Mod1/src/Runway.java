@@ -21,6 +21,7 @@ public class Runway {
     private int blastAllowance = 300;
     private int stripEnd = 60;
     private int ALSTOCSSlope = 50;
+    private int RESA = 240;
 
     private Obstacle obstacle;
     private AvoidanceStrategy takeoffStrategy = null;
@@ -210,6 +211,15 @@ public class Runway {
         if(LDA > originalLDA)
             LDA = originalLDA;
 
+        if(TORA < 0)
+            TORA = 0;
+        if(ASDA < 0)
+            ASDA = 0;
+        if(TODA < 0)
+            TODA = 0;
+        if(LDA < 0)
+            LDA = 0;
+
         return true;
     }
 
@@ -217,9 +227,9 @@ public class Runway {
         String calculations = "";
         landingStrategy = AvoidanceStrategy.LANDINGTOWARD;
     	calculations = calculations.concat("\nLanding Toward: ");
-        LDA = thresholdDist - obstacle.RESA - stripEnd;
-        calculations = calculations.concat("\nLDA: "+thresholdDist+" - "+obstacle.RESA+" - "+stripEnd+" = "+LDA);
-        thresholdLabel = obstacle.RESA+"(RESA)+"+stripEnd+"="+(obstacle.RESA+stripEnd);
+        LDA = thresholdDist - RESA - stripEnd;
+        calculations = calculations.concat("\nLDA: "+thresholdDist+" - "+RESA+" - "+stripEnd+" = "+Math.max(0,LDA));
+        thresholdLabel = RESA+"(RESA)+"+stripEnd+"="+(RESA+stripEnd);
         return calculations;
     }
 
@@ -229,8 +239,8 @@ public class Runway {
     	calculations = calculations.concat("\nLanding Over: ");
     	
         int safeGroundDistance = blastAllowance;
-        if ( obstacle.RESA + stripEnd > safeGroundDistance)
-            safeGroundDistance = obstacle.RESA + stripEnd;
+        if (RESA + stripEnd > safeGroundDistance)
+            safeGroundDistance = RESA + stripEnd;
         int newLDA = originalLDA - thresholdDist - safeGroundDistance;
 
         int safeALSDistance = obstacle.height * ALSTOCSSlope + stripEnd;
@@ -240,19 +250,19 @@ public class Runway {
         if (tallObsLDA < newLDA && tallObsLDA < LDA){
         	calculations = calculations.concat("\nLDA: "+LDA+" - "+thresholdDist+" - "+obstacle.height+" x "+ALSTOCSSlope+" - "+stripEnd);
             LDA = tallObsLDA;
-            calculations = calculations.concat(" = "+LDA);
+            calculations = calculations.concat(" = "+Math.max(0,LDA));
             thresholdLabel = obstacle.height * ALSTOCSSlope+"(ALS)+"+stripEnd+"="+(obstacle.height*ALSTOCSSlope+stripEnd);
         }
         else if (newLDA < LDA){
             LDA = newLDA;
-            if ( obstacle.RESA + stripEnd > blastAllowance) {
-                calculations = calculations.concat("\nLDA: " + thresholdDist + " + " + LDA + " - " + obstacle.RESA + " - " + stripEnd);
-                thresholdLabel = obstacle.RESA + "(RESA)+" + stripEnd + "=" + (obstacle.RESA + stripEnd);
+            if (RESA + stripEnd > blastAllowance) {
+                calculations = calculations.concat("\nLDA: " + thresholdDist + " + " + LDA + " - " + RESA + " - " + stripEnd);
+                thresholdLabel =RESA + "(RESA)+" + stripEnd + "=" + (RESA + stripEnd);
             }else {
                 calculations = calculations.concat("\nLDA: " + thresholdDist + " + " + LDA + " - " + blastAllowance);
                 thresholdLabel = "Blast Allowance=" + (blastAllowance);
             }
-            calculations = calculations.concat(" = "+LDA);
+            calculations = calculations.concat(" = "+Math.max(0,LDA));
         }
         return calculations;
     }
@@ -262,7 +272,7 @@ public class Runway {
         takeoffStrategy = AvoidanceStrategy.TAKEOFFOVER;
     	calculations = calculations.concat("\nTakeoff Over: ");
 
-        int safeGroundDistance = obstacle.RESA + stripEnd;
+        int safeGroundDistance = RESA + stripEnd;
         int newTORA = thresholdDist + getThreshold() - safeGroundDistance;
 
         int safeTOCSDistance = obstacle.height * ALSTOCSSlope + stripEnd;
@@ -271,14 +281,14 @@ public class Runway {
         if (tallObsTORA < newTORA){
         	calculations = calculations.concat("\nTORA, TODA, ASDA: "+thresholdDist+" + "+(TORA-LDA)+" - "+obstacle.height+" x "+ALSTOCSSlope+" - "+stripEnd);
             TORA = ASDA = TODA = tallObsTORA;
-            calculations = calculations.concat(" = "+TORA);
-            takeoffThresholdLabel = obstacle.height * ALSTOCSSlope+"(TOCS)+"+stripEnd+"="+(obstacle.height*ALSTOCSSlope+stripEnd);
+            calculations = calculations.concat(" = "+Math.max(0,TORA));
+            takeoffThresholdLabel = obstacle.height * ALSTOCSSlope+"(TOCS)+"+stripEnd+"="+Math.max(0,obstacle.height*ALSTOCSSlope+stripEnd);
         }
         else{
-        	calculations = calculations.concat("\nTORA, TODA, ASDA: "+thresholdDist+" + "+(TORA-LDA)+" - "+obstacle.RESA+" - "+stripEnd);
+        	calculations = calculations.concat("\nTORA, TODA, ASDA: "+thresholdDist+" + "+(TORA-LDA)+" - "+RESA+" - "+stripEnd);
             TORA = ASDA = TODA = newTORA;
-            calculations = calculations.concat(" = "+TORA);
-            takeoffThresholdLabel = obstacle.RESA + "(RESA)+" + stripEnd + "=" + (obstacle.RESA + stripEnd);
+            calculations = calculations.concat(" = "+Math.max(0,TORA));
+            takeoffThresholdLabel = RESA + "(RESA)+" + stripEnd + "=" + Math.max(0,RESA + stripEnd);
         }
         return calculations;
     }
@@ -288,15 +298,15 @@ public class Runway {
         String calculations = "";
     	calculations = calculations.concat("\nTakeoff Away: ");
         calculations = calculations.concat("\nTODA: "+TODA+" - "+thresholdDist+" - "+blastAllowance+" - "+getThreshold());
-        TODA = Math.min(originalTODA - thresholdDist - blastAllowance - getThreshold(),originalTODA -obstacle.RESA + stripEnd);
-        calculations = calculations.concat(" = "+TODA);
+        TODA = Math.min(originalTODA - thresholdDist - blastAllowance - getThreshold(),originalTODA- thresholdDist -(RESA + stripEnd));
+        calculations = calculations.concat(" = "+Math.max(0,TODA));
         calculations = calculations.concat("\nASDA: "+ASDA+" - "+thresholdDist+" - "+blastAllowance+" - "+getThreshold());
-        ASDA = Math.min(originalASDA - thresholdDist - blastAllowance - getThreshold(),originalASDA -obstacle.RESA + stripEnd);
-        calculations = calculations.concat(" = "+ASDA);
+        ASDA = Math.min(originalASDA - thresholdDist - blastAllowance - getThreshold(),originalASDA- thresholdDist -(RESA + stripEnd));
+        calculations = calculations.concat(" = "+Math.max(0,ASDA));
         calculations = calculations.concat("\nTORA: "+TORA+" - "+thresholdDist+" - "+blastAllowance+" - "+getThreshold());
-        TORA = Math.min(originalTORA - thresholdDist - blastAllowance - getThreshold(),originalTORA -obstacle.RESA + stripEnd);
-        calculations = calculations.concat(" = "+TORA);
-        takeoffThresholdLabel = "Blast Allowance=" + (blastAllowance);
+        TORA = Math.min(originalTORA - thresholdDist - blastAllowance - getThreshold(),originalTORA- thresholdDist -(RESA + stripEnd));
+        calculations = calculations.concat(" = "+Math.max(0,TORA));
+        takeoffThresholdLabel = "Blast Allowance=" + Math.max(0,blastAllowance);
         return calculations;
     }
 }

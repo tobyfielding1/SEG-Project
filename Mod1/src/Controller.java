@@ -229,7 +229,7 @@ public class Controller extends Application {
 		BufferedReader br = new BufferedReader(new FileReader("obstacle1.txt"));
 		String input = br.readLine();
 		String[] values = input.split(",");
-		return new Obstacle(values[0], Integer.parseInt(values[1]), Integer.parseInt(values[2]), Integer.parseInt(values[3]), Integer.parseInt(values[4]), Integer.parseInt(values[5]));
+		return new Obstacle(values[0], Integer.parseInt(values[1]), Integer.parseInt(values[2]), Integer.parseInt(values[3]), Integer.parseInt(values[4]));
 	}
 
 	private boolean obstacleInputEmpty() throws IOException {
@@ -247,6 +247,6 @@ public class Controller extends Application {
 		int distCentreThreshold = Integer.parseInt(distCentrelineInputField.getText());
 		int obstacleHeight = Integer.parseInt(obstacleHeightInputField.getText());
 		int resa = Integer.parseInt(resaInputField.getText());
-		return new Obstacle (obstacleType, distLowerThreshold, distUpperThreshold, distCentreThreshold, obstacleHeight, resa);
+		return new Obstacle (obstacleType, distLowerThreshold, distUpperThreshold, distCentreThreshold, obstacleHeight);
 	}
 }
