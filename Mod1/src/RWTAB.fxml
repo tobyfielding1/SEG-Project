@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<HBox xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+            <children>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="540.0" prefWidth="270.0">
+                    <children>
+                        <VBox prefHeight="606.0" prefWidth="276.0">
+                            <children>
+                                <TitledPane animated="false" prefHeight="179.0" prefWidth="276.0" text="Runway Parameters" />
+                                <TitledPane animated="false" text="Obstacle Parameters">
+                                    <content>
+                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                            <children>
+                                                <Label layoutX="5.0" layoutY="5.0" text="Obstacle Type" />
+                                                <ComboBox fx:id="obstacleTypeComboBox" editable="true" layoutX="5.0" layoutY="30.0" prefWidth="120.0" promptText="Type" />
+                                                <Label layoutX="140.0" layoutY="5.0" text="Dist. Lower Threshold" />
+                                                <TextField fx:id="distLowerThreshInputField" layoutX="140.0" layoutY="30.0" prefWidth="100" />
+                                                <Label layoutX="5.0" layoutY="65.0" text="Dist. Upper Threshold" />
+                                                <TextField fx:id="distUpperThreshInputField" layoutX="5.0" layoutY="90.0" prefWidth="100" />
+                                                <Label layoutX="140.0" layoutY="65.0" text="Dist. Centreline" />
+                                                <TextField fx:id="distCentrelineInputField" layoutX="140.0" layoutY="90.0" prefWidth="100" />
+                                                <Label layoutX="5.0" layoutY="125.0" text="Obstacle Height" />
+                                                <TextField fx:id="obstacleHeightInputField" layoutX="5.0" layoutY="150.0" prefWidth="100" />
+                                            </children>
+                                        </AnchorPane>
+                                    </content>
+                                </TitledPane>
+                                <GridPane prefHeight="125.0" prefWidth="270.0" style="-fx-grid-lines-visible: true; cell-border-color: lightgrey;">
+                                    <columnConstraints>
+                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="90.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="90.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="90.0" />
+                                    </columnConstraints>
+                                    <rowConstraints>
+                                        <RowConstraints minHeight="10.0" prefHeight="25.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="10.0" prefHeight="25.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="10.0" prefHeight="25.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="10.0" prefHeight="25.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="10.0" prefHeight="25.0" vgrow="SOMETIMES" />
+                                        <RowConstraints />
+                                    </rowConstraints>
+                                    <children>
+                                        <Label text="  Attribute" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                                        <Label text="  Original" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                                        <Label text="  Recalculated" GridPane.columnIndex="2" GridPane.rowIndex="0" />
+                                        <Label text="  TORA" textAlignment="CENTER" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font></Label>
+                                        <TextField fx:id="oldToraField" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                        <TextField fx:id="newToraField" editable="false" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                                        <Label text="  TODA" textAlignment="CENTER" GridPane.columnIndex="0" GridPane.rowIndex="2">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font></Label>
+                                        <TextField fx:id="oldTodaField" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                        <TextField fx:id="newTodaField" editable="false" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                                        <Label text="  ASDA" textAlignment="CENTER" GridPane.columnIndex="0" GridPane.rowIndex="3">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font></Label>
+                                        <TextField fx:id="oldAsdaField" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                        <TextField fx:id="newAsdaField" editable="false" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                                        <Label text="  LDA" textAlignment="CENTER" GridPane.columnIndex="0" GridPane.rowIndex="4">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font></Label>
+                                        <TextField fx:id="oldLdaField" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                        <TextField fx:id="newLdaField" editable="false" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+                                    </children>
+                     <VBox.margin>
+                        <Insets left="10.0" right="10.0" top="10.0" />
+                     </VBox.margin>
+                                </GridPane>
+                                <Button defaultButton="true" mnemonicParsing="false" onAction="#submitButtonAction" text="Update Model">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets left="10.0" top="10.0" />
+                     </VBox.margin></Button>
+                                <Button mnemonicParsing="false" onAction="#drawButtonAction" text="Draw">
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin></Button>
+                            </children>
+                        </VBox>
+                    </children>
+                </AnchorPane>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="603.0" prefWidth="823.0">
+                    <children>
+                        <TabPane layoutY="-5.0" prefHeight="603.0" prefWidth="816.0" tabClosingPolicy="UNAVAILABLE">
+                            <tabs>
+                                <Tab text="Top Down">
+                                    <content>
+                                        <AnchorPane fx:id="topDownPane" minHeight="0.0" minWidth="0.0" prefHeight="522.0" prefWidth="808.0" />
+                                    </content>
+                                </Tab>
+                                <Tab text="Side-On">
+                                    <content>
+                                        <AnchorPane fx:id="sideOnPane" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                                    </content>
+                                </Tab>
+                                <Tab text="Calculations">
+                                    <content>
+                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                            <children>
+                                                <TextArea fx:id="calculationsTextArea" editable="false" prefHeight="511.0" prefWidth="630.0" />
+                                            </children>
+                                        </AnchorPane>
+                                    </content>
+                                </Tab>
+                            </tabs>
+                        </TabPane>
+                    </children>
+                </AnchorPane>
+            </children>
+        </HBox>

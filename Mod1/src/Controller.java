@@ -1,4 +1,10 @@
 import javafx.application.Application;
+import javafx.beans.binding.Bindings;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.print.PageOrientation;
@@ -8,48 +14,43 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.text.TextFlow;
+import javafx.scene.layout.VBox;
 import javafx.scene.transform.Scale;
 import javafx.scene.transform.Translate;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import javax.imageio.ImageIO;
-import javax.swing.text.Document;
-
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.BufferedReader;
-import java.io.File;	
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.FileReader;
+import java.io.File;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
 public class Controller extends Application {
 
+    Airport airport;
+
+    @FXML
+    private RunwayController rwController;
+
+    @FXML
+	public TabPane runwayTabs;
+
+    public Stage primaryStage;
+
     // Input value text fields
-    public TextField toraInputField, todaInputField, asdaInputField, ldaInputField, distLowerThreshInputField, rNameInputField;
-    public TextField distUpperThreshInputField, distCentrelineInputField, obstacleHeightInputField, resaInputField;
-
-    // Combo box of obstacle types
-    public ComboBox obstacleTypeComboBox;
-
-    // Output value text fields
-    public TextField oldToraField, newToraField, oldTodaField, newTodaField, oldAsdaField, newAsdaField, oldLdaField, newLdaField;
+    public TextField airportName;//ldaInputField;
 
     // Bottom info bar
     public TextField additionalInfoBar;
-    // Graphical and calculations display panes
-    public AnchorPane topDownPane, sideOnPane;
-    public TextArea calculationsTextArea;
 
     // For interaction between controller and GUI
     @FXML
@@ -63,12 +64,31 @@ public class Controller extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("RRTGUI.fxml"));
-        primaryStage.setTitle("Runway Redeclaration Tool");
-        primaryStage.setScene(new Scene(root));
-        primaryStage.show();
-        primaryStage.setResizable(true);
-    }
+        this.primaryStage = primaryStage;
+		Parent root = FXMLLoader.load(getClass().getResource("RRTGUI.fxml"));
+		primaryStage.setTitle("Runway Redeclaration Tool");
+		primaryStage.setScene(new Scene(root));
+		primaryStage.show();
+		primaryStage.setResizable(true);
+	}
+
+	private Tab createAndSelectNewTab(final TabPane tabPane, final String title) {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("RWTAB.fxml"));
+        RunwayController rwController = new RunwayController(airport.getRunway(title));
+        loader.setController(rwController);
+        Tab tab = new Tab(title);
+        try {
+            tab.setContent(loader.load());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+		final ObservableList<Tab> tabs = tabPane.getTabs();
+		tab.closableProperty().bind(Bindings.size(tabs).greaterThan(2));
+		tabs.add(tabs.size() - 1, tab);
+		tabPane.getSelectionModel().select(tab);
+		return tab;
+	}
 
     /*
      Close option in MenuBar -> File -> Close
@@ -108,30 +128,68 @@ public class Controller extends Application {
     }
 
     @FXML
-    protected void drawButtonAction() throws IOException {
+    protected void createAirportAction() throws IOException {
+        airport = new Airport(airportName.getText());
+        runwayTabs.getTabs().remove(0);
+        final Tab newTab = new Tab("+");
+        newTab.setClosable(false);
+        runwayTabs.getTabs().add(newTab);
 
-        // Create an airport
-        Airport airport = new Airport("Airport");
+        runwayTabs.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Tab>() {
+            @Override
+            public void changed(ObservableValue<? extends Tab> observable,
+                                Tab oldSelectedTab, Tab newSelectedTab) {
+                if (newSelectedTab == newTab) {
+                    addRunway();
+                }
+            }
+        });
 
-        // Imports runway and obstacle values from text file
-        Runway rw = getRunway();
-        airport.addRunway(rw);
-        if (!obstacleInputEmpty()) {
-            airport.addObstacle(rw.getName(), getObstacle());
-        }
-
-        // Displays runway
-        displayValues(rw);
-        displayCalculations(rw);
-        Display screen = new Display(topDownPane, sideOnPane);
-        screen.setAlwaysShowLegend(viewAlwaysShowLegend.isSelected());
-        screen.clearPanes();
-        screen.drawRunway(rw);
-        additionalInfoBar.setText("Input successful");
-        saveCalculations(calculationsTextArea, "calc", ".png");
+        addRunway();
     }
 
-    protected void saveToPicture(Node pan, String fileName, String extension) {
+    public void addRunway(){
+        final Stage dialog = new Stage();
+        dialog.initModality(Modality.APPLICATION_MODAL);
+        dialog.initOwner(primaryStage);
+        VBox dialogVbox = new VBox(20);
+        dialogVbox.getChildren().add(new Label("Please enter the details of your runway:"));
+
+        TextField toraInputField= new TextField();
+        TextField todaInputField= new TextField();
+        TextField asdaInputField= new TextField();
+        TextField ldaInputField= new TextField();
+        TextField rNameInputField= new TextField();
+        Button create = new Button("Create Runway");
+
+        toraInputField.setPromptText("TORA(m)");
+        todaInputField.setPromptText("TODA(m)");
+        asdaInputField.setPromptText("ASDA(m)");
+        ldaInputField.setPromptText("LDA(m)");
+        rNameInputField.setPromptText("Runway ID (ie.'09L')");
+
+        create.setOnAction(new EventHandler<ActionEvent>() {
+            @Override public void handle(ActionEvent e) {
+                String name = rNameInputField.getText();
+                int tora = Integer.parseInt(toraInputField.getText());
+                int toda = Integer.parseInt(todaInputField.getText());
+                int asda = Integer.parseInt(asdaInputField.getText());
+                int lda = Integer.parseInt(ldaInputField.getText());
+                dialog.close();
+                airport.addRunway(new Runway(name, tora, toda, asda, lda));
+                createAndSelectNewTab(runwayTabs, rNameInputField.getText());
+            }
+        });
+
+        dialogVbox.getChildren().addAll(rNameInputField,toraInputField, todaInputField, asdaInputField, ldaInputField,create);
+        Scene dialogScene = new Scene(dialogVbox);
+        dialog.setScene(dialogScene);
+        dialog.show();
+    }
+
+
+
+    protected void saveToFile(Node pan, String fileName, String extension) {
         BufferedImage bi = new BufferedImage(511, 640, BufferedImage.TYPE_INT_RGB);
         BufferedImage image = javafx.embed.swing.SwingFXUtils.fromFXImage(pan.snapshot(new SnapshotParameters(), null), bi);
         Graphics2D gd = (Graphics2D) image.getGraphics();
@@ -143,65 +201,7 @@ public class Controller extends Application {
             e.printStackTrace();
         }
     }
-    
-    protected void saveCalculations(TextArea area, String fileName, String extension){
-    	int y=15;
-    	BufferedImage finImage = new BufferedImage(511,300, BufferedImage.TYPE_INT_RGB);
-    	Graphics2D g2 = finImage.createGraphics();
-        g2.setPaint(Color.WHITE);
-        g2.fillRect(0, 0, 511, 300);
-        g2.setPaint(Color.BLACK);
-        for (String line : calculationsTextArea.getText().split("\n")){
-        	g2.drawString(line, 0,y);
-        	y+=20;
-    	}
-        File file = new File(fileName + extension);
-        try {
-            ImageIO.write(finImage, extension.substring(1), file);
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-    }
-    protected void combineImages (Node pan1,Node pan2,String filename,String extension){
-    	BufferedImage bi = new BufferedImage(511, 640, BufferedImage.TYPE_INT_RGB);
-        BufferedImage bf1 = javafx.embed.swing.SwingFXUtils.fromFXImage(pan1.snapshot(new SnapshotParameters(), null), bi);
-        int y=bf1.getHeight();
-        BufferedImage bf2 = javafx.embed.swing.SwingFXUtils.fromFXImage(pan2.snapshot(new SnapshotParameters(), null), bi);
-    	int width = bf1.getWidth()+bf2.getWidth();
-        int height = Math.max(bf1.getHeight(),bf2.getHeight()) + bf1.getHeight();
-        BufferedImage finImage = new BufferedImage(width,height, BufferedImage.TYPE_INT_RGB);
-        Graphics2D g2 = finImage.createGraphics();
-        g2.setPaint(Color.WHITE);
-        g2.fillRect(0, 0, width, height);
-        g2.setPaint(Color.BLACK);
-        g2.drawString("TOP-DOWN VIEW", bf1.getWidth()/2,20);
-        g2.drawImage(bf1, null, 0, 40);
-        g2.drawString("SIDE-ON VIEW", bf1.getWidth()+2 + (bf2.getWidth()/2),20);
-        g2.drawString("CALCULATIONS VIEW", 0,bf1.getHeight());
-        g2.drawImage(bf2, null, bf1.getWidth()+2, 40);
-        for (String line : calculationsTextArea.getText().split("\n")){
-        	y+=20;
-        	g2.drawString(line, 0,y);
-    	}
-        File file = new File(filename + extension);
-        try {
-            ImageIO.write(finImage, extension.substring(1), file);
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        
-    }
-    protected void caltoTextFile(String name) {
-    	try(  PrintWriter toFile = new PrintWriter( name+".txt" )  ){
-    	    toFile.println( calculationsTextArea.getText());
-    	} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-        
+
     protected void printToPrinter(Node pan) {
         PrinterJob job = PrinterJob.createPrinterJob();
         if (job != null) {
@@ -222,95 +222,4 @@ public class Controller extends Application {
         }
     }
 
-    /*
-     Gets values from input text fields and draws runway
-     */
-    @FXML
-    protected void submitButtonAction() {
-
-        // Create an airport
-        Airport airport = new Airport("Airport");
-
-        // Imports runway and obstacle values from text fields
-        Runway rw = getRunwayTextFields();
-        airport.addRunway(rw);
-        airport.addObstacle(rw.getName(), getObstacleTextFields());
-
-        // Displays runway
-        displayValues(rw);
-        displayCalculations(rw);
-        Display screen = new Display(topDownPane, sideOnPane);
-        screen.setAlwaysShowLegend(viewAlwaysShowLegend.isSelected());
-        screen.clearPanes();
-        screen.drawRunway(rw);
-    }
-
-    /*
-     Updates textboxes with runway values
-     */
-    private void displayValues(Runway r) {
-        oldToraField.setText(Integer.toString(r.getOriginalTORA()));
-        oldTodaField.setText((Integer.toString(r.getOriginalTODA())));
-        oldAsdaField.setText(Integer.toString(r.getOriginalASDA()));
-        oldLdaField.setText(Integer.toString(r.getOriginalLDA()));
-        newToraField.setText(Integer.toString(r.getTORA()));
-        newTodaField.setText((Integer.toString(r.getTODA())));
-        newAsdaField.setText(Integer.toString(r.getASDA()));
-        newLdaField.setText(Integer.toString(r.getLDA()));
-    }
-
-    /*
-     Updates calculations text box
-     */
-    private void displayCalculations(Runway r) {
-    	calculationsTextArea.setStyle("-fx-font-family: monospace");
-        calculationsTextArea.setText(r.getCalculations());
-    }
-
-    /*
-     Displays chosen runway in runway panes
-     */
-    private Runway getRunway() throws IOException {
-        BufferedReader br = new BufferedReader(new FileReader("runway1.txt"));
-        String input = br.readLine();
-        String[] values = input.split(",");
-        return new Runway(values[0], Integer.parseInt(values[1]), Integer.parseInt(values[2]), Integer.parseInt(values[3]), Integer.parseInt(values[4]));
-    }
-
-    /*
-     Gets Runway from text fields
-     */
-    private Runway getRunwayTextFields() {
-        String name = rNameInputField.getText();
-        int tora = Integer.parseInt(toraInputField.getText());
-        int toda = Integer.parseInt(todaInputField.getText());
-        int asda = Integer.parseInt(asdaInputField.getText());
-        int lda = Integer.parseInt(ldaInputField.getText());
-        return new Runway(name, tora, toda, asda, lda);
-    }
-
-    private Obstacle getObstacle() throws IOException {
-        BufferedReader br = new BufferedReader(new FileReader("obstacle1.txt"));
-        String input = br.readLine();
-        String[] values = input.split(",");
-        return new Obstacle(values[0], Integer.parseInt(values[1]), Integer.parseInt(values[2]), Integer.parseInt(values[3]), Integer.parseInt(values[4]));
-    }
-
-    private boolean obstacleInputEmpty() throws IOException {
-        BufferedReader br = new BufferedReader(new FileReader("obstacle1.txt"));
-        return br.readLine() == null;
-    }
-
-    /*
-     Gets obstacle from text fields
-     */
-    private Obstacle getObstacleTextFields() {
-        String obstacleType = (String) obstacleTypeComboBox.getValue();
-        int distLowerThreshold = Integer.parseInt(distLowerThreshInputField.getText());
-        int distUpperThreshold = Integer.parseInt(distUpperThreshInputField.getText());
-        int distCentreThreshold = Integer.parseInt(distCentrelineInputField.getText());
-        int obstacleHeight = Integer.parseInt(obstacleHeightInputField.getText());
-        int resa = Integer.parseInt(resaInputField.getText());
-        return new Obstacle(obstacleType, distLowerThreshold, distUpperThreshold, distCentreThreshold, obstacleHeight);
-    }
 }

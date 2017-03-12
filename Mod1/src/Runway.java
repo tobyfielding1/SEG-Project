@@ -160,7 +160,7 @@ public class Runway {
         this.obstacle = obstacle;
 
         //returns false if obstacle is far away enough not to redeclare
-        if (obstacle.centerlineDist > 75) {
+        if (obstacle == null || obstacle.centerlineDist > 75) {
             takeoffStrategy = null;
             landingStrategy = null;
             return false;

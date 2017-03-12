@@ -1,5 +1,4 @@
 import java.util.HashMap;
-import java.util.Scanner;
 import java.util.Set;
 
 /**
@@ -30,9 +29,5 @@ public class Airport {
 
     public Runway getRunway(String name){
         return runways.get(name);
-    }
-
-    public void addObstacle(String runwayName, Obstacle obstacle){
-        runways.get(runwayName).setObstacle(obstacle);
     }
 }
