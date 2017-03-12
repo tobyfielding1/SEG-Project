@@ -12,17 +12,23 @@ import javafx.scene.control.MenuBar;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.text.TextFlow;
 import javafx.scene.transform.Scale;
 import javafx.scene.transform.Translate;
 import javafx.stage.Stage;
 
 import javax.imageio.ImageIO;
+import javax.swing.text.Document;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
-import java.io.File;
+import java.io.File;	
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -41,7 +47,6 @@ public class Controller extends Application {
 
     // Bottom info bar
     public TextField additionalInfoBar;
-
     // Graphical and calculations display panes
     public AnchorPane topDownPane, sideOnPane;
     public TextArea calculationsTextArea;
@@ -123,9 +128,10 @@ public class Controller extends Application {
         screen.clearPanes();
         screen.drawRunway(rw);
         additionalInfoBar.setText("Input successful");
+        saveCalculations(calculationsTextArea, "calc", ".png");
     }
 
-    protected void saveToFile(Node pan, String fileName, String extension) {
+    protected void saveToPicture(Node pan, String fileName, String extension) {
         BufferedImage bi = new BufferedImage(511, 640, BufferedImage.TYPE_INT_RGB);
         BufferedImage image = javafx.embed.swing.SwingFXUtils.fromFXImage(pan.snapshot(new SnapshotParameters(), null), bi);
         Graphics2D gd = (Graphics2D) image.getGraphics();
@@ -137,7 +143,65 @@ public class Controller extends Application {
             e.printStackTrace();
         }
     }
-
+    
+    protected void saveCalculations(TextArea area, String fileName, String extension){
+    	int y=15;
+    	BufferedImage finImage = new BufferedImage(511,300, BufferedImage.TYPE_INT_RGB);
+    	Graphics2D g2 = finImage.createGraphics();
+        g2.setPaint(Color.WHITE);
+        g2.fillRect(0, 0, 511, 300);
+        g2.setPaint(Color.BLACK);
+        for (String line : calculationsTextArea.getText().split("\n")){
+        	g2.drawString(line, 0,y);
+        	y+=20;
+    	}
+        File file = new File(fileName + extension);
+        try {
+            ImageIO.write(finImage, extension.substring(1), file);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+    protected void combineImages (Node pan1,Node pan2,String filename,String extension){
+    	BufferedImage bi = new BufferedImage(511, 640, BufferedImage.TYPE_INT_RGB);
+        BufferedImage bf1 = javafx.embed.swing.SwingFXUtils.fromFXImage(pan1.snapshot(new SnapshotParameters(), null), bi);
+        int y=bf1.getHeight();
+        BufferedImage bf2 = javafx.embed.swing.SwingFXUtils.fromFXImage(pan2.snapshot(new SnapshotParameters(), null), bi);
+    	int width = bf1.getWidth()+bf2.getWidth();
+        int height = Math.max(bf1.getHeight(),bf2.getHeight()) + bf1.getHeight();
+        BufferedImage finImage = new BufferedImage(width,height, BufferedImage.TYPE_INT_RGB);
+        Graphics2D g2 = finImage.createGraphics();
+        g2.setPaint(Color.WHITE);
+        g2.fillRect(0, 0, width, height);
+        g2.setPaint(Color.BLACK);
+        g2.drawString("TOP-DOWN VIEW", bf1.getWidth()/2,20);
+        g2.drawImage(bf1, null, 0, 40);
+        g2.drawString("SIDE-ON VIEW", bf1.getWidth()+2 + (bf2.getWidth()/2),20);
+        g2.drawString("CALCULATIONS VIEW", 0,bf1.getHeight());
+        g2.drawImage(bf2, null, bf1.getWidth()+2, 40);
+        for (String line : calculationsTextArea.getText().split("\n")){
+        	y+=20;
+        	g2.drawString(line, 0,y);
+    	}
+        File file = new File(filename + extension);
+        try {
+            ImageIO.write(finImage, extension.substring(1), file);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        
+    }
+    protected void caltoTextFile(String name) {
+    	try(  PrintWriter toFile = new PrintWriter( name+".txt" )  ){
+    	    toFile.println( calculationsTextArea.getText());
+    	} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+        
     protected void printToPrinter(Node pan) {
         PrinterJob job = PrinterJob.createPrinterJob();
         if (job != null) {
@@ -199,6 +263,7 @@ public class Controller extends Application {
      Updates calculations text box
      */
     private void displayCalculations(Runway r) {
+    	calculationsTextArea.setStyle("-fx-font-family: monospace");
         calculationsTextArea.setText(r.getCalculations());
     }
 

@@ -26,7 +26,8 @@ public class Runway {
     private String takeoffThresholdLabel;
 
     private String calculations;
-
+    private String obstacleStr;
+    private String befaf;
     public int getOriginalTORA() {
         return originalTORA;
     }
@@ -173,7 +174,7 @@ public class Runway {
         }else if (obstacle.dist2ndThresh + getThreshold() < -60 || obstacle.dist1stThresh < -60)
         	return false;
         */
-        calculations = "Runway: " + this.name;
+        calculations = "Runway: " + this.name +"\n";
         String wkngCalculations;
         int dist;
         int best;
@@ -183,7 +184,12 @@ public class Runway {
             dist = obstacle.dist1stThresh;
         else
             dist = obstacle.dist2ndThresh;
-
+        if (dist < 0){
+        	befaf = "before";
+        }else{
+        	befaf ="after";
+        }
+        obstacleStr = "\nObstacle Parameters: " + obstacle.height +"m tall, " + Math.abs(dist) + "m " + befaf + " the " + this.name + " threshold, " + obstacle.centerlineDist + "m from the centreline";  
         takeoffOver(dist);
         best = TORA;
         takeoffStrategy = AvoidanceStrategy.TAKEOFFAWAY;
@@ -192,6 +198,7 @@ public class Runway {
             takeoffStrategy = AvoidanceStrategy.TAKEOFFOVER;
             wkngCalculations = takeoffOver(dist);
         }
+        calculations += obstacleStr;
         calculations += wkngCalculations;
 
         landingToward(dist);
@@ -229,7 +236,7 @@ public class Runway {
     private String landingToward(int thresholdDist) {
         String calculations = "";
         landingStrategy = AvoidanceStrategy.LANDINGTOWARD;
-        calculations = calculations.concat("\nLanding Toward: ");
+        calculations = calculations.concat("\n \nLanding Toward: ");
         LDA = thresholdDist - RESA - stripEnd;
         calculations = calculations.concat("\nLDA: " + thresholdDist + " - " + RESA + " - " + stripEnd + " = " + Math.max(0, LDA));
         thresholdLabel = RESA + "(RESA)+" + stripEnd + "=" + (RESA + stripEnd);
@@ -239,7 +246,7 @@ public class Runway {
     private String landingOver(int thresholdDist) {
         String calculations = "";
         landingStrategy = AvoidanceStrategy.LANDINGOVER;
-        calculations = calculations.concat("\nLanding Over: ");
+        calculations = calculations.concat("\n \nLanding Over: ");
 
         int safeGroundDistance = blastAllowance;
         if (RESA + stripEnd > safeGroundDistance)
@@ -272,7 +279,7 @@ public class Runway {
     private String takeoffOver(int thresholdDist) {
         String calculations = "";
         takeoffStrategy = AvoidanceStrategy.TAKEOFFOVER;
-        calculations = calculations.concat("\nTakeoff Over: ");
+        calculations = calculations.concat("\n \nTakeoff Over: ");
 
         int safeGroundDistance = RESA + stripEnd;
         int newTORA = thresholdDist + getThreshold() - safeGroundDistance;
@@ -297,7 +304,7 @@ public class Runway {
     private String takeoffAway(int thresholdDist) {
         takeoffStrategy = AvoidanceStrategy.TAKEOFFAWAY;
         String calculations = "";
-        calculations = calculations.concat("\nTakeoff Away: ");
+        calculations = calculations.concat("\n \nTakeoff Away: ");
         calculations = calculations.concat("\nTODA: " + TODA + " - " + thresholdDist + " - " + blastAllowance + " - " + getThreshold());
         TODA = Math.min(originalTODA - thresholdDist - blastAllowance - getThreshold(), originalTODA - thresholdDist - (RESA + stripEnd));
         calculations = calculations.concat(" = " + Math.max(0, TODA));
