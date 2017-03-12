@@ -2,6 +2,7 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="647.0" prefWidth="1078.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller">
     <children>
         <MenuBar fx:id="menu" prefHeight="25.0" prefWidth="900.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
@@ -13,7 +14,7 @@
                 </Menu>
                 <Menu mnemonicParsing="false" text="View">
                     <items>
-                        <CheckMenuItem fx:id="viewAlwaysShowLegend" mnemonicParsing="false" text="Always show legend" />
+                        <CheckMenuItem fx:id="viewAlwaysShowLegend" mnemonicParsing="false" selected="true" text="Always show legend" />
                     </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Help">

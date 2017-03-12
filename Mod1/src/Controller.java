@@ -125,7 +125,7 @@ public class Controller extends Application {
 		displayValues(rw);
 		displayCalculations(rw);
 		Display screen = new Display(topDownPane, sideOnPane);
-		//screen.setAlwaysShowLegend(viewAlwaysShowLegend.isSelected());
+		screen.setAlwaysShowLegend(viewAlwaysShowLegend.isSelected());
 		screen.clearPanes();
 		screen.drawRunway(rw);
 		additionalInfoBar.setText("Input successful");
@@ -181,7 +181,7 @@ public class Controller extends Application {
 		displayValues(rw);
 		displayCalculations(rw);
 		Display screen = new Display(topDownPane, sideOnPane);
-		//screen.setAlwaysShowLegend(viewAlwaysShowLegend.isSelected());
+		screen.setAlwaysShowLegend(viewAlwaysShowLegend.isSelected());
 		screen.clearPanes();
 		screen.drawRunway(rw);
 	}
@@ -190,10 +190,14 @@ public class Controller extends Application {
      Updates textboxes with runway values
 	 */
 	private void displayValues(Runway r) {
-		newToraField.setText(Integer.toString(r.getTORA()));
-		newTodaField.setText((Integer.toString(r.getTODA())));
-		newAsdaField.setText(Integer.toString(r.getASDA()));
-		newLdaField.setText(Integer.toString(r.getLDA()));
+		oldToraField.setText(Integer.toString(r.getOriginalTORA()));
+		oldTodaField.setText((Integer.toString(r.getOriginalTODA())));
+		oldAsdaField.setText(Integer.toString(r.getOriginalASDA()));
+		oldLdaField.setText(Integer.toString(r.getOriginalLDA()));
+        newToraField.setText(Integer.toString(r.getTORA()));
+        newTodaField.setText((Integer.toString(r.getTODA())));
+        newAsdaField.setText(Integer.toString(r.getASDA()));
+        newLdaField.setText(Integer.toString(r.getLDA()));
 	}
 
 	/*

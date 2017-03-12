@@ -34,6 +34,8 @@ public class Display {
     double scaleDir;
     int xi;
 
+    private boolean alwaysShowLegend;
+
     public Display(Pane td, Pane so) {
         this.topDownPane = td;
         this.sideOnPane = so;
@@ -391,13 +393,25 @@ public class Display {
 
 
     public void displayLegend() {
-        addLegendItem(clearwayColor,"Clearway",60,true);
-        addLegendItem(stopwayColor,"Stopway",80,true);
-        addLegendItem(obstacleColor,"Obstacle",100,true);
-        addLegendItem(slopeColor,"Slope",120,false);
-        
-        
-     }
+        int currentY = 60;
+
+        if (rw.getClearway() > 0 || alwaysShowLegend) {
+            addLegendItem(clearwayColor, "Clearway", currentY, true);
+            currentY += 20;
+        }
+
+        if (rw.getStopway() > 0 || alwaysShowLegend) {
+            addLegendItem(stopwayColor, "Stopway", currentY, true);
+            currentY += 20;
+        }
+
+        if (rw.getObstacle() != null || alwaysShowLegend) {
+            addLegendItem(obstacleColor, "Obstacle", currentY, true);
+            currentY += 20;
+        }
+
+        addLegendItem(slopeColor, "Slope", currentY, false);
+    }
 
     public void addLegendItem(Paint color, String name, int y, boolean bothPanels) {
     	Rectangle r1 = new Rectangle(50, y, 10, 10);
@@ -414,6 +428,10 @@ public class Display {
 
         if (bothPanels) topDownPane.getChildren().addAll(r1, t1);
         sideOnPane.getChildren().addAll(r2, t2);
+    }
+
+    public void setAlwaysShowLegend(boolean alwaysShowLegend) {
+        this.alwaysShowLegend = alwaysShowLegend;
     }
     
     public void clearPanes() {
