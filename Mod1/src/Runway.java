@@ -255,7 +255,7 @@ public class Runway {
         }
         else if (newLDA < LDA){
             LDA = newLDA;
-            if (RESA + stripEnd > blastAllowance) {
+            if (RESA + stripEnd >= blastAllowance) {
                 calculations = calculations.concat("\nLDA: " + thresholdDist + " + " + LDA + " - " + RESA + " - " + stripEnd);
                 thresholdLabel =RESA + "(RESA)+" + stripEnd + "=" + (RESA + stripEnd);
             }else {
