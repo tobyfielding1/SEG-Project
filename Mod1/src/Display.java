@@ -1,10 +1,13 @@
 
 
+import java.util.ArrayList;
+
 import javafx.scene.Group;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Line;
+import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -18,7 +21,7 @@ public class Display {
     final Paint stopwayColor = new Color(0.3, 0.3, 1, 0.98);
     final Paint obstacleColor = Color.RED;
     final Paint slopeColor = Color.TURQUOISE;
-    
+    final Paint areaColor = Color.LIGHTGRAY;
     
     final double arrowThickness = 0.8;
     int runwayPixelWidth;
@@ -58,6 +61,7 @@ public class Display {
 
         setValues();
 
+        drawArea(rw);
         drawRunway(runwayPixelWidth = 30);
 
         drawThreshold();
@@ -567,5 +571,85 @@ public class Display {
         }
 
         drawDistance(end1, end2, -30, rw.getThresholdLabel(), Color.RED);
+    }
+
+    public Polygon makeArea(double x1, double x2, double x3, double x4, double x5, double x6, double y1, double y2) {
+    	Polygon area = new Polygon();
+    	ArrayList<Double> points = new ArrayList<Double>();
+    	
+    	points.add(x1);
+    	points.add(centreLine-y1/2);
+    	
+    	points.add(x2);
+    	points.add(centreLine-y1/2);
+
+    	points.add(x3);
+    	points.add(centreLine-y2/2);
+    	
+    	points.add(x4);
+    	points.add(centreLine-y2/2);
+    	
+    	points.add(x5);
+    	points.add(centreLine-y1/2);
+    	
+    	points.add(x6);
+    	points.add(centreLine-y1/2);
+    	
+    	
+   
+    	points.add(x6);
+    	points.add(centreLine+y1/2);
+    	
+    	points.add(x5);
+    	points.add(centreLine+y1/2);
+    	
+    	points.add(x4);
+    	points.add(centreLine+y2/2);
+
+    	points.add(x3);
+    	points.add(centreLine+y2/2);
+    	
+    	points.add(x2);
+    	points.add(centreLine+y1/2);
+
+    	points.add(x1);
+    	points.add(centreLine+y1/2);
+    	
+    	
+    	
+    	
+    	
+    	
+    	
+    	
+    	area.getPoints().addAll(points);
+    
+    	area.setFill(areaColor);
+    	area.setStroke(Color.BLACK);
+    	area.setStrokeWidth(0.1);
+    	
+    	return area;
+    }
+    
+    public void drawArea(Runway r) {
+    	//two ways this method can be used:
+    	
+    	// 1. Input lengths of segments here:
+    	double startX = 10; // (left) starting point of clear and grated area
+    	double length1 = 100; // length of first segment
+    	double length2 = 20; // length of second segment
+    	double length3 = 400; // length of third segment
+    	double length4 = 20; // length of fourth segment
+    	double length5 = 100; // length of fifth segment
+    	
+    	//then widths:
+    	double width1 = 50; // small width
+    	double width2 = 100; // large width
+    	
+    	
+    	
+    	// 2. Input X coordinates of each segment beggining/end (first 6 values) and then the widths
+    	Polygon area = makeArea(startX,startX+length1,startX+length1+length2,startX+length1+length2+length3,startX+length1+length2+length3+length4,startX+length1+length2+length3+length4+length5,width1,width2);
+    	topDownPane.getChildren().add(area);
     }
 }
