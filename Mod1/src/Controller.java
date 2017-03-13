@@ -28,6 +28,7 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.regex.Pattern;
 
 public class Controller extends Application {
 
@@ -80,7 +81,7 @@ public class Controller extends Application {
 
 	private void createAndSelectNewTab(final TabPane tabPane, final String title) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("RWTAB.fxml"));
-        rwController = new RunwayController(airport.getRunway(title));
+        rwController = new RunwayController(airport.getRunway(title), this);
         loader.setController(rwController);
         rwController.setAlwaysShowLegend(viewAlwaysShowLegend.isSelected());
         Tab tab = new Tab(title);
@@ -173,20 +174,51 @@ public class Controller extends Application {
     //creates new runway
     @FXML
     protected void createAction(){
-        String name = rNameInputField.getText();
-        int tora = Integer.parseInt(toraInputField.getText());
-        int toda = Integer.parseInt(todaInputField.getText());
-        int asda = Integer.parseInt(asdaInputField.getText());
-        int lda = Integer.parseInt(ldaInputField.getText());
-        airport.addRunway(new Runway(name, tora, toda, asda, lda));
-        createAndSelectNewTab(runwayTabs, rNameInputField.getText());
-        rNameInputField.clear();
-        toraInputField.clear();
-        asdaInputField.clear();
-        ldaInputField.clear();
-        todaInputField.clear();
+        try {
+            String name = rNameInputField.getText();
+            int tora = Integer.parseInt(toraInputField.getText());
+            int toda = Integer.parseInt(todaInputField.getText());
+            int asda = Integer.parseInt(asdaInputField.getText());
+            int lda = Integer.parseInt(ldaInputField.getText());
 
-        additionalInfoBar.setText("Runway added successfully");
+            if (!Pattern.matches("^(0[1-9]|[1-2][0-9]|3[0-6])[ORL]?$", name)) {
+                throw new Exception("Invalid runway designator: name must be in the form of a number between 01 and 36, possibly followed by a L, R or M");
+            }
+
+            if (tora < 720) {
+                throw new Exception("Invalid TORA value: must be at least 720.");
+            }
+
+            if (toda < tora) {
+                throw new Exception("Invalid TODA value: must be at least as big as TORA (" + tora + ").");
+            }
+
+            if (asda < tora) {
+                throw new Exception("Invalid ASDA value: must be at least as big as TORA (" + tora + ").");
+            }
+
+            if (asda > toda) {
+                throw new Exception("Invalid ASDA value: must be at most as big as TODA (" + toda + ").");
+            }
+
+            if (lda > tora) {
+                throw new Exception("Invalid LDA value: must be at most as big as TORA (" + tora + ").");
+            }
+
+            airport.addRunway(new Runway(name, tora, toda, asda, lda));
+            createAndSelectNewTab(runwayTabs, rNameInputField.getText());
+            rNameInputField.clear();
+            toraInputField.clear();
+            asdaInputField.clear();
+            ldaInputField.clear();
+            todaInputField.clear();
+
+            additionalInfoBar.setText("Runway added successfully");
+        } catch (NumberFormatException e) {
+            additionalInfoBar.setText("Invalid runway value: look for non-number characters in the TORA, TODA, ASDA, and LDA fields.");
+        } catch (Exception e) {
+            additionalInfoBar.setText(e.getMessage());
+        }
     }
 
 
@@ -221,9 +253,5 @@ public class Controller extends Application {
                 pan.getTransforms().clear();
             }
         }
-    }
-
-    public void setAdditionalText(String text) {
-        additionalInfoBar.setText(text);
     }
 }

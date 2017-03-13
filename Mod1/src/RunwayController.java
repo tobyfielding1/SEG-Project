@@ -21,6 +21,7 @@ import java.io.IOException;
 
 public class RunwayController extends Application {
 
+    private final Controller parent;
     private Runway rw;
 
     private boolean initialized = false;
@@ -46,8 +47,9 @@ public class RunwayController extends Application {
 
     private boolean alwaysShowLegend;
 
-    public RunwayController(Runway rw) {
+    public RunwayController(Runway rw, Controller parent) {
         this.rw = rw;
+        this.parent = parent;
     }
 
     @FXML
@@ -92,16 +94,23 @@ public class RunwayController extends Application {
     @FXML
     protected void submitButtonAction() {
 
-        rw.setObstacle(getObstacleTextFields());
+        try {
+            if (initialized) {
+                rw.setObstacle(getObstacleTextFields());
+            }
 
-        // Displays runway
-        displayValues();
-        displayCalculations(rw);
-        Display screen = new Display(topDownPane, sideOnPane);
-        ////////////screen.setAlwaysShowLegend(viewAlwaysShowLegend.isSelected());
-        screen.clearPanes();
-        screen.drawRunway(rw);
-        displayLegend();
+            // Displays runway
+            displayValues();
+            displayCalculations(rw);
+            Display screen = new Display(topDownPane, sideOnPane);
+            screen.clearPanes();
+            screen.drawRunway(rw);
+            displayLegend();
+        } catch (NumberFormatException e) {
+            parent.additionalInfoBar.setText("Invalid runway value: look for non-number characters in the Dist. Lower Threshold, Dist. Upper Threshold, Obstacle Height, and Dist. Centreline fields.");
+        } catch (Exception e) {
+            parent.additionalInfoBar.setText(e.getMessage());
+        }
     }
 
 
@@ -197,17 +206,42 @@ public class RunwayController extends Application {
 
     //Gets obstacle from text fields
 
-    private Obstacle getObstacleTextFields() {
-        try {
-            String obstacleType = (String) obstacleTypeComboBox.getValue();
-            int distLowerThreshold = Integer.parseInt(distLowerThreshInputField.getText());
-            int distUpperThreshold = Integer.parseInt(distUpperThreshInputField.getText());
-            int distCentreThreshold = Integer.parseInt(distCentrelineInputField.getText());
-            int obstacleHeight = Integer.parseInt(obstacleHeightInputField.getText());
-            return new Obstacle(obstacleType, distLowerThreshold, distUpperThreshold, distCentreThreshold, obstacleHeight);
-        }catch (Exception e){
-            return null;
+    private Obstacle getObstacleTextFields() throws Exception{
+        String obstacleType = (String) obstacleTypeComboBox.getValue();
+        int distLowerThreshold = Integer.parseInt(distLowerThreshInputField.getText());
+        int distUpperThreshold = Integer.parseInt(distUpperThreshInputField.getText());
+        int distCentreThreshold = Integer.parseInt(distCentrelineInputField.getText());
+        int obstacleHeight = Integer.parseInt(obstacleHeightInputField.getText());
+
+        if (distLowerThreshold < -rw.getOriginalTORA()) {
+            throw new Exception("Obstacle's distance from the lower threshold is too low (minimum: " + -rw.getOriginalTORA() + ").");
         }
+
+        if (distLowerThreshold > 2 * rw.getOriginalTORA()) {
+            throw new Exception("Obstacle's distance from the lower threshold is too high (maximum: " + 2 * rw.getOriginalTORA() + ").");
+        }
+
+        if (distUpperThreshold < -2 * rw.getOriginalTORA()) {
+            throw new Exception("Obstacle's distance from the upper threshold is too low (minimum: " + -2 * rw.getOriginalTORA() + ").");
+        }
+
+        if (distUpperThreshold > rw.getOriginalTORA()) {
+            throw new Exception("Obstacle's distance from the upper threshold is too high (maximum: " + rw.getOriginalTORA() + ").");
+        }
+
+        if (distCentreThreshold < -150) {
+            throw new Exception("Obstacle's distance from the centreline is too low (minimum: " + -150 + ").");
+        }
+
+        if (distCentreThreshold > 150) {
+            throw new Exception("Obstacle's distance from the centreline is too high (maximum: " + 150 + ").");
+        }
+
+        if (obstacleHeight > 80) {
+            throw new Exception("Obstacle too high (maximum: " + 80 + ").");
+        }
+
+        return new Obstacle(obstacleType, distLowerThreshold, distUpperThreshold, distCentreThreshold, obstacleHeight);
     }
 
     public void print() {
