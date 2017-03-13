@@ -1,0 +1,9 @@
+Runway des: ##A (01 <= ## <= 36)
+TORA: >720
+TODA: >= TORA
+ASDA: TORA <= ASDA <= TODA
+LDA: <= TORA
+Dist. lower: -TORA <= DL <= 2TORA
+Dist. upper: -2TORA <= UL <= TORA
+Obst. height: <= 80
+Dist. centreline: -150 <= DC <= 150
