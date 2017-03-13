@@ -12,6 +12,7 @@ import javafx.scene.Scene;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
@@ -25,7 +26,10 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.Optional;
 import java.util.regex.Pattern;
+
+import static javafx.scene.control.Alert.AlertType;
 
 public class Controller extends Application {
 
@@ -85,6 +89,34 @@ public class Controller extends Application {
             e.printStackTrace();
         }
 
+        tab.setOnCloseRequest(new EventHandler<javafx.event.Event>()
+        {
+            @Override
+            public void handle(javafx.event.Event event)
+            {
+                Alert alert = new Alert(AlertType.CONFIRMATION);
+                alert.setTitle("Close Runway");
+                alert.setHeaderText("You have chosen to close a Runway");
+                alert.setContentText("Would you like to remove it from view or completely remove it from your Airport?");
+
+                ButtonType buttonTypeOne = new ButtonType("Remove from View");
+                ButtonType buttonTypeTwo = new ButtonType("Delete from Airport");
+                ButtonType buttonTypeCancel = new ButtonType("Cancel", ButtonData.CANCEL_CLOSE);
+
+                alert.getButtonTypes().setAll(buttonTypeOne, buttonTypeTwo,buttonTypeCancel);
+
+                Optional<ButtonType> result = alert.showAndWait();
+                if (result.get() == buttonTypeOne){
+                    tabPane.getTabs().remove(tab);
+                } else if (result.get() == buttonTypeTwo) {
+                    tabPane.getTabs().remove(tab);
+                    airport.removeRunway(tab.getText());
+                }else{
+                    event.consume();
+                }
+            }
+        });
+
         filePrintMenu.addEventHandler(ActionEvent.ACTION,
                 new EventHandler<ActionEvent>() {
                     @Override
@@ -117,7 +149,7 @@ public class Controller extends Application {
      */
     @FXML
     protected void helpViewHelpAction() throws IOException {
-        Alert readme = new Alert(Alert.AlertType.INFORMATION);
+        Alert readme = new Alert(AlertType.INFORMATION);
         readme.setResizable(true);
         readme.setTitle("Help");
         readme.setHeaderText(null);
@@ -211,8 +243,18 @@ public class Controller extends Application {
             additionalInfoBar.setText("Runway added successfully");
         } catch (NumberFormatException e) {
             additionalInfoBar.setText("Invalid runway value: look for non-number characters in the TORA, TODA, ASDA, and LDA fields.");
+            Alert alert = new Alert(AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("There was a problem with your input");
+            alert.setContentText("Invalid runway value: look for non-number characters in the TORA, TODA, ASDA, and LDA fields.");
+            alert.showAndWait();
         } catch (Exception e) {
             additionalInfoBar.setText(e.getMessage());
+            Alert alert = new Alert(AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("There was a problem with your input");
+            alert.setContentText(e.getMessage());
+            alert.showAndWait();
         }
     }
 
