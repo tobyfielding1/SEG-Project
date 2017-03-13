@@ -3,11 +3,15 @@
  */
 
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.io.BufferedReader;
@@ -18,7 +22,11 @@ public class RunwayController extends Application {
 
     Runway rw;
 
-    public TextField distUpperThreshInputField, distLowerThreshInputField, distCentrelineInputField, obstacleHeightInputField, resaInputField;
+    private boolean initialized = false;
+
+    public Button submitButton,clearObstacle;
+
+    public TextField distUpperThreshInputField, distLowerThreshInputField, distCentrelineInputField, obstacleHeightInputField,tora,toda,asda,lda,resa,blast,stripEnd,alstocs;
 
     // Combo box of obstacle types
     public ComboBox obstacleTypeComboBox;
@@ -26,8 +34,12 @@ public class RunwayController extends Application {
     // Output value text fields
     public TextField oldToraField, newToraField, oldTodaField, newTodaField, oldAsdaField, newAsdaField, oldLdaField, newLdaField;
 
-    // Graphical and calculations display panes
+    @FXML
     public AnchorPane topDownPane, sideOnPane;
+
+    @FXML
+    public VBox leftPanel;
+
     public TextArea calculationsTextArea;
 
 
@@ -35,40 +47,47 @@ public class RunwayController extends Application {
         this.rw = rw;
     }
 
-    @Override
-    public void start(Stage primaryStage) {
+    @FXML
+    public void initialize() {
+        topDownPane.setOnMouseEntered(new EventHandler<MouseEvent>() {
+            public void handle(MouseEvent me) {
+                if (initialized==false)
+                    submitButton.fire();
+                initialized = true;
+            }
+        });
+
+        leftPanel.setOnMouseEntered(new EventHandler<MouseEvent>() {
+            public void handle(MouseEvent me) {
+                if (initialized==false)
+                    submitButton.fire();
+                initialized = true;
+            }
+        });
+    }
+
+    public void start(Stage primaryStage){
+    }
+
+    @FXML
+    protected void editAction(){
 
     }
 
     @FXML
-    protected void drawButtonAction() throws IOException {
-
-        // Create an airport
-        Airport airport = new Airport("Airport");
-
-        // Imports runway and obstacle values from text file
-        Runway rw = getRunway();
-        airport.addRunway(rw);
-        if (!obstacleInputEmpty()) {
-            rw.setObstacle(getObstacle());
-        }
-
-        // Displays runway
-        displayValues();
-        displayCalculations(rw);
-        Display screen = new Display(topDownPane, sideOnPane);
-        //////////screen.setAlwaysShowLegend(viewAlwaysShowLegend.isSelected());
-        screen.clearPanes();
-        screen.drawRunway(rw);
-        ////////////additionalInfoBar.setText("Input successful");
-        ////////////saveCalculations(calculationsTextArea, "calc", ".png");
+    protected void clearObstacleAction(){
+        rw.clearObstacle();
+        obstacleTypeComboBox.setValue(new String());
+        distUpperThreshInputField.clear();
+        distLowerThreshInputField.clear();
+        distCentrelineInputField.clear();
+        obstacleHeightInputField.clear();
+        submitButtonAction();
     }
+
 
     @FXML
     protected void submitButtonAction() {
-
-        // Create an airport
-        Airport airport = new Airport("Airport");
 
         rw.setObstacle(getObstacleTextFields());
 

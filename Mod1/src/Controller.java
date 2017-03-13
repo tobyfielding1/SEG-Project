@@ -1,10 +1,5 @@
 import javafx.application.Application;
-import javafx.beans.binding.Bindings;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.print.PageOrientation;
@@ -15,14 +10,11 @@ import javafx.scene.Scene;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.VBox;
 import javafx.scene.transform.Scale;
 import javafx.scene.transform.Translate;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import javax.imageio.ImageIO;
@@ -45,6 +37,15 @@ public class Controller extends Application {
 	public TabPane runwayTabs;
 
     public Stage primaryStage;
+
+    public TextField toraInputField;
+    public TextField todaInputField;
+    public TextField asdaInputField;
+    public TextField ldaInputField;
+    public TextField rNameInputField;
+    public Button create;
+
+    public Tab addRunway;
 
     // Input value text fields
     public TextField airportName;//ldaInputField;
@@ -72,9 +73,9 @@ public class Controller extends Application {
 		primaryStage.setResizable(true);
 	}
 
-	private Tab createAndSelectNewTab(final TabPane tabPane, final String title) {
+	private void createAndSelectNewTab(final TabPane tabPane, final String title) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("RWTAB.fxml"));
-        RunwayController rwController = new RunwayController(airport.getRunway(title));
+        rwController = new RunwayController(airport.getRunway(title));
         loader.setController(rwController);
         Tab tab = new Tab(title);
         try {
@@ -84,11 +85,10 @@ public class Controller extends Application {
         }
 
 		final ObservableList<Tab> tabs = tabPane.getTabs();
-		tab.closableProperty().bind(Bindings.size(tabs).greaterThan(2));
+		tab.closableProperty().setValue(true);
 		tabs.add(tabs.size() - 1, tab);
 		tabPane.getSelectionModel().select(tab);
-		return tab;
-	}
+    }
 
     /*
      Close option in MenuBar -> File -> Close
@@ -130,63 +130,26 @@ public class Controller extends Application {
     @FXML
     protected void createAirportAction() throws IOException {
         airport = new Airport(airportName.getText());
+        addRunway.disableProperty().setValue(false);
         runwayTabs.getTabs().remove(0);
-        final Tab newTab = new Tab("+");
-        newTab.setClosable(false);
-        runwayTabs.getTabs().add(newTab);
-
-        runwayTabs.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Tab>() {
-            @Override
-            public void changed(ObservableValue<? extends Tab> observable,
-                                Tab oldSelectedTab, Tab newSelectedTab) {
-                if (newSelectedTab == newTab) {
-                    addRunway();
-                }
-            }
-        });
-
-        addRunway();
     }
 
-    public void addRunway(){
-        final Stage dialog = new Stage();
-        dialog.initModality(Modality.APPLICATION_MODAL);
-        dialog.initOwner(primaryStage);
-        VBox dialogVbox = new VBox(20);
-        dialogVbox.getChildren().add(new Label("Please enter the details of your runway:"));
-
-        TextField toraInputField= new TextField();
-        TextField todaInputField= new TextField();
-        TextField asdaInputField= new TextField();
-        TextField ldaInputField= new TextField();
-        TextField rNameInputField= new TextField();
-        Button create = new Button("Create Runway");
-
-        toraInputField.setPromptText("TORA(m)");
-        todaInputField.setPromptText("TODA(m)");
-        asdaInputField.setPromptText("ASDA(m)");
-        ldaInputField.setPromptText("LDA(m)");
-        rNameInputField.setPromptText("Runway ID (ie.'09L')");
-
-        create.setOnAction(new EventHandler<ActionEvent>() {
-            @Override public void handle(ActionEvent e) {
-                String name = rNameInputField.getText();
-                int tora = Integer.parseInt(toraInputField.getText());
-                int toda = Integer.parseInt(todaInputField.getText());
-                int asda = Integer.parseInt(asdaInputField.getText());
-                int lda = Integer.parseInt(ldaInputField.getText());
-                dialog.close();
-                airport.addRunway(new Runway(name, tora, toda, asda, lda));
-                createAndSelectNewTab(runwayTabs, rNameInputField.getText());
-            }
-        });
-
-        dialogVbox.getChildren().addAll(rNameInputField,toraInputField, todaInputField, asdaInputField, ldaInputField,create);
-        Scene dialogScene = new Scene(dialogVbox);
-        dialog.setScene(dialogScene);
-        dialog.show();
+    //creates new runway
+    @FXML
+    protected void createAction(){
+        String name = rNameInputField.getText();
+        int tora = Integer.parseInt(toraInputField.getText());
+        int toda = Integer.parseInt(todaInputField.getText());
+        int asda = Integer.parseInt(asdaInputField.getText());
+        int lda = Integer.parseInt(ldaInputField.getText());
+        airport.addRunway(new Runway(name, tora, toda, asda, lda));
+        createAndSelectNewTab(runwayTabs, rNameInputField.getText());
+        rNameInputField.clear();
+        toraInputField.clear();
+        asdaInputField.clear();
+        ldaInputField.clear();
+        todaInputField.clear();
     }
-
 
 
     protected void saveToFile(Node pan, String fileName, String extension) {
