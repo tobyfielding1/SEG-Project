@@ -18,17 +18,17 @@ public class Display {
     private Pane sideOnPane;
 
     final Paint clearwayColor = Color.YELLOW;
-    final Paint stopwayColor = new Color(0.6, 0.6, 1, 0.1);
+    final Paint stopwayColor = new Color(0.3, 0.3, 1, 0.98);
     final Paint obstacleColor = Color.RED;
     final Paint slopeColor = Color.TURQUOISE;
     final Paint areaColor = Color.LIGHTGRAY;
     
     final double arrowThickness = 0.8;
   
-    private final Paint CLEARWAY_COLOR = Color.YELLOW;
-    private final Paint STOPWAY_COLOR = new Color(0.3, 0.3, 1, 0.7);
-    private final Paint OBSTACLE_COLOR = Color.RED;
-    private final Paint SLOPE_COLOR = Color.TURQUOISE;
+    public static final Paint CLEARWAY_COLOR = Color.YELLOW;
+    public static final Paint STOPWAY_COLOR = new Color(0.3, 0.3, 1, 0.98);
+    public static final Paint OBSTACLE_COLOR = Color.RED;
+    public static final Paint SLOPE_COLOR = Color.TURQUOISE;
 
     private final double ARROW_THICKNESS = 0.8;
     private int runwayPixelWidth;
@@ -43,8 +43,6 @@ public class Display {
     private Runway rw;
     private double scaleDir;
     private int xi;
-
-    private boolean alwaysShowLegend;
 
     public Display(Pane td, Pane so) {
         this.topDownPane = td;
@@ -77,11 +75,9 @@ public class Display {
         drawIndicator();
         drawDirection();
 
-        
         drawClearway();
         drawStopway();
-        
-        
+
         double TORAEnds[] = drawTORA();
         drawTODA();
         drawASDA();
@@ -96,7 +92,6 @@ public class Display {
             }
         }
 
-        displayLegend();
     }
 
     private double drawObstacle() {
@@ -404,49 +399,6 @@ public class Display {
 
     }
 
-
-    private void displayLegend() {
-        int currentY = 60;
-
-        if (rw.getClearway() > 0 || alwaysShowLegend) {
-            addLegendItem(CLEARWAY_COLOR, "Clearway", currentY, true);
-            currentY += 20;
-        }
-
-        if (rw.getStopway() > 0 || alwaysShowLegend) {
-            addLegendItem(STOPWAY_COLOR, "Stopway", currentY, true);
-            currentY += 20;
-        }
-
-        if (rw.getObstacle() != null || alwaysShowLegend) {
-            addLegendItem(OBSTACLE_COLOR, "Obstacle", currentY, true);
-            currentY += 20;
-        }
-
-        addLegendItem(SLOPE_COLOR, "Slope", currentY, false);
-    }
-
-    private void addLegendItem(Paint color, String name, int y, boolean bothPanels) {
-        Rectangle r1 = new Rectangle(50, y, 10, 10);
-        r1.setFill(color);
-        r1.setStroke(Color.BLACK);
-
-        Rectangle r2 = new Rectangle(50, y, 10, 10);
-        r2.setFill(color);
-        r2.setStroke(Color.BLACK);
-
-
-        Text t1 = new Text(70, y + 10, name);
-        Text t2 = new Text(70, y + 10, name);
-
-        if (bothPanels) topDownPane.getChildren().addAll(r1, t1);
-        sideOnPane.getChildren().addAll(r2, t2);
-    }
-
-    public void setAlwaysShowLegend(boolean alwaysShowLegend) {
-        this.alwaysShowLegend = alwaysShowLegend;
-    }
-
     public void clearPanes() {
         sideOnPane.getChildren().clear();
         topDownPane.getChildren().clear();
@@ -644,8 +596,6 @@ public class Display {
     }
     
     public void drawArea(Runway r) {
-    	double rwLength = r.getOriginalTORA() * scaleDir;
-    	
     	//two ways this method can be used:
     	
     	// 1. Input lengths of segments here:
@@ -655,6 +605,7 @@ public class Display {
     	double length3 = rw.getOriginalTORA()*scaleDir - length2*4; // length of third segment
     	double length4 = length2; // length of fourth segment
     	double length5 = length1; // length of fifth segment
+    	
     	//then widths:
     	double width1 = 75*2; // small width
     	double width2 = 105*2; // large width

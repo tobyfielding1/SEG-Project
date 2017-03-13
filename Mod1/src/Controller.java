@@ -77,6 +77,7 @@ public class Controller extends Application {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("RWTAB.fxml"));
         rwController = new RunwayController(airport.getRunway(title));
         loader.setController(rwController);
+        rwController.setAlwaysShowLegend(viewAlwaysShowLegend.isSelected());
         Tab tab = new Tab(title);
         try {
             tab.setContent(loader.load());

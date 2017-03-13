@@ -1,7 +1,3 @@
-/**
- * Created by tobyf on 12/03/2017.
- */
-
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -12,6 +8,10 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.io.BufferedReader;
@@ -42,6 +42,7 @@ public class RunwayController extends Application {
 
     public TextArea calculationsTextArea;
 
+    private boolean alwaysShowLegend;
 
     public RunwayController(Runway rw) {
         this.rw = rw;
@@ -51,7 +52,7 @@ public class RunwayController extends Application {
     public void initialize() {
         topDownPane.setOnMouseEntered(new EventHandler<MouseEvent>() {
             public void handle(MouseEvent me) {
-                if (initialized==false)
+                if (!initialized)
                     submitButton.fire();
                 initialized = true;
             }
@@ -59,7 +60,7 @@ public class RunwayController extends Application {
 
         leftPanel.setOnMouseEntered(new EventHandler<MouseEvent>() {
             public void handle(MouseEvent me) {
-                if (initialized==false)
+                if (!initialized)
                     submitButton.fire();
                 initialized = true;
             }
@@ -98,6 +99,7 @@ public class RunwayController extends Application {
         ////////////screen.setAlwaysShowLegend(viewAlwaysShowLegend.isSelected());
         screen.clearPanes();
         screen.drawRunway(rw);
+        displayLegend();
     }
 
 
@@ -141,6 +143,52 @@ public class RunwayController extends Application {
     private boolean obstacleInputEmpty() throws IOException {
         BufferedReader br = new BufferedReader(new FileReader("obstacle1.txt"));
         return br.readLine() == null;
+    }
+
+
+    private void displayLegend() {
+        int currentY = 60;
+
+        if (rw.getClearway() > 0 || alwaysShowLegend) {
+            addLegendItem(Display.CLEARWAY_COLOR, "Clearway", currentY, true);
+            currentY += 20;
+        }
+
+        if (rw.getStopway() > 0 || alwaysShowLegend) {
+            addLegendItem(Display.STOPWAY_COLOR, "Stopway", currentY, true);
+            currentY += 20;
+        }
+
+        if (rw.getObstacle() != null || alwaysShowLegend) {
+            addLegendItem(Display.OBSTACLE_COLOR, "Obstacle", currentY, true);
+            currentY += 20;
+        }
+
+        if (rw.getObstacle() != null || alwaysShowLegend) {
+            addLegendItem(Display.SLOPE_COLOR, "Slope", currentY, false);
+            currentY += 20;
+        }
+    }
+
+    private void addLegendItem(Paint color, String name, int y, boolean bothPanels) {
+        Rectangle r1 = new Rectangle(50, y, 10, 10);
+        r1.setFill(color);
+        r1.setStroke(Color.BLACK);
+
+        Rectangle r2 = new Rectangle(50, y, 10, 10);
+        r2.setFill(color);
+        r2.setStroke(Color.BLACK);
+
+
+        Text t1 = new Text(70, y + 10, name);
+        Text t2 = new Text(70, y + 10, name);
+
+        if (bothPanels) topDownPane.getChildren().addAll(r1, t1);
+        sideOnPane.getChildren().addAll(r2, t2);
+    }
+
+    public void setAlwaysShowLegend(boolean alwaysShowLegend) {
+        this.alwaysShowLegend = alwaysShowLegend;
     }
 
 
