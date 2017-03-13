@@ -300,7 +300,7 @@ public class Display {
         Text t1 = new Text(thresh - 10, centreLine + 40, rw.getName().substring(0, 2));
         Text t2;
         try{
-            t2 = new Text(thresh - 5, centreLine + 45, rw.getName().substring(2, 3));
+            t2 = new Text(thresh-5,centreLine+55,rw.getName().substring(2,3));
         } catch(Exception e){
             t2 = new Text();
         }

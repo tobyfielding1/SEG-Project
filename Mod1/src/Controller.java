@@ -32,9 +32,6 @@ public class Controller extends Application {
     Airport airport;
 
     @FXML
-    private RunwayController rwController;
-
-    @FXML
 	public TabPane runwayTabs;
 
     public MenuItem filePrintMenu;
@@ -78,7 +75,7 @@ public class Controller extends Application {
 
 	private void createAndSelectNewTab(final TabPane tabPane, final String title) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("RWTAB.fxml"));
-        rwController = new RunwayController(airport.getRunway(title), this);
+        RunwayController rwController = new RunwayController(airport.getRunway(title), this);
         loader.setController(rwController);
         rwController.setAlwaysShowLegend(viewAlwaysShowLegend.isSelected());
         Tab tab = new Tab(title);
@@ -88,13 +85,14 @@ public class Controller extends Application {
             e.printStackTrace();
         }
 
-        filePrintMenu.setOnAction(new EventHandler<ActionEvent>() {
-
-            public void handle(ActionEvent event) {
-                if(tab.isSelected())
-                    rwController.print();
-            }
-        });
+        filePrintMenu.addEventHandler(ActionEvent.ACTION,
+                new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+                        if(tab.isSelected())
+                            rwController.print();
+                    }
+                });
 
 		final ObservableList<Tab> tabs = tabPane.getTabs();
 		tab.closableProperty().setValue(true);
