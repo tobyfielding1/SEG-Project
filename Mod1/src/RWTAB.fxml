@@ -177,7 +177,7 @@
                             <children>
                                 <TextFlow fx:id="calculationsTextFlow">
                                     <children>
-                                        <TextArea editable="false" prefHeight="511.0" prefWidth="630.0" />
+                                        <TextArea fx:id="calculationsTextArea" editable="false" prefHeight="511.0" prefWidth="630.0" />
                                     </children>
                                 </TextFlow>
                             </children>

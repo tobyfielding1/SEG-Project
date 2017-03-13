@@ -69,8 +69,8 @@ public class Controller extends Application {
 		Parent root = FXMLLoader.load(getClass().getResource("RRTGUI.fxml"));
 		primaryStage.setTitle("Runway Redeclaration Tool");
 		primaryStage.setScene(new Scene(root));
+        primaryStage.setResizable(false);
 		primaryStage.show();
-		primaryStage.setResizable(true);
 	}
 
 	private void createAndSelectNewTab(final TabPane tabPane, final String title) {
@@ -100,6 +100,14 @@ public class Controller extends Application {
         Stage stage = (Stage) menu.getScene().getWindow();
         // do what you have to do
         stage.close();
+    }
+
+    /*
+     Print option in MenuBar -> File -> Print
+     */
+    @FXML
+    protected void filePrintMenuAction() {
+
     }
 
     /*

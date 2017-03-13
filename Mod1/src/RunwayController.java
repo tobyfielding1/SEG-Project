@@ -12,6 +12,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
 
 import java.io.BufferedReader;
@@ -40,7 +41,8 @@ public class RunwayController extends Application {
     @FXML
     public VBox leftPanel;
 
-    public TextArea calculationsTextFlow;
+    public TextArea calculationsTextArea;
+    public TextFlow calculationsTextFlow;
 
     private boolean alwaysShowLegend;
 
@@ -117,10 +119,11 @@ public class RunwayController extends Application {
     }
 
 
+
     //Updates calculations text box
 
     private void displayCalculations(Runway r) {
-        calculationsTextFlow.setText(r.getCalculations());
+        calculationsTextArea.setText(r.getCalculations());
     }
 
 
