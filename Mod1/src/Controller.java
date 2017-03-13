@@ -1,5 +1,7 @@
 import javafx.application.Application;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.print.PageOrientation;
@@ -11,6 +13,7 @@ import javafx.scene.SnapshotParameters;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.transform.Scale;
@@ -35,6 +38,8 @@ public class Controller extends Application {
 
     @FXML
 	public TabPane runwayTabs;
+
+    public MenuItem filePrintMenu;
 
     public Stage primaryStage;
 
@@ -85,6 +90,14 @@ public class Controller extends Application {
             e.printStackTrace();
         }
 
+        filePrintMenu.setOnAction(new EventHandler<ActionEvent>() {
+
+            public void handle(ActionEvent event) {
+                if(tab.isSelected())
+                    rwController.print();
+            }
+        });
+
 		final ObservableList<Tab> tabs = tabPane.getTabs();
 		tab.closableProperty().setValue(true);
 		tabs.add(tabs.size() - 1, tab);
@@ -102,37 +115,50 @@ public class Controller extends Application {
         stage.close();
     }
 
-    /*
-     Print option in MenuBar -> File -> Print
-     */
-    @FXML
-    protected void filePrintMenuAction() {
-
-    }
 
     /*
      Shows ReadMe file to user
      */
     @FXML
-    protected void helpViewReadMeAction() throws IOException {
+    protected void helpViewHelpAction() throws IOException {
         Alert readme = new Alert(Alert.AlertType.INFORMATION);
         readme.setResizable(true);
-        readme.setTitle("View ReadMe");
+        readme.setTitle("Help");
         readme.setHeaderText(null);
 
-        try {
-            byte[] encoded = Files.readAllBytes(Paths.get("readme.txt"));
-            TextArea textArea = new TextArea(new String(encoded, Charset.defaultCharset()));
-            textArea.setEditable(false);
-            textArea.setWrapText(true);
-            textArea.setMaxWidth(Double.MAX_VALUE);
-            textArea.setMaxHeight(Double.MAX_VALUE);
+        TextArea textArea = new TextArea("Ensure that the computer running the redeclaration tool is running Java 1.8.\n" +
+                "\n" +
+                "To ensure the program runs with no errors two text files must first be created \"runway1.txt\" and \"obstacle1.txt\". The format of these text files must be in a comma separated values (csv) format.\n" +
+                "\n" +
+                "The layout for \"runway1.txt\" should be in the form :\n" +
+                "\n" +
+                "Runway Name: String , TORA : integer , TODA : integer, ASDA : integer, LDA : integer\n" +
+                "\n" +
+                "An example of \"runway1.txt\" would be:\n" +
+                "\n" +
+                "09L,3902,4500,4200,3595\n" +
+                "\n" +
+                "The layout for \"obstacle1.txt\" should be in the form:\n" +
+                "\n" +
+                "Obstacle Type : String, Distance from threshold 1 : integer , Distance from threshold 2 : integer , Distance from centre line : integer , Obstacle height : integer , Obstacle RESA : integer\n" +
+                "\n" +
+                "An example of \"obstacle1.txt\" would be: \n" +
+                "\n" +
+                "plane,50,3646,10,12,240\n" +
+                "\n" +
+                "Once these two files have been created, ensure they are in the same folder as the .jar file for the redeclaration application.\n" +
+                "\n" +
+                "Double click on the \"increment1.jar\" file to open the redeclaration tool application. \n" +
+                "\n" +
+                "Launch the application and to read the two text files and see a visualisation of the runway and its values, click the \"Draw\" button.   \n" +
+                "\n");
+        textArea.setEditable(false);
+        textArea.setWrapText(true);
+        textArea.setMaxWidth(Double.MAX_VALUE);
+        textArea.setMaxHeight(Double.MAX_VALUE);
 
-            readme.getDialogPane().setContent(textArea);
-            readme.showAndWait();
-        } catch (IOException noReadmeFile) {
-            additionalInfoBar.setText("No ReadMe file found");
-        }
+        readme.getDialogPane().setContent(textArea);
+        readme.showAndWait();
     }
 
     @FXML

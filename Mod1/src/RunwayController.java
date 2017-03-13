@@ -209,4 +209,8 @@ public class RunwayController extends Application {
             return null;
         }
     }
+
+    public void print() {
+        System.out.print("hello");
+    }
 }

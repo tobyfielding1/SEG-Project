@@ -25,7 +25,7 @@
             <menus>
                 <Menu mnemonicParsing="false" text="File">
                     <items>
-                        <MenuItem mnemonicParsing="false" onAction="#filePrintMenuAction" text="Print" />
+                        <MenuItem fx:id="filePrintMenu" mnemonicParsing="false" text="Print" />
                         <MenuItem mnemonicParsing="false" onAction="#fileCloseMenuAction" text="Close" />
                     </items>
                 </Menu>
@@ -36,7 +36,7 @@
                 </Menu>
                 <Menu mnemonicParsing="false" text="Help">
                     <items>
-                        <MenuItem mnemonicParsing="false" onAction="#helpViewReadMeAction" text="View ReadMe" />
+                        <MenuItem mnemonicParsing="false" onAction="#helpViewHelpAction" text="View Help" />
                     </items>
                 </Menu>
             </menus>
