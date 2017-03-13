@@ -18,8 +18,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.TextFlow?>
 
-<HBox fx:id="thisPanel" style="-fx-border-color: #737373; -fx-border-width: 2;"
-      xmlns="http://javafx.com/javafx/8.0.76-ea" xmlns:fx="http://javafx.com/fxml/1">
+<HBox fx:id="thisPanel" style="-fx-border-color: #737373; -fx-border-width: 2;" xmlns="http://javafx.com/javafx/8.0.76-ea" xmlns:fx="http://javafx.com/fxml/1">
     <children>
         <AnchorPane minHeight="0.0" minWidth="0.0" prefWidth="270.0">
             <children>
@@ -27,77 +26,47 @@
                     <children>
                         <TitledPane disable="true" expanded="false" text="Edit Advanced Parameters">
                             <font>
-                                <Font size="13.0"/>
+                                <Font size="13.0" />
                             </font>
                             <content>
                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefWidth="274.0">
                                     <children>
-                                        <GridPane layoutY="2.0" prefHeight="258.0" prefWidth="222.0"
-                                                  style="-fx-grid-lines-visible: false; cell-border-color: lightgrey;">
+                                        <GridPane layoutY="2.0" prefHeight="258.0" prefWidth="222.0" style="-fx-grid-lines-visible: false; cell-border-color: lightgrey;">
                                             <children>
-                                                <Label text="  Attribute" GridPane.columnIndex="0"
-                                                       GridPane.rowIndex="0"/>
-                                                <Label text="Value" wrapText="true" GridPane.columnIndex="1"
-                                                       GridPane.rowIndex="0"/>
-                                                <Label text=" TORA" textAlignment="CENTER" GridPane.columnIndex="0"
-                                                       GridPane.rowIndex="1"/>
-                                                <TextField fx:id="tora" editable="false"
-                                                           onInputMethodTextChanged="#editAction" prefHeight="27.0"
-                                                           prefWidth="48.0" GridPane.columnIndex="1"
-                                                           GridPane.rowIndex="1"/>
-                                                <TextField fx:id="blast" editable="false"
-                                                           onInputMethodTextChanged="#editAction"
-                                                           GridPane.columnIndex="1" GridPane.rowIndex="9"/>
-                                                <Label text=" TODA" textAlignment="CENTER" GridPane.columnIndex="0"
-                                                       GridPane.rowIndex="2"/>
-                                                <TextField fx:id="toda" editable="false"
-                                                           onInputMethodTextChanged="#editAction"
-                                                           GridPane.columnIndex="1" GridPane.rowIndex="2"/>
-                                                <TextField fx:id="stripEnd" editable="false"
-                                                           onInputMethodTextChanged="#editAction"
-                                                           GridPane.columnIndex="1" GridPane.rowIndex="8"/>
-                                                <Label text=" ASDA" textAlignment="CENTER" GridPane.columnIndex="0"
-                                                       GridPane.rowIndex="3"/>
-                                                <TextField fx:id="asda" editable="false"
-                                                           onInputMethodTextChanged="#editAction"
-                                                           GridPane.columnIndex="1" GridPane.rowIndex="3"/>
-                                                <TextField fx:id="alstocs" editable="false"
-                                                           onInputMethodTextChanged="#editAction"
-                                                           GridPane.columnIndex="1" GridPane.rowIndex="7"/>
-                                                <Label text=" LDA" textAlignment="CENTER" GridPane.columnIndex="0"
-                                                       GridPane.rowIndex="4"/>
-                                                <TextField fx:id="lda" editable="false"
-                                                           onInputMethodTextChanged="#editAction"
-                                                           GridPane.columnIndex="1" GridPane.rowIndex="4"/>
-                                                <TextField fx:id="resa" editable="false"
-                                                           onInputMethodTextChanged="#editAction"
-                                                           GridPane.columnIndex="1" GridPane.rowIndex="6"/>
-                                                <Label text=" RESA" textAlignment="CENTER" GridPane.rowIndex="6"/>
-                                                <Label text=" ALS/TOCS Slope" textAlignment="CENTER"
-                                                       GridPane.rowIndex="7"/>
-                                                <Label text=" Strip End" textAlignment="CENTER" GridPane.rowIndex="8"/>
-                                                <Label text=" Blast Allowance" textAlignment="CENTER"
-                                                       GridPane.rowIndex="9"/>
+                                                <Label text="  Attribute" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                                                <Label text="Value" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                                                <Label text=" TORA" textAlignment="CENTER" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                                                <TextField fx:id="tora" editable="false" onInputMethodTextChanged="#editAction" prefHeight="27.0" prefWidth="48.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                                <TextField fx:id="blast" editable="false" onInputMethodTextChanged="#editAction" GridPane.columnIndex="1" GridPane.rowIndex="9" />
+                                                <Label text=" TODA" textAlignment="CENTER" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                                                <TextField fx:id="toda" editable="false" onInputMethodTextChanged="#editAction" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                                <TextField fx:id="stripEnd" editable="false" onInputMethodTextChanged="#editAction" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+                                                <Label text=" ASDA" textAlignment="CENTER" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+                                                <TextField fx:id="asda" editable="false" onInputMethodTextChanged="#editAction" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                                <TextField fx:id="alstocs" editable="false" onInputMethodTextChanged="#editAction" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+                                                <Label text=" LDA" textAlignment="CENTER" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+                                                <TextField fx:id="lda" editable="false" onInputMethodTextChanged="#editAction" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                                <TextField fx:id="resa" editable="false" onInputMethodTextChanged="#editAction" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                                                <Label text=" RESA" textAlignment="CENTER" GridPane.rowIndex="6" />
+                                                <Label text=" ALS/TOCS Slope" textAlignment="CENTER" GridPane.rowIndex="7" />
+                                                <Label text=" Strip End" textAlignment="CENTER" GridPane.rowIndex="8" />
+                                                <Label text=" Blast Allowance" textAlignment="CENTER" GridPane.rowIndex="9" />
                                             </children>
                                             <columnConstraints>
-                                                <ColumnConstraints hgrow="SOMETIMES" maxWidth="101.0" minWidth="10.0"
-                                                                   prefWidth="101.0"/>
-                                                <ColumnConstraints hgrow="ALWAYS" maxWidth="80.0" minWidth="10.0"
-                                                                   prefWidth="40.0"/>
+                                                <ColumnConstraints hgrow="SOMETIMES" maxWidth="101.0" minWidth="10.0" prefWidth="101.0" />
+                                                <ColumnConstraints hgrow="ALWAYS" maxWidth="80.0" minWidth="10.0" prefWidth="40.0" />
                                             </columnConstraints>
                                             <rowConstraints>
-                                                <RowConstraints maxHeight="20.0" minHeight="20.0" prefHeight="20.0"
-                                                                vgrow="SOMETIMES"/>
-                                                <RowConstraints minHeight="-Infinity" prefHeight="30.0"
-                                                                vgrow="SOMETIMES"/>
-                                                <RowConstraints minHeight="30.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                                                <RowConstraints minHeight="30.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                                                <RowConstraints minHeight="30.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                                                <RowConstraints/>
-                                                <RowConstraints maxHeight="30.0" minHeight="30.0" prefHeight="30.0"/>
-                                                <RowConstraints minHeight="30.0" prefHeight="30.0"/>
-                                                <RowConstraints minHeight="30.0" prefHeight="30.0"/>
-                                                <RowConstraints minHeight="30.0" prefHeight="30.0"/>
+                                                <RowConstraints maxHeight="20.0" minHeight="20.0" prefHeight="20.0" vgrow="SOMETIMES" />
+                                                <RowConstraints minHeight="-Infinity" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                <RowConstraints minHeight="30.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                <RowConstraints minHeight="30.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                <RowConstraints minHeight="30.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                <RowConstraints />
+                                                <RowConstraints maxHeight="30.0" minHeight="30.0" prefHeight="30.0" />
+                                                <RowConstraints minHeight="30.0" prefHeight="30.0" />
+                                                <RowConstraints minHeight="30.0" prefHeight="30.0" />
+                                                <RowConstraints minHeight="30.0" prefHeight="30.0" />
                                             </rowConstraints>
                                         </GridPane>
                                     </children>
@@ -108,107 +77,82 @@
                             <content>
                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefWidth="274.0">
                                     <children>
-                                        <Label disable="true" layoutX="5.0" layoutY="6.0" text="Obstacle Name"/>
-                                        <ComboBox fx:id="obstacleTypeComboBox" disable="true" editable="true"
-                                                  layoutX="5.0" layoutY="23.0" prefHeight="27.0" prefWidth="246.0"
-                                                  promptText="enter name or select from list"/>
-                                        <Label layoutX="8.0" layoutY="65.0" text="Dist. Lower Threshold"/>
-                                        <TextField fx:id="distLowerThreshInputField" layoutX="5.0" layoutY="82.0"
-                                                   prefHeight="27.0" prefWidth="107.0" promptText="Threshold 1-18"/>
-                                        <Label layoutX="151.0" layoutY="65.0" text="Dist. Upper Threshold"/>
-                                        <TextField fx:id="distUpperThreshInputField" layoutX="151.0" layoutY="82.0"
-                                                   prefHeight="27.0" prefWidth="107.0" promptText="Threshold 19-36"/>
-                                        <Label layoutX="151.0" layoutY="126.0" text="Dist. Centreline"/>
-                                        <TextField fx:id="distCentrelineInputField" layoutX="151.0" layoutY="145.0"
-                                                   prefHeight="27.0" prefWidth="107.0" promptText="South is negative"/>
-                                        <Label layoutX="5.0" layoutY="126.0" text="Obstacle Height"/>
-                                        <TextField fx:id="obstacleHeightInputField" layoutX="5.0" layoutY="145.0"
-                                                   prefHeight="27.0" prefWidth="107.0" promptText="(m)"/>
-                                        <Button fx:id="submitButton" layoutX="138.0" layoutY="182.0"
-                                                mnemonicParsing="false" onAction="#submitButtonAction" prefHeight="66.0"
-                                                prefWidth="120.0" text="Include Obstacle" textAlignment="CENTER"
-                                                textFill="#bc4040" wrapText="true">
+                                        <Label disable="true" layoutX="5.0" layoutY="6.0" text="Obstacle Name" />
+                                        <ComboBox fx:id="obstacleTypeComboBox" disable="true" editable="true" layoutX="5.0" layoutY="23.0" prefHeight="27.0" prefWidth="246.0" promptText="enter name or select from list" />
+                                        <Label layoutX="8.0" layoutY="65.0" text="Dist. Lower Threshold" />
+                                        <TextField fx:id="distLowerThreshInputField" layoutX="5.0" layoutY="82.0" prefHeight="27.0" prefWidth="107.0" promptText="Threshold 1-18" />
+                                        <Label layoutX="151.0" layoutY="65.0" text="Dist. Upper Threshold" />
+                                        <TextField fx:id="distUpperThreshInputField" layoutX="151.0" layoutY="82.0" prefHeight="27.0" prefWidth="107.0" promptText="Threshold 19-36" />
+                                        <Label layoutX="5.0" layoutY="126.0" text="Obstacle Height" />
+                                        <TextField fx:id="obstacleHeightInputField" layoutX="5.0" layoutY="145.0" prefHeight="27.0" prefWidth="107.0" promptText="(m)" />
+                                        <Label layoutX="151.0" layoutY="126.0" text="Dist. Centreline" />
+                                        <TextField fx:id="distCentrelineInputField" layoutX="151.0" layoutY="145.0" prefHeight="27.0" prefWidth="107.0" promptText="South is negative" />
+                                        <Button fx:id="clearObstacle" layoutX="5.0" layoutY="182.0" mnemonicParsing="false" onAction="#clearObstacleAction" prefHeight="66.0" prefWidth="119.0" text="Cear Obstacle" textAlignment="CENTER" textFill="#2f6b2d" wrapText="true">
                                             <font>
-                                                <Font name="System Bold" size="17.0"/>
+                                                <Font name="System Bold" size="17.0" />
                                             </font>
                                         </Button>
-                                        <Button fx:id="clearObstacle" layoutX="5.0" layoutY="182.0"
-                                                mnemonicParsing="false" onAction="#clearObstacleAction"
-                                                prefHeight="66.0" prefWidth="119.0" text="Cear Obstacle"
-                                                textAlignment="CENTER" textFill="#2f6b2d" wrapText="true">
+                                        <Button fx:id="submitButton" layoutX="138.0" layoutY="182.0" mnemonicParsing="false" onAction="#submitButtonAction" prefHeight="66.0" prefWidth="120.0" text="Include Obstacle" textAlignment="CENTER" textFill="#bc4040" wrapText="true">
                                             <font>
-                                                <Font name="System Bold" size="17.0"/>
+                                                <Font name="System Bold" size="17.0" />
                                             </font>
                                         </Button>
                                     </children>
                                 </AnchorPane>
                             </content>
                             <font>
-                                <Font name="System Bold" size="13.0"/>
+                                <Font name="System Bold" size="13.0" />
                             </font>
                         </TitledPane>
-                        <GridPane prefHeight="125.0" prefWidth="270.0"
-                                  style="-fx-grid-lines-visible: true; cell-border-color: lightgrey;">
+                        <GridPane prefHeight="125.0" prefWidth="270.0" style="-fx-grid-lines-visible: true; cell-border-color: lightgrey;">
                             <columnConstraints>
-                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="90.0"/>
-                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="90.0"/>
-                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="90.0"/>
+                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="90.0" />
+                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="90.0" />
+                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="90.0" />
                             </columnConstraints>
                             <rowConstraints>
-                                <RowConstraints minHeight="10.0" prefHeight="25.0" vgrow="SOMETIMES"/>
-                                <RowConstraints minHeight="10.0" prefHeight="25.0" vgrow="SOMETIMES"/>
-                                <RowConstraints minHeight="10.0" prefHeight="25.0" vgrow="SOMETIMES"/>
-                                <RowConstraints minHeight="10.0" prefHeight="25.0" vgrow="SOMETIMES"/>
-                                <RowConstraints minHeight="10.0" prefHeight="25.0" vgrow="SOMETIMES"/>
-                                <RowConstraints/>
+                                <RowConstraints minHeight="10.0" prefHeight="25.0" vgrow="SOMETIMES" />
+                                <RowConstraints minHeight="10.0" prefHeight="25.0" vgrow="SOMETIMES" />
+                                <RowConstraints minHeight="10.0" prefHeight="25.0" vgrow="SOMETIMES" />
+                                <RowConstraints minHeight="10.0" prefHeight="25.0" vgrow="SOMETIMES" />
+                                <RowConstraints minHeight="10.0" prefHeight="25.0" vgrow="SOMETIMES" />
+                                <RowConstraints />
                             </rowConstraints>
                             <children>
-                                <Label text="  Attribute" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
-                                <Label text="  Original" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
-                                <Label text="  Recalculated" GridPane.columnIndex="2" GridPane.rowIndex="0"/>
-                                <Label text="  TORA" textAlignment="CENTER" GridPane.columnIndex="0"
-                                       GridPane.rowIndex="1">
+                                <Label text="  Attribute" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                                <Label text="  Original" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                                <Label text="  Recalculated" GridPane.columnIndex="2" GridPane.rowIndex="0" />
+                                <Label text="  TORA" textAlignment="CENTER" GridPane.columnIndex="0" GridPane.rowIndex="1">
                                     <font>
-                                        <Font name="System Bold" size="12.0"/>
+                                        <Font name="System Bold" size="12.0" />
                                     </font>
                                 </Label>
-                                <TextField fx:id="oldToraField" editable="false" GridPane.columnIndex="1"
-                                           GridPane.rowIndex="1"/>
-                                <TextField fx:id="newToraField" editable="false" GridPane.columnIndex="2"
-                                           GridPane.rowIndex="1"/>
-                                <Label text="  TODA" textAlignment="CENTER" GridPane.columnIndex="0"
-                                       GridPane.rowIndex="2">
+                                <TextField fx:id="oldToraField" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                <TextField fx:id="newToraField" editable="false" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                                <Label text="  TODA" textAlignment="CENTER" GridPane.columnIndex="0" GridPane.rowIndex="2">
                                     <font>
-                                        <Font name="System Bold" size="12.0"/>
+                                        <Font name="System Bold" size="12.0" />
                                     </font>
                                 </Label>
-                                <TextField fx:id="oldTodaField" editable="false" GridPane.columnIndex="1"
-                                           GridPane.rowIndex="2"/>
-                                <TextField fx:id="newTodaField" editable="false" GridPane.columnIndex="2"
-                                           GridPane.rowIndex="2"/>
-                                <Label text="  ASDA" textAlignment="CENTER" GridPane.columnIndex="0"
-                                       GridPane.rowIndex="3">
+                                <TextField fx:id="oldTodaField" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                <TextField fx:id="newTodaField" editable="false" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                                <Label text="  ASDA" textAlignment="CENTER" GridPane.columnIndex="0" GridPane.rowIndex="3">
                                     <font>
-                                        <Font name="System Bold" size="12.0"/>
+                                        <Font name="System Bold" size="12.0" />
                                     </font>
                                 </Label>
-                                <TextField fx:id="oldAsdaField" editable="false" GridPane.columnIndex="1"
-                                           GridPane.rowIndex="3"/>
-                                <TextField fx:id="newAsdaField" editable="false" GridPane.columnIndex="2"
-                                           GridPane.rowIndex="3"/>
-                                <Label text="  LDA" textAlignment="CENTER" GridPane.columnIndex="0"
-                                       GridPane.rowIndex="4">
+                                <TextField fx:id="oldAsdaField" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                <TextField fx:id="newAsdaField" editable="false" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                                <Label text="  LDA" textAlignment="CENTER" GridPane.columnIndex="0" GridPane.rowIndex="4">
                                     <font>
-                                        <Font name="System Bold" size="12.0"/>
+                                        <Font name="System Bold" size="12.0" />
                                     </font>
                                 </Label>
-                                <TextField fx:id="oldLdaField" editable="false" GridPane.columnIndex="1"
-                                           GridPane.rowIndex="4"/>
-                                <TextField fx:id="newLdaField" editable="false" GridPane.columnIndex="2"
-                                           GridPane.rowIndex="4"/>
+                                <TextField fx:id="oldLdaField" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                <TextField fx:id="newLdaField" editable="false" GridPane.columnIndex="2" GridPane.rowIndex="4" />
                             </children>
                             <VBox.margin>
-                                <Insets left="10.0" right="20.0" top="10.0"/>
+                                <Insets left="10.0" right="20.0" top="10.0" />
                             </VBox.margin>
                         </GridPane>
                     </children>
@@ -219,24 +163,21 @@
             <tabs>
                 <Tab text="Top Down View">
                     <content>
-                        <AnchorPane fx:id="topDownPane" maxHeight="574.0" maxWidth="816.0" minHeight="-Infinity"
-                                    minWidth="-Infinity" prefHeight="574.0" prefWidth="816.0"/>
+                        <AnchorPane fx:id="topDownPane" maxHeight="574.0" maxWidth="816.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="574.0" prefWidth="816.0" />
                     </content>
                 </Tab>
                 <Tab text="Side-On View">
                     <content>
-                        <AnchorPane fx:id="sideOnPane" minHeight="0.0" minWidth="0.0" prefHeight="180.0"
-                                    prefWidth="200.0"/>
+                        <AnchorPane fx:id="sideOnPane" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
                     </content>
                 </Tab>
                 <Tab text="Calculations">
                     <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                             <children>
-                                <TextFlow>
+                                <TextFlow fx:id="calculationsTextFlow">
                                     <children>
-                                        <TextArea fx:id="calculationsTextArea" editable="false"
-                                                  prefHeight="511.0" prefWidth="630.0"/>
+                                        <TextArea editable="false" prefHeight="511.0" prefWidth="630.0" />
                                     </children>
                                 </TextFlow>
                             </children>

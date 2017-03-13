@@ -125,7 +125,6 @@ public class Controller extends Application {
         } catch (IOException noReadmeFile) {
             additionalInfoBar.setText("No ReadMe file found");
         }
-
     }
 
     @FXML
@@ -133,6 +132,8 @@ public class Controller extends Application {
         airport = new Airport(airportName.getText());
         addRunway.disableProperty().setValue(false);
         runwayTabs.getTabs().remove(0);
+
+        additionalInfoBar.setText("Airport created successfully");
     }
 
     //creates new runway
@@ -150,6 +151,8 @@ public class Controller extends Application {
         asdaInputField.clear();
         ldaInputField.clear();
         todaInputField.clear();
+
+        additionalInfoBar.setText("Runway added successfully");
     }
 
 
@@ -186,4 +189,7 @@ public class Controller extends Application {
         }
     }
 
+    public void setAdditionalText(String text) {
+        additionalInfoBar.setText(text);
+    }
 }

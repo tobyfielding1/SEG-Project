@@ -20,7 +20,7 @@ import java.io.IOException;
 
 public class RunwayController extends Application {
 
-    Runway rw;
+    private Runway rw;
 
     private boolean initialized = false;
 
@@ -40,7 +40,7 @@ public class RunwayController extends Application {
     @FXML
     public VBox leftPanel;
 
-    public TextArea calculationsTextArea;
+    public TextArea calculationsTextFlow;
 
     private boolean alwaysShowLegend;
 
@@ -120,7 +120,7 @@ public class RunwayController extends Application {
     //Updates calculations text box
 
     private void displayCalculations(Runway r) {
-        calculationsTextArea.setText(r.getCalculations());
+        calculationsTextFlow.setText(r.getCalculations());
     }
 
 
