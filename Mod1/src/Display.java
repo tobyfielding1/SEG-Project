@@ -1,7 +1,5 @@
 
 
-import java.util.ArrayList;
-
 import javafx.scene.Group;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -12,6 +10,8 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+
+import java.util.ArrayList;
 
 public class Display {
     private Pane topDownPane;
@@ -63,7 +63,7 @@ public class Display {
 
 
     public void drawRunway(Runway rw) {
-        topDownPane.setStyle("-fx-background-color: white;");
+        topDownPane.setStyle("-fx-background-color: #e0ebe0;");
         sideOnPane.setStyle("-fx-background-color: white;");
 
         this.rw = rw;
@@ -615,9 +615,7 @@ public class Display {
     	
     	points.add(x6);
     	points.add(centreLine-y1/2);
-    	
-    	
-   
+
     	points.add(x6);
     	points.add(centreLine+y1/2);
     	
@@ -636,13 +634,6 @@ public class Display {
     	points.add(x1);
     	points.add(centreLine+y1/2);
     	
-    	
-    	
-    	
-    	
-    	
-    	
-    	
     	area.getPoints().addAll(points);
     
     	area.setFill(areaColor);
@@ -658,18 +649,15 @@ public class Display {
     	//two ways this method can be used:
     	
     	// 1. Input lengths of segments here:
-    	double startX = 10; // (left) starting point of clear and grated area
-    	double length1 = xi-30; // length of first segment
-    	double length2 = 20; // length of second segment
-    	double length3 = rwLength; // length of third segment
-    	double length4 = 20; // length of fourth segment
-    	double length5 = 100; // length of fifth segment
-    	
+    	double startX = xi - 60*scaleDir; // (left) starting point of clear and grated area
+    	double length1 = (150+60)*scaleDir; // length of first segment
+    	double length2 = 150*scaleDir; // length of second segment
+    	double length3 = rw.getOriginalTORA()*scaleDir - length2*4; // length of third segment
+    	double length4 = length2; // length of fourth segment
+    	double length5 = length1; // length of fifth segment
     	//then widths:
-    	double width1 = 50; // small width
-    	double width2 = 100; // large width
-    	
-    	
+    	double width1 = 75*2; // small width
+    	double width2 = 105*2; // large width
     	
     	// 2. Input X coordinates of each segment beggining/end (first 6 values) and then the widths
     	Polygon area = makeArea(startX,startX+length1,startX+length1+length2,startX+length1+length2+length3,startX+length1+length2+length3+length4,startX+length1+length2+length3+length4+length5,width1,width2);
