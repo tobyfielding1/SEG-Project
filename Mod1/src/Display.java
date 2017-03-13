@@ -18,7 +18,7 @@ public class Display {
     private Pane sideOnPane;
 
     final Paint clearwayColor = Color.YELLOW;
-    final Paint stopwayColor = new Color(0.3, 0.3, 1, 0.98);
+    final Paint stopwayColor = new Color(0.6, 0.6, 1, 0.1);
     final Paint obstacleColor = Color.RED;
     final Paint slopeColor = Color.TURQUOISE;
     final Paint areaColor = Color.LIGHTGRAY;
@@ -26,7 +26,7 @@ public class Display {
     final double arrowThickness = 0.8;
   
     private final Paint CLEARWAY_COLOR = Color.YELLOW;
-    private final Paint STOPWAY_COLOR = new Color(0.3, 0.3, 1, 0.98);
+    private final Paint STOPWAY_COLOR = new Color(0.3, 0.3, 1, 0.7);
     private final Paint OBSTACLE_COLOR = Color.RED;
     private final Paint SLOPE_COLOR = Color.TURQUOISE;
 
@@ -77,9 +77,11 @@ public class Display {
         drawIndicator();
         drawDirection();
 
+        
         drawClearway();
         drawStopway();
-
+        
+        
         double TORAEnds[] = drawTORA();
         drawTODA();
         drawASDA();
@@ -356,7 +358,7 @@ public class Display {
         Rectangle cl2 = new Rectangle();
         cl2.setX(cl.getX());
         cl2.setWidth(cl.getWidth());
-        cl2.setHeight(10);
+        cl2.setHeight(14);
         cl2.setY(cl.getY() + (cl.getHeight() - cl2.getHeight()) / 2);
 
         cl2.setFill(CLEARWAY_COLOR);
@@ -651,13 +653,15 @@ public class Display {
     }
     
     public void drawArea(Runway r) {
+    	double rwLength = r.getOriginalTORA() * scaleDir;
+    	
     	//two ways this method can be used:
     	
     	// 1. Input lengths of segments here:
     	double startX = 10; // (left) starting point of clear and grated area
-    	double length1 = 100; // length of first segment
+    	double length1 = xi-30; // length of first segment
     	double length2 = 20; // length of second segment
-    	double length3 = 400; // length of third segment
+    	double length3 = rwLength; // length of third segment
     	double length4 = 20; // length of fourth segment
     	double length5 = 100; // length of fifth segment
     	
