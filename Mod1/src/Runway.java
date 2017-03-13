@@ -145,7 +145,7 @@ public class Runway {
     }
 
     public int getDirection() {
-        return Integer.parseInt(name.substring(0, 2));
+        return Integer.parseInt(name.replaceAll("\\D+",""));
     }
 
     public Runway(String name, int TORA, int TODA, int ASDA, int LDA) {

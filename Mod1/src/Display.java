@@ -298,7 +298,12 @@ public class Display {
             thresh = xi + (rw.getOriginalTORA() - rw.getOriginalLDA()) * scaleDir;
 
         Text t1 = new Text(thresh - 10, centreLine + 40, rw.getName().substring(0, 2));
-        Text t2 = new Text(thresh - 5, centreLine + 55, rw.getName().substring(2, 3));
+        Text t2;
+        try{
+            t2 = new Text(thresh - 5, centreLine + 45, rw.getName().substring(2, 3));
+        } catch(Exception e){
+            t2 = new Text();
+        }
 
         t1.setFont(INDICATOR_FONT);
         t2.setFont(INDICATOR_FONT);
@@ -311,20 +316,23 @@ public class Display {
 
         topDownPane.getChildren().addAll(t1, t2);
 
+        t1 = new Text(thresh - 10, centreLine + 30, rw.getName().substring(0, 2));
+        try{
+            t2 = new Text(thresh - 5, centreLine + 45, rw.getName().substring(2, 3));
+        } catch(Exception e){
+            t2 = new Text();
+        }
 
-        Text t1a = new Text(thresh - 10, centreLine + 30, rw.getName().substring(0, 2));
-        Text t2a = new Text(thresh - 5, centreLine + 45, rw.getName().substring(2, 3));
+        t1.setFont(INDICATOR_FONT);
+        t2.setFont(INDICATOR_FONT);
 
-        t1a.setFont(INDICATOR_FONT);
-        t2a.setFont(INDICATOR_FONT);
+        t1.setFill(Color.DARKGREEN);
+        t2.setFill(Color.DARKGREEN);
 
-        t1a.setFill(Color.DARKGREEN);
-        t2a.setFill(Color.DARKGREEN);
+        t1.setStrokeWidth(2);
+        t2.setStrokeWidth(2);
 
-        t1a.setStrokeWidth(2);
-        t2a.setStrokeWidth(2);
-
-        sideOnPane.getChildren().addAll(t1a, t2a);
+        sideOnPane.getChildren().addAll(t1, t2);
     }
 
 
