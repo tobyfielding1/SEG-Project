@@ -227,10 +227,11 @@ public class RunwayController extends Application {
 		int distCentreThreshold = Integer.parseInt(distCentrelineInputField.getText());
 		int obstacleHeight = Integer.parseInt(obstacleHeightInputField.getText());
 
-		if (distLowerThreshInputField.getText().matches("[0-9]+") && distUpperThreshInputField.getText().matches("[0-9]+") && distCentrelineInputField.getText().matches("[0-9]+") && distCentrelineInputField.getText().matches("[0-9]+")) {
-		} else {
-			throw new IOException("Invalid runway value: look for non-number characters in the Dist. Lower Threshold, Dist. Upper Threshold, Obstacle Height, and Dist. Centreline fields.");
-		}
+//		String intRegex = "-?[0-9]+";
+//
+//		if (!distLowerThreshInputField.getText().matches(intRegex) || !distUpperThreshInputField.getText().matches(intRegex) || !distCentrelineInputField.getText().matches(intRegex) || !distCentrelineInputField.getText().matches(intRegex)) {
+//			throw new IOException("Invalid runway value: look for non-number characters in the Dist. Lower Threshold, Dist. Upper Threshold, Obstacle Height, and Dist. Centreline fields.");
+//		}
 
 		if (distLowerThreshold < -rw.getOriginalTORA()) {
 			throw new IOException("Obstacle's distance from the lower threshold is too low (minimum: " + -rw.getOriginalTORA() + ").");
