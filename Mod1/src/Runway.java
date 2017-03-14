@@ -18,7 +18,7 @@ public class Runway {
     private int ALSTOCSSlope = 50;
     private int RESA = 240;
 
-    private Obstacle obstacle;
+	private Obstacle obstacle;
     private AvoidanceStrategy takeoffStrategy = null;
     private AvoidanceStrategy landingStrategy = null;
 
@@ -43,6 +43,14 @@ public class Runway {
         this.LDA = originalLDA;
         takeoffThresholdLabel = "" + getThreshold();
     }
+    
+    public int getRESA() {
+ 		return RESA;
+ 	}
+
+ 	public void setRESA(int rESA) {
+ 		RESA = rESA;
+ 	}
 
     public int getOriginalTODA() {
         return originalTODA;
@@ -161,7 +169,7 @@ public class Runway {
         this.obstacle = obstacle;
 
         //returns false if obstacle is far away enough not to redeclare
-        if (obstacle == null || obstacle.centerlineDist > 75) {
+        if (obstacle == null || Math.abs(obstacle.centerlineDist) > 75) {
             takeoffStrategy = null;
             landingStrategy = null;
             return false;
