@@ -17,6 +17,8 @@ import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.transform.Scale;
 import javafx.scene.transform.Translate;
 import javafx.stage.Stage;
@@ -75,10 +77,11 @@ public class Controller extends Application {
 		primaryStage.setScene(new Scene(root));
         primaryStage.setResizable(false);
 		primaryStage.show();
+		
 	}
 
 	private void createAndSelectNewTab(final TabPane tabPane, final String title) {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("RWTAB.fxml"));
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("RWTAB.fxml"));
         RunwayController rwController = new RunwayController(airport.getRunway(title), this);
         loader.setController(rwController);
         rwController.setAlwaysShowLegend(viewAlwaysShowLegend.isSelected());
@@ -291,4 +294,27 @@ public class Controller extends Application {
             }
         }
     }
+    
+    @FXML
+    protected void enter1(KeyEvent e) {
+		if (e.getCode() == KeyCode.ENTER) {
+			try {
+				createAirportAction();
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+		}
+	}
+    
+    @FXML
+    protected void enter2(KeyEvent e) {
+		if (e.getCode() == KeyCode.ENTER) {
+				createAction();
+			
+		}
+	}
+    
+   
+    
+    
 }

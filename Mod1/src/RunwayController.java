@@ -3,6 +3,8 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
@@ -255,4 +257,11 @@ public class RunwayController extends Application {
     public void print() {
         System.out.print("hello");
     }
+    
+    @FXML
+    protected void enter(KeyEvent e) {
+		if (e.getCode() == KeyCode.ENTER) {
+				submitButtonAction();
+		}
+	}
 }
