@@ -233,32 +233,39 @@ public class RunwayController extends Application {
 //			throw new IOException("Invalid runway value: look for non-number characters in the Dist. Lower Threshold, Dist. Upper Threshold, Obstacle Height, and Dist. Centreline fields.");
 //		}
 
-		if (distLowerThreshold < -rw.getOriginalTORA()) {
-			throw new IOException("Obstacle's distance from the lower threshold is too low (minimum: " + -rw.getOriginalTORA() + ").");
+		int minDistLowerThreshold = -60;
+		if (distLowerThreshold < minDistLowerThreshold) {
+			throw new IOException("Obstacle's distance from the lower threshold is too low and does not require redeclaration (minimum: " + minDistLowerThreshold + ").");
 		}
 
-		if (distLowerThreshold > 2 * rw.getOriginalTORA()) {
-			throw new IOException("Obstacle's distance from the lower threshold is too high (maximum: " + 2 * rw.getOriginalTORA() + ").");
+		int maxDistLowerThreshold = rw.getOriginalTORA() + 60;
+		if (distLowerThreshold > maxDistLowerThreshold) {
+			throw new IOException("Obstacle's distance from the lower threshold is too high and does not require redeclaration (maximum: " + maxDistLowerThreshold + ").");
 		}
 
-		if (distUpperThreshold < -2 * rw.getOriginalTORA()) {
-			throw new IOException("Obstacle's distance from the upper threshold is too low (minimum: " + -2 * rw.getOriginalTORA() + ").");
+		int minDistUpperThreshold = -rw.getOriginalTORA() - 60;
+		if (distUpperThreshold < minDistUpperThreshold) {
+			throw new IOException("Obstacle's distance from the upper threshold is too low and does not require redeclaration (minimum: " + minDistUpperThreshold + ").");
 		}
 
-		if (distUpperThreshold > rw.getOriginalTORA()) {
-			throw new IOException("Obstacle's distance from the upper threshold is too high (maximum: " + rw.getOriginalTORA() + ").");
+		int maxDistUpperThreshold = 60;
+		if (distUpperThreshold > maxDistUpperThreshold) {
+			throw new IOException("Obstacle's distance from the upper threshold is too high and does not require redeclaration (maximum: " + maxDistUpperThreshold + ").");
 		}
 
-		if (distCentreThreshold < -150) {
-			throw new IOException("Obstacle's distance from the centreline is too low (minimum: " + -150 + ").");
+		int minDistCentreThreshold = -75;
+		if (distCentreThreshold < -75) {
+			throw new IOException("Obstacle's distance from the centreline is too low and does not require redeclaration (minimum: " + minDistCentreThreshold + ").");
 		}
 
-		if (distCentreThreshold > 150) {
-			throw new IOException("Obstacle's distance from the centreline is too high (maximum: " + 150 + ").");
+		int maxDistCentreThreshold = 75;
+		if (distCentreThreshold > maxDistCentreThreshold) {
+			throw new IOException("Obstacle's distance from the centreline is too high and does not require redeclaration (maximum: " + maxDistCentreThreshold + ").");
 		}
 
-		if (obstacleHeight > 80) {
-			throw new IOException("Obstacle too high (maximum: " + 80 + ").");
+		int maxObstacleHeight = 80;
+		if (obstacleHeight > maxObstacleHeight) {
+			throw new IOException("Obstacle too high (maximum: " + maxObstacleHeight + ").");
 		}
 
 		return new Obstacle(obstacleType, distLowerThreshold, distUpperThreshold, distCentreThreshold, obstacleHeight);

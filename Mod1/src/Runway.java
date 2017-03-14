@@ -168,21 +168,21 @@ public class Runway {
     public boolean setObstacle(Obstacle obstacle) {
         this.obstacle = obstacle;
 
-        //returns false if obstacle is far away enough not to redeclare
-        if (obstacle == null || Math.abs(obstacle.centerlineDist) > 75) {
-            takeoffStrategy = null;
-            landingStrategy = null;
-            return false;
-        }
-        
-        if (this.getDirection() <= 18){
-        	if (obstacle.dist1stThresh>getOriginalTORA()+60 || obstacle.dist1stThresh<-60 )
-            return false;
-        }
-        if (this.getDirection() > 18){
-        	if (obstacle.dist2ndThresh>getOriginalTORA()+60 || obstacle.dist2ndThresh<-60 )
-            return false;
-        }
+//        //returns false if obstacle is far away enough not to redeclare
+//        if (obstacle == null || Math.abs(obstacle.centerlineDist) > 75) {
+//            takeoffStrategy = null;
+//            landingStrategy = null;
+//            return false;
+//        }
+//
+//        if (this.getDirection() <= 18){
+//        	if (obstacle.dist1stThresh>getOriginalTORA()+60 || obstacle.dist1stThresh<-60 )
+//            return false;
+//        }
+//        if (this.getDirection() > 18){
+//        	if (obstacle.dist2ndThresh>getOriginalTORA()+60 || obstacle.dist2ndThresh<-60 )
+//            return false;
+//        }
         
 //        //returns without redeclaration if obstacle is more than 60m from TORA and 75m from centreline
 //        if (this.getDirection() <= 18){
