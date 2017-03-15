@@ -287,7 +287,7 @@ public class RunwayController extends Application {
 	}
 
 	public void print() {
-		printToPrinter();
+		printToPrinter(getTab());
 	}
 
 	protected void saveToFile(Node pan, String fileName, String extension) {
@@ -302,28 +302,34 @@ public class RunwayController extends Application {
 			e.printStackTrace();
 		}
 	}
-
-	protected void printToPrinter() {
+	
+	protected Node getTab(){
+		if (topDown.isSelected()){
+			return topDownPane;
+		}
+		if (sideOn.isSelected()){
+			return sideOnPane;
+		}
+		if (calculations.isSelected()){
+			return calculationsTextFlow;
+		}
+		return null;
+	}
+	
+	protected void printToPrinter(Node pan) {
 		PrinterJob job = PrinterJob.createPrinterJob();
 		if (job != null) {
 			if (job.showPrintDialog(null)) {
-				topDownPane.getTransforms().add(new Scale(0.60, 0.60));
-				topDownPane.getTransforms().add(new Translate(150, 375));
-				sideOnPane.getTransforms().add(new Scale(0.60, 0.60));
-				sideOnPane.getTransforms().add(new Translate(150, 375));
-				calculationsTextFlow.getTransforms().add(new Scale(0.75, 0.75));
-				calculationsTextFlow.getTransforms().add(new Translate(150, 350));
-				boolean td = job.printPage(topDownPane);
-				boolean sd = job.printPage(topDownPane);
-				boolean cf = job.printPage(topDownPane);
-				if (td && sd && cf) {
+				pan.getTransforms().add(new Scale(0.60, 0.60));
+				pan.getTransforms().add(new Translate(150, 200));
+				boolean td = job.printPage(pan);
+				if (td) {
 					job.endJob();
-					topDownPane.getTransforms().clear();
-					sideOnPane.getTransforms().clear();
-					calculationsTextFlow.getTransforms().clear();
+					pan.getTransforms().clear();
 				}
 			}
 		}
+		pan.getTransforms().clear();
 	}
 
 	public void toggleLegend() {
