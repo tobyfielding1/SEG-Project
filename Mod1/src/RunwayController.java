@@ -107,6 +107,9 @@ public class RunwayController extends Application {
 			if (initialized) {
 				rw.setObstacle(getObstacleTextFields());
 			}
+			boolean lowerThresholdUsed = rw.getDirection() <= 18;
+			distLowerThreshInputField.setDisable(!lowerThresholdUsed);
+			distUpperThreshInputField.setDisable(lowerThresholdUsed);
 			display();
 		}catch (Exception e) {
 			parent.additionalInfoBar.setText(e.getMessage());
@@ -222,8 +225,9 @@ public class RunwayController extends Application {
 
 	private Obstacle getObstacleTextFields() throws Exception{
 		String obstacleType = (String) obstacleTypeComboBox.getValue();
-		int distLowerThreshold = Integer.parseInt(distLowerThreshInputField.getText());
-		int distUpperThreshold = Integer.parseInt(distUpperThreshInputField.getText());
+
+		int distLowerThreshold;
+		int distUpperThreshold;
 		int distCentreThreshold = Integer.parseInt(distCentrelineInputField.getText());
 		int obstacleHeight = Integer.parseInt(obstacleHeightInputField.getText());
 
@@ -233,24 +237,39 @@ public class RunwayController extends Application {
 //			throw new IOException("Invalid runway value: look for non-number characters in the Dist. Lower Threshold, Dist. Upper Threshold, Obstacle Height, and Dist. Centreline fields.");
 //		}
 
-		int minDistLowerThreshold = -60;
-		if (distLowerThreshold < minDistLowerThreshold) {
-			throw new IOException("Obstacle's distance from the lower threshold is too low and does not require redeclaration (minimum: " + minDistLowerThreshold + ").");
-		}
+		// Only parses input box that will be active
+		if (!distLowerThreshInputField.isDisabled()) {
+			distLowerThreshold = Integer.parseInt(distLowerThreshInputField.getText());
 
-		int maxDistLowerThreshold = rw.getOriginalTORA() + 60;
-		if (distLowerThreshold > maxDistLowerThreshold) {
-			throw new IOException("Obstacle's distance from the lower threshold is too high and does not require redeclaration (maximum: " + maxDistLowerThreshold + ").");
-		}
+			int minDistLowerThreshold = -60;
+			if (distLowerThreshold < minDistLowerThreshold) {
+				throw new IOException("Obstacle's distance from the lower threshold is too low and does not require redeclaration (minimum: " + minDistLowerThreshold + ").");
+			}
 
-		int minDistUpperThreshold = -rw.getOriginalTORA() - 60;
-		if (distUpperThreshold < minDistUpperThreshold) {
-			throw new IOException("Obstacle's distance from the upper threshold is too low and does not require redeclaration (minimum: " + minDistUpperThreshold + ").");
-		}
+			int maxDistLowerThreshold = rw.getOriginalTORA() + 60;
+			if (distLowerThreshold > maxDistLowerThreshold) {
+				throw new IOException("Obstacle's distance from the lower threshold is too high and does not require redeclaration (maximum: " + maxDistLowerThreshold + ").");
+			}
 
-		int maxDistUpperThreshold = 60;
-		if (distUpperThreshold > maxDistUpperThreshold) {
-			throw new IOException("Obstacle's distance from the upper threshold is too high and does not require redeclaration (maximum: " + maxDistUpperThreshold + ").");
+			//TODO calculate upper threshold
+			distUpperThreshold = 0;
+			distUpperThreshInputField.setText(Integer.toString(distUpperThreshold));
+		} else {
+			distUpperThreshold = Integer.parseInt(distUpperThreshInputField.getText());
+
+			int minDistUpperThreshold = -60;
+			if (distUpperThreshold < minDistUpperThreshold) {
+				throw new IOException("Obstacle's distance from the upper threshold is too low and does not require redeclaration (minimum: " + minDistUpperThreshold + ").");
+			}
+
+			int maxDistUpperThreshold =  rw.getOriginalTORA() + 60;
+			if (distUpperThreshold > maxDistUpperThreshold) {
+				throw new IOException("Obstacle's distance from the upper threshold is too high and does not require redeclaration (maximum: " + maxDistUpperThreshold + ").");
+			}
+
+			//TODO calculate lower threshold
+			distLowerThreshold = 0;
+			distLowerThreshInputField.setText(Integer.toString(distLowerThreshold));
 		}
 
 		int minDistCentreThreshold = -75;
