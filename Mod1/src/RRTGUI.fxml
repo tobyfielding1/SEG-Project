@@ -7,7 +7,7 @@
 <?import javafx.scene.paint.LinearGradient?>
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.*?>
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="683.0" prefWidth="1078.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="683.0" prefWidth="1078.0" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller">
     <children>
         <MenuBar fx:id="menu" prefHeight="25.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
             <menus>
@@ -19,7 +19,7 @@
                 </Menu>
                 <Menu mnemonicParsing="false" text="View">
                     <items>
-                        <CheckMenuItem fx:id="viewAlwaysShowLegend" mnemonicParsing="false" selected="true" text="Always show legend" />
+                        <CheckMenuItem fx:id="viewAlwaysShowLegend" mnemonicParsing="false" selected="true" text="show legend" />
                     </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Help">
