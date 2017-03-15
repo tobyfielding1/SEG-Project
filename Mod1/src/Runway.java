@@ -261,7 +261,7 @@ public class Runway {
         landingStrategy = AvoidanceStrategy.LANDINGTOWARD;
         calculations = calculations.concat("\n \nLanding Toward: ");
         LDA = thresholdDist - RESA - stripEnd;
-        calculations = calculations.concat("\nLDA: " + thresholdDist + " - " + RESA + " - " + stripEnd + " = " + Math.max(0, LDA));
+        calculations = calculations.concat("\nLDA: " + thresholdDist +"m " + " - " + RESA +"m "+ " - " + stripEnd +"m "+ " = " + Math.max(0, LDA) +"m");
         thresholdLabel = RESA + "(RESA)+" + stripEnd + "=" + (RESA + stripEnd);
         return calculations;
     }
@@ -281,20 +281,20 @@ public class Runway {
 
         //chooses smallest new LDA and makes sure the new LDA is not bigger than the old
         if (tallObsLDA < newLDA && tallObsLDA < LDA) {
-            calculations = calculations.concat("\nLDA: " + LDA + " - " + thresholdDist + " - " + obstacle.height + " x " + ALSTOCSSlope + " - " + stripEnd);
+            calculations = calculations.concat("\nLDA: " + LDA+"m " + " - " + thresholdDist+"m " + " - " + obstacle.height+"m " + " x " + ALSTOCSSlope+"m " + " - " + stripEnd+"m ");
             LDA = tallObsLDA;
-            calculations = calculations.concat(" = " + Math.max(0, LDA));
+            calculations = calculations.concat(" = " + Math.max(0, LDA)+"m");
             thresholdLabel = obstacle.height * ALSTOCSSlope + "(ALS)+" + stripEnd + "=" + (obstacle.height * ALSTOCSSlope + stripEnd);
         } else if (newLDA < LDA) {
             LDA = newLDA;
             if (RESA + stripEnd >= blastAllowance) {
-                calculations = calculations.concat("\nLDA: " + thresholdDist + " + " + LDA + " - " + RESA + " - " + stripEnd);
+                calculations = calculations.concat("\nLDA: " + thresholdDist+"m " + " + " + LDA+"m " + " - " + RESA+"m " + " - " + stripEnd+"m ");
                 thresholdLabel = RESA + "(RESA)+" + stripEnd + "=" + (RESA + stripEnd);
             } else {
-                calculations = calculations.concat("\nLDA: " + thresholdDist + " + " + LDA + " - " + blastAllowance);
+                calculations = calculations.concat("\nLDA: " + thresholdDist+"m " + " + " + LDA +"m "+ " - " + blastAllowance+"m ");
                 thresholdLabel = "Blast Allowance=" + (blastAllowance);
             }
-            calculations = calculations.concat(" = " + Math.max(0, LDA));
+            calculations = calculations.concat(" = " + Math.max(0, LDA)+"m");
         }
         return calculations;
     }
@@ -311,14 +311,14 @@ public class Runway {
         int tallObsTORA = thresholdDist + (originalTORA-originalLDA) - safeTOCSDistance;
 
         if (tallObsTORA < newTORA) {
-            calculations = calculations.concat("\nTORA, TODA, ASDA: " + thresholdDist + " + " + (originalTORA-originalLDA) + " - " + obstacle.height + " x " + ALSTOCSSlope + " - " + stripEnd);
+            calculations = calculations.concat("\nTORA, TODA, ASDA: " + thresholdDist+"m " + " + " + (originalTORA-originalLDA)+"m " + " - " + obstacle.height+"m " + " x " + ALSTOCSSlope+"m " + " - " + stripEnd+"m ");
             TORA = ASDA = TODA = tallObsTORA;
-            calculations = calculations.concat(" = " + Math.max(0, TORA));
+            calculations = calculations.concat(" = " + Math.max(0, TORA)+"m");
             takeoffThresholdLabel = obstacle.height * ALSTOCSSlope + "(TOCS)+" + stripEnd + "=" + Math.max(0, obstacle.height * ALSTOCSSlope + stripEnd);
         } else {
-            calculations = calculations.concat("\nTORA, TODA, ASDA: " + thresholdDist + " + " + (originalTORA-originalLDA) + " - " + RESA + " - " + stripEnd);
+            calculations = calculations.concat("\nTORA, TODA, ASDA: " + thresholdDist+"m " + " + " + (originalTORA-originalLDA)+"m " + " - " + RESA+"m " + " - " + stripEnd+"m ");
             TORA = ASDA = TODA = newTORA;
-            calculations = calculations.concat(" = " + Math.max(0, TORA));
+            calculations = calculations.concat(" = " + Math.max(0, TORA)+"m");
             takeoffThresholdLabel = RESA + "(RESA)+" + stripEnd + "=" + Math.max(0, RESA + stripEnd);
         }
         return calculations;
@@ -328,15 +328,15 @@ public class Runway {
         takeoffStrategy = AvoidanceStrategy.TAKEOFFAWAY;
         String calculations = "";
         calculations = calculations.concat("\n \nTakeoff Away: ");
-        calculations = calculations.concat("\nTODA: " + TODA + " - " + thresholdDist + " - " + blastAllowance + " - " + (originalTORA-originalLDA));
+        calculations = calculations.concat("\nTODA: " + originalTODA+"m " + " - " + thresholdDist+"m " + " - " + blastAllowance +"m "+ " - " + (originalTORA-originalLDA)+"m ");
         TODA = Math.min(originalTODA - thresholdDist - blastAllowance - (originalTORA-originalLDA), originalTODA - thresholdDist - (RESA + stripEnd));
-        calculations = calculations.concat(" = " + Math.max(0, TODA));
-        calculations = calculations.concat("\nASDA: " + ASDA + " - " + thresholdDist + " - " + blastAllowance + " - " + (originalTORA-originalLDA));
+        calculations = calculations.concat(" = " + Math.max(0, TODA)+"m");
+        calculations = calculations.concat("\nASDA: " + originalASDA+"m " + " - " + thresholdDist+"m " + " - " + blastAllowance+"m " + " - " + (originalTORA-originalLDA)+"m ");
         ASDA = Math.min(originalASDA - thresholdDist - blastAllowance - (originalTORA-originalLDA), originalASDA - thresholdDist - (RESA + stripEnd));
-        calculations = calculations.concat(" = " + Math.max(0, ASDA));
-        calculations = calculations.concat("\nTORA: " + TORA + " - " + thresholdDist + " - " + blastAllowance + " - " + (originalTORA-originalLDA));
+        calculations = calculations.concat(" = " + Math.max(0, ASDA)+"m");
+        calculations = calculations.concat("\nTORA: " + originalTORA+"m " + " - " + thresholdDist+"m " + " - " + blastAllowance+"m " + " - " + (originalTORA-originalLDA)+"m ");
         TORA = Math.min(originalTORA - thresholdDist - blastAllowance - (originalTORA-originalLDA), originalTORA - thresholdDist - (RESA + stripEnd));
-        calculations = calculations.concat(" = " + Math.max(0, TORA));
+        calculations = calculations.concat(" = " + Math.max(0, TORA)+"m");
         takeoffThresholdLabel = "Blast Allowance=" + Math.max(0, blastAllowance);
         return calculations;
     }

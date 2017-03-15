@@ -321,7 +321,7 @@ public class RunwayController extends Application {
 		if (job != null) {
 			if (job.showPrintDialog(null)) {
 				pan.getTransforms().add(new Scale(0.60, 0.60));
-				pan.getTransforms().add(new Translate(150, 200));
+				pan.getTransforms().add(new Translate(150, 375));
 				boolean td = job.printPage(pan);
 				if (td) {
 					job.endJob();
