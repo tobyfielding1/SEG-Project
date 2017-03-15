@@ -51,7 +51,7 @@
                               <Insets left="43.0" right="43.0" />
                            </VBox.margin>
                         </Text>
-                                <TextField fx:id="airportName" prefHeight="25.0" prefWidth="786.0" promptText="Please enter the name of your new Airport">
+                                <TextField onKeyPressed="#enter1" fx:id="airportName" prefHeight="25.0" prefWidth="786.0" promptText="Please enter the name of your new Airport">
                                     <VBox.margin>
                                         <Insets left="300.0" right="300.0" top="100.0" />
                                     </VBox.margin>
@@ -91,7 +91,7 @@
                               <Font size="25.0" />
                            </font>
                         </Label>
-                        <TextField fx:id="rNameInputField" alignment="CENTER" layoutX="128.0" layoutY="138.0" prefHeight="60.0" prefWidth="222.0" promptText="eg. '09L'">
+                        <TextField onKeyPressed="#enter2" fx:id="rNameInputField" alignment="CENTER" layoutX="128.0" layoutY="138.0" prefHeight="60.0" prefWidth="222.0" promptText="eg. '09L'">
                            <font>
                               <Font name="System Bold" size="28.0" />
                            </font>
@@ -101,7 +101,7 @@
                               <Font size="25.0" />
                            </font>
                         </Label>
-                        <TextField fx:id="toraInputField" layoutX="130.0" layoutY="246.0" prefHeight="31.0" prefWidth="100.0" promptText="in meters">
+                        <TextField onKeyPressed="#enter2" fx:id="toraInputField" layoutX="130.0" layoutY="246.0" prefHeight="31.0" prefWidth="100.0" promptText="in meters">
                            <font>
                               <Font size="15.0" />
                            </font>
@@ -111,7 +111,7 @@
                               <Font size="25.0" />
                            </font>
                         </Label>
-                        <TextField fx:id="todaInputField" layoutX="249.0" layoutY="246.0" prefWidth="100.0" promptText="in meters">
+                        <TextField onKeyPressed="#enter2" fx:id="todaInputField" layoutX="249.0" layoutY="246.0" prefWidth="100.0" promptText="in meters">
                            <font>
                               <Font size="15.0" />
                            </font>
@@ -121,7 +121,7 @@
                               <Font size="25.0" />
                            </font>
                         </Label>
-                        <TextField fx:id="asdaInputField" layoutX="129.0" layoutY="331.0" prefWidth="100.0" promptText="in meters">
+                        <TextField onKeyPressed="#enter2" fx:id="asdaInputField" layoutX="129.0" layoutY="331.0" prefWidth="100.0" promptText="in meters">
                            <font>
                               <Font size="15.0" />
                            </font>
@@ -131,7 +131,7 @@
                               <Font size="25.0" />
                            </font>
                         </Label>
-                        <TextField fx:id="ldaInputField" layoutX="249.0" layoutY="331.0" prefWidth="100.0" promptText="in meters">
+                        <TextField onKeyPressed="#enter2" fx:id="ldaInputField" layoutX="249.0" layoutY="331.0" prefWidth="100.0" promptText="in meters">
                            <font>
                               <Font size="15.0" />
                            </font>
