@@ -96,6 +96,8 @@ public class RunwayController extends Application {
 		distLowerThreshInputField.clear();
 		distCentrelineInputField.clear();
 		obstacleHeightInputField.clear();
+		rw.setCalculations("");
+		displayCalculations(rw);
 		display();
 	}
 

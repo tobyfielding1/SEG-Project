@@ -25,8 +25,10 @@ public class Runway {
     private String thresholdLabel;
     private String takeoffThresholdLabel;
 
-    private String calculations;
-    private String obstacleStr;
+    protected String calculations;
+   
+
+	private String obstacleStr;
     private String befaf;
 
     public int getOriginalTORA() {
@@ -43,6 +45,10 @@ public class Runway {
         this.LDA = originalLDA;
         takeoffThresholdLabel = "" + getThreshold();
     }
+    
+    public void setCalculations(String calculations) {
+		this.calculations = calculations;
+	}
     
     public int getRESA() {
  		return RESA;
