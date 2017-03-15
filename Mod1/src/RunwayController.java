@@ -281,9 +281,14 @@ public class RunwayController extends Application {
 			throw new IOException("Obstacle's distance from the centreline is too high and does not require redeclaration (maximum: " + maxDistCentreThreshold + ").");
 		}
 
+		int minObstacleHeight = 1;
+		if (obstacleHeight < minObstacleHeight) {
+			throw new IOException("Obstacle too short (minimum: " + minObstacleHeight + ").");
+		}
+
 		int maxObstacleHeight = 80;
 		if (obstacleHeight > maxObstacleHeight) {
-			throw new IOException("Obstacle too high (maximum: " + maxObstacleHeight + ").");
+			throw new IOException("Obstacle too tall (maximum: " + maxObstacleHeight + ").");
 		}
 
 		return new Obstacle(obstacleType, distLowerThreshold, distUpperThreshold, distCentreThreshold, obstacleHeight);

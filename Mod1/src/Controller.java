@@ -219,7 +219,7 @@ public class Controller extends Application {
             int asda = Integer.parseInt(asdaInputField.getText());
             int lda = Integer.parseInt(ldaInputField.getText());
 
-            if (!Pattern.matches("^(0[1-9]|[1-2][0-9]|3[0-6])[ORLC]?$", name)) {
+            if (!Pattern.matches("^(0[1-9]|[1-2][0-9]|3[0-6])[LRC]?$", name)) {
                 throw new Exception("Invalid runway designator: name must be in the form of a number between 01 and 36, possibly followed by a L, R or C");
             }
 
