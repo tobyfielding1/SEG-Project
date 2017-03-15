@@ -219,7 +219,6 @@ public class RunwayController extends Application {
 		this.alwaysShowLegend = alwaysShowLegend;
 	}
 
-
 	//Gets obstacle from text fields
 
 	private Obstacle getObstacleTextFields() throws Exception{
@@ -322,5 +321,10 @@ public class RunwayController extends Application {
 				}
 			}
 		}
+	}
+
+	public void toggleLegend() {
+		setAlwaysShowLegend(!alwaysShowLegend);
+		display();
 	}
 }

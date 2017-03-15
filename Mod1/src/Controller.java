@@ -129,6 +129,14 @@ public class Controller extends Application {
                     }
                 });
 
+        viewAlwaysShowLegend.addEventHandler(ActionEvent.ACTION,
+                new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+                            rwController.toggleLegend();
+                    }
+                });
+
 		final ObservableList<Tab> tabs = tabPane.getTabs();
 		tab.closableProperty().setValue(true);
 		tabs.add(tabs.size() - 1, tab);
