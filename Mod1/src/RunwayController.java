@@ -31,6 +31,9 @@ import java.io.IOException;
 
 public class RunwayController extends Application {
 
+    @FXML
+    public Tab topDown, sideOn, calculations;
+
 	private final Controller parent;
 	private Runway rw;
 
@@ -64,22 +67,22 @@ public class RunwayController extends Application {
 
 	@FXML
 	public void initialize() {
-		topDownPane.setOnMouseEntered(new EventHandler<MouseEvent>() {
-			public void handle(MouseEvent me) {
-				if (!initialized)
-					submitButton.fire();
-				initialized = true;
-			}
-		});
+        topDownPane.setOnMouseEntered(new EventHandler<MouseEvent>() {
+            public void handle(MouseEvent me) {
+                if (!initialized)
+                    submitButton.fire();
+                initialized = true;
+            }
+        });
 
-		leftPanel.setOnMouseEntered(new EventHandler<MouseEvent>() {
-			public void handle(MouseEvent me) {
-				if (!initialized)
-					submitButton.fire();
-				initialized = true;
-			}
-		});
-	}
+        leftPanel.setOnMouseEntered(new EventHandler<MouseEvent>() {
+            public void handle(MouseEvent me) {
+                if (!initialized)
+                    submitButton.fire();
+                initialized = true;
+            }
+        });
+    }
 
 	public void start(Stage primaryStage){
 	}

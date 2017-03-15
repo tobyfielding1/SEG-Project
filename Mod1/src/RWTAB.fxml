@@ -179,17 +179,17 @@
         </AnchorPane>
         <TabPane style="-fx-tab-min-height: 51; -fx-tab-min-width: 100;" tabClosingPolicy="UNAVAILABLE">
             <tabs>
-                <Tab text="Top Down View">
+                <Tab fx:id="topDown" text="Top Down View">
                     <content>
                         <AnchorPane fx:id="topDownPane" maxHeight="574.0" maxWidth="816.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="574.0" prefWidth="816.0" />
                     </content>
                 </Tab>
-                <Tab text="Side-On View">
+                <Tab fx:id="sideOn" text="Side-On View">
                     <content>
                         <AnchorPane fx:id="sideOnPane" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
                     </content>
                 </Tab>
-                <Tab text="Calculations">
+                <Tab fx:id="calculations" text="Calculations">
                     <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                             <children>
