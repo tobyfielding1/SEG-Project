@@ -1,12 +1,14 @@
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.print.PageOrientation;
 import javafx.print.PrinterJob;
 import javafx.scene.Node;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
@@ -19,14 +21,13 @@ import javafx.scene.transform.Scale;
 import javafx.scene.transform.Translate;
 import javafx.stage.Stage;
 
-import java.awt.Graphics2D;
+import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-
-import javax.imageio.ImageIO;
 
 public class RunwayController extends Application {
 
@@ -37,7 +38,7 @@ public class RunwayController extends Application {
 
 	public Button submitButton,clearObstacle;
 
-	public TextField distUpperThreshInputField, distLowerThreshInputField, distCentrelineInputField, obstacleHeightInputField,tora,toda,asda,lda,resa,blast,stripEnd,alstocs;
+	public TextField thresholdDistance, distCentrelineInputField, obstacleHeightInputField,tora,toda,asda,lda,resa,blast,stripEnd,alstocs;
 
 	// Combo box of obstacle types
 	public ComboBox obstacleTypeComboBox;
@@ -92,8 +93,7 @@ public class RunwayController extends Application {
 	protected void clearObstacleAction(){
 		rw.clearObstacle();
 		obstacleTypeComboBox.setValue(new String());
-		distUpperThreshInputField.clear();
-		distLowerThreshInputField.clear();
+		thresholdDistance.clear();
 		distCentrelineInputField.clear();
 		obstacleHeightInputField.clear();
 		rw.setCalculations("");
@@ -109,9 +109,6 @@ public class RunwayController extends Application {
 			if (initialized) {
 				rw.setObstacle(getObstacleTextFields());
 			}
-			boolean lowerThresholdUsed = rw.getDirection() <= 18;
-			distLowerThreshInputField.setDisable(!lowerThresholdUsed);
-			distUpperThreshInputField.setDisable(lowerThresholdUsed);
 			display();
 		}catch (Exception e) {
 			parent.additionalInfoBar.setText(e.getMessage());
@@ -228,8 +225,8 @@ public class RunwayController extends Application {
 	private Obstacle getObstacleTextFields() throws Exception{
 		String obstacleType = (String) obstacleTypeComboBox.getValue();
 
-		int distLowerThreshold;
-		int distUpperThreshold;
+		Integer distLowerThreshold;
+		Integer distUpperThreshold;
 		int distCentreThreshold = Integer.parseInt(distCentrelineInputField.getText());
 		int obstacleHeight = Integer.parseInt(obstacleHeightInputField.getText());
 
@@ -240,8 +237,8 @@ public class RunwayController extends Application {
 //		}
 
 		// Only parses input box that will be active
-		if (!distLowerThreshInputField.isDisabled()) {
-			distLowerThreshold = Integer.parseInt(distLowerThreshInputField.getText());
+		if (rw.getDirection()<=18) {
+			distLowerThreshold = new Integer(thresholdDistance.getText());
 
 			int minDistLowerThreshold = -60;
 			if (distLowerThreshold < minDistLowerThreshold) {
@@ -253,11 +250,9 @@ public class RunwayController extends Application {
 				throw new IOException("Obstacle's distance from the lower threshold is too high and does not require redeclaration (maximum: " + maxDistLowerThreshold + ").");
 			}
 
-			//TODO calculate upper threshold
-			distUpperThreshold = 0;
-			distUpperThreshInputField.setText(Integer.toString(distUpperThreshold));
+			distUpperThreshold = null;
 		} else {
-			distUpperThreshold = Integer.parseInt(distUpperThreshInputField.getText());
+			distUpperThreshold = new Integer(thresholdDistance.getText());
 
 			int minDistUpperThreshold = -60;
 			if (distUpperThreshold < minDistUpperThreshold) {
@@ -268,10 +263,7 @@ public class RunwayController extends Application {
 			if (distUpperThreshold > maxDistUpperThreshold) {
 				throw new IOException("Obstacle's distance from the upper threshold is too high and does not require redeclaration (maximum: " + maxDistUpperThreshold + ").");
 			}
-
-			//TODO calculate lower threshold
-			distLowerThreshold = 0;
-			distLowerThreshInputField.setText(Integer.toString(distLowerThreshold));
+			distLowerThreshold = null;
 		}
 
 		int minDistCentreThreshold = -75;

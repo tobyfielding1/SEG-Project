@@ -4,13 +4,13 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
-<HBox fx:id="thisPanel" style="-fx-border-color: #737373; -fx-border-width: 2;" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1">
+<HBox fx:id="thisPanel" style="-fx-border-color: #737373; -fx-border-width: 2;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
     <children>
         <AnchorPane minHeight="0.0" minWidth="0.0" prefWidth="270.0">
             <children>
                 <VBox fx:id="leftPanel" prefHeight="606.0" prefWidth="276.0">
                     <children>
-                        <TitledPane disable="true" expanded="false" text="Edit Advanced Parameters">
+                        <TitledPane expanded="false" text="Edit Advanced Parameters" visible="false">
                             <font>
                                 <Font size="13.0" />
                             </font>
@@ -59,20 +59,12 @@
                                 </AnchorPane>
                             </content>
                         </TitledPane>
-                        <TitledPane expanded="false" text="Add or Edit an Obstacle" textFill="#f20202">
+                        <TitledPane text="Add or Edit an Obstacle" textFill="#f20202">
                             <content>
                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefWidth="274.0">
                                     <children>
-                                        <Label disable="true" layoutX="5.0" layoutY="6.0" text="Obstacle Name" />
-                                        <ComboBox fx:id="obstacleTypeComboBox" disable="true" editable="true" layoutX="5.0" layoutY="23.0" prefHeight="27.0" prefWidth="253.0" promptText="enter name or select from list" />
-                                        <Label layoutX="8.0" layoutY="65.0" text="Dist. Lower Threshold" />
-                                        <TextField fx:id="distLowerThreshInputField" layoutX="5.0" layoutY="82.0" prefHeight="27.0" prefWidth="113.0" promptText="(m)from ID 1-18" />
-                                        <Label layoutX="151.0" layoutY="65.0" text="Dist. Upper Threshold" />
-                                        <TextField fx:id="distUpperThreshInputField" layoutX="147.0" layoutY="82.0" prefHeight="27.0" prefWidth="111.0" promptText="(m)from ID 19-36" />
-                                        <Label layoutX="5.0" layoutY="126.0" text="Obstacle Height" />
-                                        <TextField fx:id="obstacleHeightInputField" layoutX="5.0" layoutY="145.0" prefHeight="27.0" prefWidth="113.0" promptText="(m)" />
-                                        <Label layoutX="151.0" layoutY="126.0" text="Dist. Centreline" />
-                                        <TextField fx:id="distCentrelineInputField" layoutX="148.0" layoutY="145.0" prefHeight="27.0" prefWidth="110.0" promptText="(m) South is -ve" />
+                                        <Label disable="true" layoutX="5.0" layoutY="6.0" text="Obstacle Name" visible="false" />
+                                        <ComboBox fx:id="obstacleTypeComboBox" disable="true" editable="true" layoutX="5.0" layoutY="23.0" prefHeight="27.0" prefWidth="253.0" promptText="enter name or select from list" visible="false" />
                                         <Button fx:id="clearObstacle" layoutX="5.0" layoutY="182.0" mnemonicParsing="false" onAction="#clearObstacleAction" prefHeight="66.0" prefWidth="119.0" text="Clear Obstacle" textAlignment="CENTER" textFill="#2f6b2d" wrapText="true">
                                             <font>
                                                 <Font name="System Bold" size="17.0" />
@@ -83,6 +75,41 @@
                                                 <Font name="System Bold" size="17.0" />
                                             </font>
                                         </Button>
+                              <GridPane layoutX="5.0" layoutY="53.0" prefHeight="125.0" prefWidth="255.0">
+                                <columnConstraints>
+                                  <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="141.0" minWidth="10.0" prefWidth="135.0" />
+                                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="81.0" minWidth="10.0" prefWidth="57.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="96.0" minWidth="10.0" prefWidth="65.0" />
+                                </columnConstraints>
+                                <rowConstraints>
+                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                </rowConstraints>
+                                 <children>
+                                              <Label text="Distance from Threshold " />
+                                              <Label text="Obstacle Height " GridPane.rowIndex="1" />
+                                              <Label prefHeight="17.0" prefWidth="134.0" text="Distance from Centreline" GridPane.rowIndex="2" />
+                                              <TextField fx:id="thresholdDistance" prefHeight="27.0" prefWidth="64.0" promptText="(m)" GridPane.columnIndex="1" />
+                                              <TextField fx:id="obstacleHeightInputField" prefHeight="27.0" prefWidth="64.0" promptText="(m)" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                              <TextField fx:id="distCentrelineInputField" prefHeight="27.0" prefWidth="65.0" promptText="(m) " GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                    <Label prefHeight="42.0" prefWidth="75.0" text="Negative if before LDA" textFill="#a8a7a7" wrapText="true" GridPane.columnIndex="2">
+                                       <padding>
+                                          <Insets left="2.0" />
+                                       </padding>
+                                    </Label>
+                                    <Label prefHeight="42.0" prefWidth="75.0" text="Tallest Part" textFill="#a8a7a7" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                                       <padding>
+                                          <Insets left="2.0" />
+                                       </padding>
+                                    </Label>
+                                    <Label prefHeight="42.0" prefWidth="75.0" text="South is negative" textFill="#a8a7a7" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                                       <padding>
+                                          <Insets left="2.0" />
+                                       </padding>
+                                    </Label>
+                                 </children>
+                              </GridPane>
                                     </children>
                                 </AnchorPane>
                             </content>
@@ -90,7 +117,7 @@
                                 <Font name="System Bold" size="13.0" />
                             </font>
                         </TitledPane>
-                        <GridPane prefHeight="125.0" prefWidth="270.0" style="-fx-grid-lines-visible: true; cell-border-color: lightgrey;">
+                        <GridPane prefHeight="125.0" prefWidth="270.0" style="-fx-grid-lines-visible: true; -fx-background-color: lightgrey;">
                             <columnConstraints>
                                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="90.0" />
                                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="90.0" />
@@ -105,37 +132,42 @@
                                 <RowConstraints />
                             </rowConstraints>
                             <children>
-                                <Label text="  Attribute" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-                                <Label text="  Original" GridPane.columnIndex="1" GridPane.rowIndex="0" />
-                                <Label text="  Recalculated" GridPane.columnIndex="2" GridPane.rowIndex="0" />
+                                <Label text="  Attribute" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font></Label>
+                                <Label text="  Original" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font></Label>
+                                <Label text="  Recalculated" GridPane.columnIndex="2" GridPane.rowIndex="0">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font></Label>
                                 <Label text="  TORA" textAlignment="CENTER" GridPane.columnIndex="0" GridPane.rowIndex="1">
-                                    <font>
-                                        <Font name="System Bold" size="12.0" />
-                                    </font>
-                                </Label>
-                                <TextField fx:id="oldToraField" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                                <TextField fx:id="newToraField" editable="false" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font></Label>
+                                <TextField fx:id="oldToraField" editable="false" style="-fx-background-color: lightgrey;" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                <TextField fx:id="newToraField" editable="false" style="-fx-background-color: lightgrey;" GridPane.columnIndex="2" GridPane.rowIndex="1" />
                                 <Label text="  TODA" textAlignment="CENTER" GridPane.columnIndex="0" GridPane.rowIndex="2">
-                                    <font>
-                                        <Font name="System Bold" size="12.0" />
-                                    </font>
-                                </Label>
-                                <TextField fx:id="oldTodaField" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                                <TextField fx:id="newTodaField" editable="false" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font></Label>
+                                <TextField fx:id="oldTodaField" editable="false" style="-fx-background-color: lightgrey;" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                <TextField fx:id="newTodaField" editable="false" style="-fx-background-color: lightgrey;" GridPane.columnIndex="2" GridPane.rowIndex="2" />
                                 <Label text="  ASDA" textAlignment="CENTER" GridPane.columnIndex="0" GridPane.rowIndex="3">
-                                    <font>
-                                        <Font name="System Bold" size="12.0" />
-                                    </font>
-                                </Label>
-                                <TextField fx:id="oldAsdaField" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                                <TextField fx:id="newAsdaField" editable="false" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font></Label>
+                                <TextField fx:id="oldAsdaField" editable="false" style="-fx-background-color: lightgrey;" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                <TextField fx:id="newAsdaField" editable="false" style="-fx-background-color: lightgrey;" GridPane.columnIndex="2" GridPane.rowIndex="3" />
                                 <Label text="  LDA" textAlignment="CENTER" GridPane.columnIndex="0" GridPane.rowIndex="4">
-                                    <font>
-                                        <Font name="System Bold" size="12.0" />
-                                    </font>
-                                </Label>
-                                <TextField fx:id="oldLdaField" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                                <TextField fx:id="newLdaField" editable="false" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font></Label>
+                                <TextField fx:id="oldLdaField" editable="false" style="-fx-background-color: lightgrey;" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                <TextField fx:id="newLdaField" editable="false" style="-fx-background-color: lightgrey;" GridPane.columnIndex="2" GridPane.rowIndex="4" />
                             </children>
                             <VBox.margin>
                                 <Insets left="10.0" right="20.0" top="10.0" />

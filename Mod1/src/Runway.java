@@ -204,9 +204,9 @@ public class Runway {
 
         //if this is 1st runway (1-18)
         if (this.getDirection() <= 18)
-            dist = obstacle.dist1stThresh;
+            dist = obstacle.getDist1stThresh();
         else
-            dist = obstacle.dist2ndThresh;
+            dist = obstacle.getDist2ndThresh();
         if (dist < 0){
         	befaf = "before";
         }else{

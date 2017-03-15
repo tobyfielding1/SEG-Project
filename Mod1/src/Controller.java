@@ -100,13 +100,13 @@ public class Controller extends Application {
                 Alert alert = new Alert(AlertType.CONFIRMATION);
                 alert.setTitle("Close Runway");
                 alert.setHeaderText("You have chosen to close a Runway");
-                alert.setContentText("Would you like to remove it from view or completely remove it from your Airport?");
+                alert.setContentText("Would you like to remove it from view ?");//////////////////////////////or completely remove it from your Airport
 
                 ButtonType buttonTypeOne = new ButtonType("Remove from View");
                 ButtonType buttonTypeTwo = new ButtonType("Delete from Airport");
                 ButtonType buttonTypeCancel = new ButtonType("Cancel", ButtonData.CANCEL_CLOSE);
 
-                alert.getButtonTypes().setAll(buttonTypeOne, buttonTypeTwo,buttonTypeCancel);
+                alert.getButtonTypes().setAll(buttonTypeOne/*, buttonTypeTwo*/,buttonTypeCancel);
 
                 Optional<ButtonType> result = alert.showAndWait();
                 if (result.get() == buttonTypeOne){
