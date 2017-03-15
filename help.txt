@@ -1,0 +1,27 @@
+Help topics:
+
+0. The menu bar
+	Right under the title bar (the top-most bar which contains the title of the application, as well as the buttons for closing, minimising and maximizing the application window) is the menu bar. Its menus contain this help section, an option to hide the legend for the runway display and a print function (under the File menu).
+
+1. The Welcome Page
+
+	To begin, type in the name of your airport and click the "Create your airport" button or press Enter. This will take you to the "Add a new Runway" page.
+
+2. The "Add a new Runway" page
+
+	Type in the name of your desired runway, along with the TORA, TODA, ASDA and LDA parameters. When finished, click "Confirm and Add Runway" or press Enter. This will add the runway to the Airport's runway list and open the main page for this runway.
+
+3. The main page
+
+	3.1. The runway tabs
+		Each runway has its own tab, so you can easily switch between all the runways of an airport. The runway tabs are located under the menu bar.
+	
+	3.2. The view tabs
+		Under the runway tabs, on the right-hand side of the application, there are three tabs called "Top-down View", "Side-on View" and "Calculations". Use them to switch between different visualisations of the runway and the redeclaration calculations.
+
+	3.3. The obstacle panel
+		Under the runway tabs, on the left-hand side of the application, is the obstacle panel. Here, you can add an obstacle to the runway simulation. Enter the details required and press Enter or click "Include Obstacle" to add an obstacle, or press "Clear Obstacle" to remove it.
+
+	3.4 The value table
+		Under the obstacle panel, on the left-hand side of the application is the value table, containing original and recalculated TORA, TODA, ASDA and LDA values.
+

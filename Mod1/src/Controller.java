@@ -26,7 +26,9 @@ import javafx.stage.Stage;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.Optional;
 import java.util.regex.Pattern;
@@ -165,32 +167,30 @@ public class Controller extends Application {
         readme.setTitle("Help");
         readme.setHeaderText(null);
 
-        TextArea textArea = new TextArea("Ensure that the computer running the redeclaration tool is running Java 1.8.\n" +
-                "\n" +
-                "To ensure the program runs with no errors two text files must first be created \"runway1.txt\" and \"obstacle1.txt\". The format of these text files must be in a comma separated values (csv) format.\n" +
-                "\n" +
-                "The layout for \"runway1.txt\" should be in the form :\n" +
-                "\n" +
-                "Runway Name: String , TORA : integer , TODA : integer, ASDA : integer, LDA : integer\n" +
-                "\n" +
-                "An example of \"runway1.txt\" would be:\n" +
-                "\n" +
-                "09L,3902,4500,4200,3595\n" +
-                "\n" +
-                "The layout for \"obstacle1.txt\" should be in the form:\n" +
-                "\n" +
-                "Obstacle Type : String, Distance from threshold 1 : integer , Distance from threshold 2 : integer , Distance from centre line : integer , Obstacle height : integer , Obstacle RESA : integer\n" +
-                "\n" +
-                "An example of \"obstacle1.txt\" would be: \n" +
-                "\n" +
-                "plane,50,3646,10,12,240\n" +
-                "\n" +
-                "Once these two files have been created, ensure they are in the same folder as the .jar file for the redeclaration application.\n" +
-                "\n" +
-                "Double click on the \"increment1.jar\" file to open the redeclaration tool application. \n" +
-                "\n" +
-                "Launch the application and to read the two text files and see a visualisation of the runway and its values, click the \"Draw\" button.   \n" +
-                "\n");
+        TextArea textArea = new TextArea();
+        
+        try {
+        	FileReader fl = new FileReader("help.txt");
+        	BufferedReader br = new BufferedReader(fl);
+        	
+        	String help = "";
+        	String ln = br.readLine();
+        	
+        	
+        	
+        	while (ln != null) {
+        		help += "\n";
+        		help += ln;
+        		ln = br.readLine();
+        	}
+        	
+        	textArea.setText(help);
+        	
+        } catch (Exception e) {
+        	textArea.setText("There was a problem loading the help file.");
+        }
+        
+        
         textArea.setEditable(false);
         textArea.setWrapText(true);
         textArea.setMaxWidth(Double.MAX_VALUE);
