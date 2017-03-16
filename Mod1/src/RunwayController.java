@@ -104,6 +104,7 @@ public class RunwayController extends Application {
 		rw.setCalculations("");
 		displayCalculations(rw);
 		display();
+		parent.additionalInfoBar.setText("Obstacle removed");
 	}
 
 
@@ -114,6 +115,7 @@ public class RunwayController extends Application {
 			if (initialized) {
 				rw.clearObstacle();
 				rw.setObstacle(getObstacleTextFields());
+				parent.additionalInfoBar.setText("Obstacle added");
 			}
 			display();
 		}catch (Exception e) {
@@ -331,6 +333,7 @@ public class RunwayController extends Application {
 				pan.getTransforms().add(new Scale(0.60, 0.60));
 				pan.getTransforms().add(new Translate(150, 375));
 				boolean td = job.printPage(pan);
+				parent.additionalInfoBar.setText("Current view sucessfully printed");
 				if (td) {
 					job.endJob();
 					pan.getTransforms().clear();
