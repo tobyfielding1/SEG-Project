@@ -59,7 +59,7 @@
                                 </AnchorPane>
                             </content>
                         </TitledPane>
-                        <TitledPane text="Add or Edit an Obstacle" textFill="#f20202">
+                        <TitledPane expanded="false" text="Add or Edit an Obstacle" textFill="#f20202">
                             <content>
                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefWidth="274.0">
                                     <children>
@@ -90,9 +90,9 @@
                                               <Label text="Distance from Threshold " />
                                               <Label text="Obstacle Height " GridPane.rowIndex="1" />
                                               <Label prefHeight="17.0" prefWidth="134.0" text="Distance from Centreline" GridPane.rowIndex="2" />
-                                              <TextField onKeyPressed="#enter" fx:id="thresholdDistance" prefHeight="27.0" prefWidth="64.0" promptText="(m)" GridPane.columnIndex="1" />
-                                              <TextField onKeyPressed="#enter" fx:id="obstacleHeightInputField" prefHeight="27.0" prefWidth="64.0" promptText="(m)" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                                              <TextField onKeyPressed="#enter" fx:id="distCentrelineInputField" prefHeight="27.0" prefWidth="65.0" promptText="(m) " GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                              <TextField fx:id="thresholdDistance" onKeyPressed="#enter" prefHeight="27.0" prefWidth="64.0" promptText="(m)" GridPane.columnIndex="1" />
+                                              <TextField fx:id="obstacleHeightInputField" onKeyPressed="#enter" prefHeight="27.0" prefWidth="64.0" promptText="(m)" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                              <TextField fx:id="distCentrelineInputField" onKeyPressed="#enter" prefHeight="27.0" prefWidth="65.0" promptText="(m) " GridPane.columnIndex="1" GridPane.rowIndex="2" />
                                     <Label prefHeight="42.0" prefWidth="75.0" text="Negative if before LDA" textFill="#a8a7a7" wrapText="true" GridPane.columnIndex="2">
                                        <padding>
                                           <Insets left="2.0" />
