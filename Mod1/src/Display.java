@@ -89,6 +89,7 @@ public class Display {
                 drawLDADisplacement(LDAEnds, XObs);
                 drawTakeoffDisplacement(TORAEnds, XObs);
                 drawALSTOCS(XObs);
+                sideOnPane.getChildren().get(sideOnPane.getChildren().size()-1).toBack();
             }
         }
 
