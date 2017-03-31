@@ -1,4 +1,5 @@
 import javafx.application.Application;
+import javafx.beans.property.StringProperty;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.print.PrinterJob;
@@ -43,7 +44,7 @@ public class RunwayController extends Application {
 
 	public Button submitButton,clearObstacle;
 
-	public TextField thresholdDistance, distCentrelineInputField, obstacleHeightInputField,tora,toda,asda,lda,resa,blast,stripEnd,alstocs;
+	public TextField thresholdDistance, distCentrelineInputField, obstacleHeightInputField, tora, toda, asda, lda, resa, blast, stripEnd, alstocs;
 
 	// Combo box of obstacle types
 	public ComboBox obstacleTypeComboBox;
@@ -69,29 +70,38 @@ public class RunwayController extends Application {
 
 	@FXML
 	public void initialize() {
-        topDownPane.setOnMouseEntered(new EventHandler<MouseEvent>() {
-            public void handle(MouseEvent me) {
-                if (!initialized)
-                    submitButton.fire();
-                initialized = true;
-            }
+        topDownPane.setOnMouseEntered(me -> {
+            if (!initialized)
+                submitButton.fire();
+            initialized = true;
         });
 
-        leftPanel.setOnMouseEntered(new EventHandler<MouseEvent>() {
-            public void handle(MouseEvent me) {
-                if (!initialized)
-                    submitButton.fire();
-                initialized = true;
-            }
+        leftPanel.setOnMouseEntered(me -> {
+            if (!initialized)
+                submitButton.fire();
+            initialized = true;
         });
+
+        // It's a bit of a roundabout way to do it, but it kee
+        TextField[] advancedInputFields = {tora, toda, asda, lda, resa, blast, stripEnd, alstocs};
+        for (int i = 0; i < advancedInputFields.length - 1; i++) {
+        	addFrontEndNumericInputValidation(advancedInputFields[i]);
+		}
     }
 
-	public void start(Stage primaryStage){
+    public void addFrontEndNumericInputValidation(TextField t) {
+		t.textProperty().addListener(
+				(observable, oldValue, newValue) -> {
+					if (newValue.matches("^[0-9]*$")) {
+						((StringProperty) observable).setValue(newValue.toUpperCase());
+					} else {
+						((StringProperty) observable).setValue(oldValue);
+					}
+				}
+		);
 	}
 
-	@FXML
-	protected void editAction(){
-
+	public void start(Stage primaryStage){
 	}
 
 	@FXML
@@ -128,7 +138,7 @@ public class RunwayController extends Application {
 		}
 	}
 
-	protected void display(){
+	private void display(){
 		displayValues();
 		displayCalculations(rw);
 		Display screen = new Display(topDownPane, sideOnPane);
@@ -313,7 +323,7 @@ public class RunwayController extends Application {
 		}
 	}
 	
-	protected Node getTab(){
+	private Node getTab(){
 		if (topDown.isSelected()){
 			return topDownPane;
 		}
@@ -326,7 +336,7 @@ public class RunwayController extends Application {
 		return null;
 	}
 	
-	protected void printToPrinter(Node pan) {
+	private void printToPrinter(Node pan) {
 		PrinterJob job = PrinterJob.createPrinterJob();
 		if (job != null) {
 			if (job.showPrintDialog(null)) {

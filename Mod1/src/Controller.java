@@ -37,7 +37,7 @@ import static javafx.scene.control.Alert.AlertType;
 
 public class Controller extends Application {
 
-    Airport airport;
+    private Airport airport;
 
     @FXML
 	public TabPane runwayTabs;
@@ -94,50 +94,37 @@ public class Controller extends Application {
             e.printStackTrace();
         }
 
-        tab.setOnCloseRequest(new EventHandler<javafx.event.Event>()
-        {
-            @Override
-            public void handle(javafx.event.Event event)
-            {
-                Alert alert = new Alert(AlertType.CONFIRMATION);
-                alert.setTitle("Close Runway");
-                alert.setHeaderText("You have chosen to close a Runway");
-                alert.setContentText("Would you like to remove it from view ?");//////////////////////////////or completely remove it from your Airport
+        tab.setOnCloseRequest(event -> {
+            Alert alert = new Alert(AlertType.CONFIRMATION);
+            alert.setTitle("Close Runway");
+            alert.setHeaderText("You have chosen to close a Runway");
+            alert.setContentText("Would you like to remove it from view ?");//////////////////////////////or completely remove it from your Airport
 
-                ButtonType buttonTypeOne = new ButtonType("Remove from View");
-                ButtonType buttonTypeTwo = new ButtonType("Delete from Airport");
-                ButtonType buttonTypeCancel = new ButtonType("Cancel", ButtonData.CANCEL_CLOSE);
+            ButtonType buttonTypeOne = new ButtonType("Remove from View");
+            ButtonType buttonTypeTwo = new ButtonType("Delete from Airport");
+            ButtonType buttonTypeCancel = new ButtonType("Cancel", ButtonData.CANCEL_CLOSE);
 
-                alert.getButtonTypes().setAll(buttonTypeOne/*, buttonTypeTwo*/,buttonTypeCancel);
+            alert.getButtonTypes().setAll(buttonTypeOne/*, buttonTypeTwo*/,buttonTypeCancel);
 
-                Optional<ButtonType> result = alert.showAndWait();
-                if (result.get() == buttonTypeOne){
-                    tabPane.getTabs().remove(tab);
-                } else if (result.get() == buttonTypeTwo) {
-                    tabPane.getTabs().remove(tab);
-                    airport.removeRunway(tab.getText());
-                }else{
-                    event.consume();
-                }
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.get() == buttonTypeOne){
+                tabPane.getTabs().remove(tab);
+            } else if (result.get() == buttonTypeTwo) {
+                tabPane.getTabs().remove(tab);
+                airport.removeRunway(tab.getText());
+            }else{
+                event.consume();
             }
         });
 
         filePrintMenu.addEventHandler(ActionEvent.ACTION,
-                new EventHandler<ActionEvent>() {
-                    @Override
-                    public void handle(ActionEvent event) {
-                        if(tab.isSelected())
-                            rwController.print();
-                    }
+                event -> {
+                    if(tab.isSelected())
+                        rwController.print();
                 });
 
         viewAlwaysShowLegend.addEventHandler(ActionEvent.ACTION,
-                new EventHandler<ActionEvent>() {
-                    @Override
-                    public void handle(ActionEvent event) {
-                            rwController.toggleLegend();
-                    }
-                });
+                event -> rwController.toggleLegend());
 
 		final ObservableList<Tab> tabs = tabPane.getTabs();
 		tab.closableProperty().setValue(true);

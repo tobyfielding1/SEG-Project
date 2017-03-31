@@ -76,7 +76,8 @@
                                 </Button>
                             </children>
                         </VBox>
-                    </content></Tab>
+                    </content>
+                </Tab>
             <Tab fx:id="addRunway" closable="false" disable="true" text="Add Runway...">
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #e6e6e6;">
@@ -150,6 +151,6 @@
             <DropShadow color="#c3bdbd" height="14.83" radius="6.9125" width="14.82" />
          </effect>
         </TabPane>
-        <TextField fx:id="additionalInfoBar" editable="false" layoutY="565.0" prefHeight="25.0" text="Additional Info" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+        <TextField fx:id="additionalInfoBar" editable="false" style="-fx-border-color: lightgrey;-fx-background-color: #f4f4f4;" layoutY="565.0" prefHeight="25.0" text="Additional Info" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
     </children>
 </AnchorPane>
