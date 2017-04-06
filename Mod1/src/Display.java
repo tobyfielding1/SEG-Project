@@ -22,9 +22,9 @@ public class Display {
     final Paint obstacleColor = Color.RED;
     final Paint slopeColor = Color.TURQUOISE;
     final Paint areaColor = Color.LIGHTGRAY;
-    
+
     final double arrowThickness = 0.8;
-  
+
     public static final Paint CLEARWAY_COLOR = Color.YELLOW;
     public static final Paint STOPWAY_COLOR = new Color(0.3, 0.3, 1, 0.98);
     public static final Paint OBSTACLE_COLOR = Color.RED;
@@ -89,7 +89,7 @@ public class Display {
                 drawLDADisplacement(LDAEnds, XObs);
                 drawTakeoffDisplacement(TORAEnds, XObs);
                 drawALSTOCS(XObs);
-                sideOnPane.getChildren().get(sideOnPane.getChildren().size()-1).toBack();
+                sideOnPane.getChildren().get(sideOnPane.getChildren().size() - 1).toBack();
             }
         }
 
@@ -300,9 +300,9 @@ public class Display {
 
         Text t1 = new Text(thresh - 10, centreLine + 40, rw.getName().substring(0, 2));
         Text t2;
-        try{
-            t2 = new Text(thresh-5,centreLine+55,rw.getName().substring(2,3));
-        } catch(Exception e){
+        try {
+            t2 = new Text(thresh - 5, centreLine + 55, rw.getName().substring(2, 3));
+        } catch (Exception e) {
             t2 = new Text();
         }
 
@@ -318,9 +318,9 @@ public class Display {
         topDownPane.getChildren().addAll(t1, t2);
 
         t1 = new Text(thresh - 10, centreLine + 30, rw.getName().substring(0, 2));
-        try{
+        try {
             t2 = new Text(thresh - 5, centreLine + 45, rw.getName().substring(2, 3));
-        } catch(Exception e){
+        } catch (Exception e) {
             t2 = new Text();
         }
 
@@ -556,71 +556,71 @@ public class Display {
     }
 
     public Polygon makeArea(double x1, double x2, double x3, double x4, double x5, double x6, double y1, double y2) {
-    	Polygon area = new Polygon();
-    	ArrayList<Double> points = new ArrayList<Double>();
-    	
-    	points.add(x1);
-    	points.add(centreLine-y1/2);
-    	
-    	points.add(x2);
-    	points.add(centreLine-y1/2);
+        Polygon area = new Polygon();
+        ArrayList<Double> points = new ArrayList<>();
 
-    	points.add(x3);
-    	points.add(centreLine-y2/2);
-    	
-    	points.add(x4);
-    	points.add(centreLine-y2/2);
-    	
-    	points.add(x5);
-    	points.add(centreLine-y1/2);
-    	
-    	points.add(x6);
-    	points.add(centreLine-y1/2);
+        points.add(x1);
+        points.add(centreLine - y1 / 2);
 
-    	points.add(x6);
-    	points.add(centreLine+y1/2);
-    	
-    	points.add(x5);
-    	points.add(centreLine+y1/2);
-    	
-    	points.add(x4);
-    	points.add(centreLine+y2/2);
+        points.add(x2);
+        points.add(centreLine - y1 / 2);
 
-    	points.add(x3);
-    	points.add(centreLine+y2/2);
-    	
-    	points.add(x2);
-    	points.add(centreLine+y1/2);
+        points.add(x3);
+        points.add(centreLine - y2 / 2);
 
-    	points.add(x1);
-    	points.add(centreLine+y1/2);
-    	
-    	area.getPoints().addAll(points);
-    
-    	area.setFill(areaColor);
-    	area.setStroke(Color.BLACK);
-    	area.setStrokeWidth(0.1);
-    	
-    	return area;
+        points.add(x4);
+        points.add(centreLine - y2 / 2);
+
+        points.add(x5);
+        points.add(centreLine - y1 / 2);
+
+        points.add(x6);
+        points.add(centreLine - y1 / 2);
+
+        points.add(x6);
+        points.add(centreLine + y1 / 2);
+
+        points.add(x5);
+        points.add(centreLine + y1 / 2);
+
+        points.add(x4);
+        points.add(centreLine + y2 / 2);
+
+        points.add(x3);
+        points.add(centreLine + y2 / 2);
+
+        points.add(x2);
+        points.add(centreLine + y1 / 2);
+
+        points.add(x1);
+        points.add(centreLine + y1 / 2);
+
+        area.getPoints().addAll(points);
+
+        area.setFill(areaColor);
+        area.setStroke(Color.BLACK);
+        area.setStrokeWidth(0.1);
+
+        return area;
     }
-    
+
     public void drawArea(Runway r) {
-    	//two ways this method can be used:
-    	
-    	// 1. Input lengths of segments here:
-    	double startX = xi - 60*scaleDir; // (left) starting point of clear and grated area
-    	double length1 = (150+60)*scaleDir; // length of first segment
-    	double length2 = 150*scaleDir; // length of second segment
-    	double length3 = rw.getOriginalTORA()*scaleDir - length2*4; // length of third segment
-    	double length4 = length2; // length of fourth segment
-    	double length5 = length1; // length of fifth segment
-    	
-    	//then widths:
-    	double width1 = 75*2; // small width
-    	double width2 = 105*2; // large width
-    	
-    	// 2. Input X coordinates of each segment beggining/end (first 6 values) and then the widths
-    	Polygon area = makeArea(startX,startX+length1,startX+length1+length2,startX+length1+length2+length3,startX+length1+length2+length3+length4,startX+length1+length2+length3+length4+length5,width1,width2);
-    	topDownPane.getChildren().add(area);
+        //two ways this method can be used:
+
+        // 1. Input lengths of segments here:
+        double startX = xi - 60 * scaleDir; // (left) starting point of clear and grated area
+        double length1 = (150 + 60) * scaleDir; // length of first segment
+        double length2 = 150 * scaleDir; // length of second segment
+        double length3 = rw.getOriginalTORA() * scaleDir - length2 * 4; // length of third segment
+        double length4 = length2; // length of fourth segment
+        double length5 = length1; // length of fifth segment
+
+        //then widths:
+        double width1 = 75 * 2; // small width
+        double width2 = 105 * 2; // large width
+
+        // 2. Input X coordinates of each segment beggining/end (first 6 values) and then the widths
+        Polygon area = makeArea(startX, startX + length1, startX + length1 + length2, startX + length1 + length2 + length3, startX + length1 + length2 + length3 + length4, startX + length1 + length2 + length3 + length4 + length5, width1, width2);
+        topDownPane.getChildren().add(area);
     }
 }

@@ -40,7 +40,7 @@ public class Controller extends Application {
     private Airport airport;
 
     @FXML
-	public TabPane runwayTabs;
+    public TabPane runwayTabs;
 
     public MenuItem filePrintMenu;
 
@@ -74,16 +74,15 @@ public class Controller extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         this.primaryStage = primaryStage;
-		Parent root = FXMLLoader.load(getClass().getResource("RRTGUI.fxml"));
-		primaryStage.setTitle("Runway Redeclaration Tool");
-		primaryStage.setScene(new Scene(root));
+        Parent root = FXMLLoader.load(getClass().getResource("RRTGUI.fxml"));
+        primaryStage.setTitle("Runway Redeclaration Tool");
+        primaryStage.setScene(new Scene(root));
         primaryStage.setResizable(false);
-		primaryStage.show();
-		
-	}
+        primaryStage.show();
+    }
 
-	private void createAndSelectNewTab(final TabPane tabPane, final String title) {
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("RWTAB.fxml"));
+    private void createAndSelectNewTab(final TabPane tabPane, final String title) {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("RWTAB.fxml"));
         RunwayController rwController = new RunwayController(airport.getRunway(title), this);
         loader.setController(rwController);
         rwController.setAlwaysShowLegend(viewAlwaysShowLegend.isSelected());
@@ -104,32 +103,32 @@ public class Controller extends Application {
             ButtonType buttonTypeTwo = new ButtonType("Delete from Airport");
             ButtonType buttonTypeCancel = new ButtonType("Cancel", ButtonData.CANCEL_CLOSE);
 
-            alert.getButtonTypes().setAll(buttonTypeOne/*, buttonTypeTwo*/,buttonTypeCancel);
+            alert.getButtonTypes().setAll(buttonTypeOne/*, buttonTypeTwo*/, buttonTypeCancel);
 
             Optional<ButtonType> result = alert.showAndWait();
-            if (result.get() == buttonTypeOne){
+            if (result.get() == buttonTypeOne) {
                 tabPane.getTabs().remove(tab);
             } else if (result.get() == buttonTypeTwo) {
                 tabPane.getTabs().remove(tab);
                 airport.removeRunway(tab.getText());
-            }else{
+            } else {
                 event.consume();
             }
         });
 
         filePrintMenu.addEventHandler(ActionEvent.ACTION,
                 event -> {
-                    if(tab.isSelected())
+                    if (tab.isSelected())
                         rwController.print();
                 });
 
         viewAlwaysShowLegend.addEventHandler(ActionEvent.ACTION,
                 event -> rwController.toggleLegend());
 
-		final ObservableList<Tab> tabs = tabPane.getTabs();
-		tab.closableProperty().setValue(true);
-		tabs.add(tabs.size() - 1, tab);
-		tabPane.getSelectionModel().select(tab);
+        final ObservableList<Tab> tabs = tabPane.getTabs();
+        tab.closableProperty().setValue(true);
+        tabs.add(tabs.size() - 1, tab);
+        tabPane.getSelectionModel().select(tab);
     }
 
     /*
@@ -155,29 +154,28 @@ public class Controller extends Application {
         readme.setHeaderText(null);
 
         TextArea textArea = new TextArea();
-        
+
         try {
-        	FileReader fl = new FileReader("help.txt");
-        	BufferedReader br = new BufferedReader(fl);
-        	
-        	String help = "";
-        	String ln = br.readLine();
-        	
-        	
-        	
-        	while (ln != null) {
-        		help += "\n";
-        		help += ln;
-        		ln = br.readLine();
-        	}
-        	
-        	textArea.setText(help);
-        	
+            FileReader fl = new FileReader("help.txt");
+            BufferedReader br = new BufferedReader(fl);
+
+            String help = "";
+            String ln = br.readLine();
+
+
+            while (ln != null) {
+                help += "\n";
+                help += ln;
+                ln = br.readLine();
+            }
+
+            textArea.setText(help);
+
         } catch (Exception e) {
-        	textArea.setText("There was a problem loading the help file.");
+            textArea.setText("There was a problem loading the help file.");
         }
-        
-        
+
+
         textArea.setEditable(false);
         textArea.setWrapText(true);
         textArea.setMaxWidth(Double.MAX_VALUE);
@@ -198,7 +196,7 @@ public class Controller extends Application {
 
     //creates new runway
     @FXML
-    protected void createAction(){
+    protected void createAction() {
         try {
             String name = rNameInputField.getText();
             int tora = Integer.parseInt(toraInputField.getText());
@@ -289,27 +287,25 @@ public class Controller extends Application {
             }
         }
     }
-    
+
     @FXML
     protected void enter1(KeyEvent e) {
-		if (e.getCode() == KeyCode.ENTER) {
-			try {
-				createAirportAction();
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
-		}
-	}
-    
+        if (e.getCode() == KeyCode.ENTER) {
+            try {
+                createAirportAction();
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
+        }
+    }
+
     @FXML
     protected void enter2(KeyEvent e) {
-		if (e.getCode() == KeyCode.ENTER) {
-				createAction();
-			
-		}
-	}
-    
-   
-    
-    
+        if (e.getCode() == KeyCode.ENTER) {
+            createAction();
+
+        }
+    }
+
+
 }

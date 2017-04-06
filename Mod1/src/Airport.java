@@ -9,7 +9,7 @@ import java.util.Set;
 public class Airport {
 
     private final String name;
-    private HashMap<String, Runway> runways = new HashMap<String, Runway>();
+    private HashMap<String, Runway> runways = new HashMap<>();
 
     public Airport(String name) {
         this.name = name;

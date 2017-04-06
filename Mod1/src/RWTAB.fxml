@@ -51,6 +51,7 @@
                                                 <TextField fx:id="stripEnd" GridPane.columnIndex="1" GridPane.rowIndex="7" />
                                                 <Label text=" Blast Allowance" textAlignment="CENTER" GridPane.rowIndex="8" />
                                                 <TextField fx:id="blast" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+                                                <Button text="Submit" onAction="#advancedSubmitAction" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="9"/>
                                             </children>
                                             <columnConstraints>
                                                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="101.0" minWidth="10.0" prefWidth="101.0" />
@@ -93,7 +94,7 @@
                                 <columnConstraints>
                                   <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="141.0" minWidth="10.0" prefWidth="135.0" />
                                   <ColumnConstraints hgrow="SOMETIMES" maxWidth="81.0" minWidth="10.0" prefWidth="57.0" />
-                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="96.0" minWidth="10.0" prefWidth="65.0" />
+                                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="96.0" minWidth="10.0" prefWidth="65.0" />
                                 </columnConstraints>
                                 <rowConstraints>
                                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
