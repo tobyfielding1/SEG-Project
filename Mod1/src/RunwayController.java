@@ -1,6 +1,7 @@
 import javafx.application.Application;
 import javafx.beans.property.StringProperty;
 import javafx.fxml.FXML;
+import javafx.print.PageLayout;
 import javafx.print.PrinterJob;
 import javafx.scene.Node;
 import javafx.scene.SnapshotParameters;
@@ -390,8 +391,12 @@ public class RunwayController extends Application {
         PrinterJob job = PrinterJob.createPrinterJob();
         if (job != null) {
             if (job.showPrintDialog(null)) {
-                pan.getTransforms().add(new Scale(0.60, 0.60));
-                pan.getTransforms().add(new Translate(150, 375));
+            	PageLayout pl = job.getPrinter().getDefaultPageLayout();
+                double XShift = pl.getPrintableWidth() / pan.getBoundsInParent().getWidth();
+                double YShift = pl.getPrintableHeight() / pan.getBoundsInParent().getHeight();
+                double transformValue = Math.min(XShift, YShift);
+                Scale scale = new Scale(transformValue, transformValue);
+                  pan.getTransforms().add(scale);
                 boolean td = job.printPage(pan);
                 parent.additionalInfoBar.setText("Current view sucessfully printed");
                 if (td) {
