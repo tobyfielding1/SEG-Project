@@ -12,6 +12,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -34,6 +35,7 @@ import java.io.IOException;
 public class RunwayController extends Application {
 
     public static final String NUMERIC_REGEX = "^[0-9]*$";
+    private static final double SCALE_FACTOR = 1.1;
 
     @FXML
     public Tab topDown, sideOn, calculations;
@@ -74,17 +76,7 @@ public class RunwayController extends Application {
     }
 
     @FXML
-    public void initialize() {
-        topDownPane.setOnMouseEntered(me -> {
-            submissionInit();
-        });
-
-        leftPanel.setOnMouseEntered(me -> {
-            submissionInit();
-        });
-    }
-
-    private void submissionInit() {
+    protected void submissionInit() {
         TextField[] obstacleInputFields = {thresholdDistance, distCentrelineInputField, obstacleHeightInputField};
         TextField[] advancedInputFields = {tora, toda, asda, lda, resa, blast, stripEnd, alstocs};
 
@@ -412,6 +404,36 @@ public class RunwayController extends Application {
         setAlwaysShowLegend(!alwaysShowLegend);
         display();
     }
+
+    @FXML
+    protected void topDownScroll(ScrollEvent e) {
+        e.consume();
+        double scaling = getScale(e);
+
+        topDownPane.setScaleX(topDownPane.getScaleX() * scaling);
+        topDownPane.setScaleY(topDownPane.getScaleY() * scaling);
+    }
+
+    @FXML
+    protected void sideOnScroll(ScrollEvent e) {
+        e.consume();
+        double scaling = getScale(e);
+
+        sideOnPane.setScaleX(sideOnPane.getScaleX() * scaling);
+        sideOnPane.setScaleY(sideOnPane.getScaleY() * scaling);
+    }
+
+    private double getScale(ScrollEvent e) {
+        if (e.getDeltaY() == 0) {
+            return 1;
+        } else if (e.getDeltaY() > 0) {
+            return SCALE_FACTOR;
+        } else {
+            return 1 / SCALE_FACTOR;
+        }
+
+    }
+
 
     @FXML
     protected void enter(KeyEvent e) {
