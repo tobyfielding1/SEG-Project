@@ -196,12 +196,12 @@
             <tabs>
                 <Tab fx:id="topDown" text="Top Down View">
                     <content>
-                        <AnchorPane fx:id="topDownPane" onMouseEntered="#submissionInit" onScroll="#topDownScroll" maxHeight="574.0" maxWidth="816.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="574.0" prefWidth="816.0" />
+                        <AnchorPane fx:id="topDownPane" onMouseEntered="#submissionInit" onScroll="#topDownScroll" onMousePressed="#displayMousePressed" onMouseDragged="#topDownMouseDrag" maxHeight="574.0" maxWidth="816.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="574.0" prefWidth="816.0" />
                     </content>
                 </Tab>
                 <Tab fx:id="sideOn" text="Side-On View">
                     <content>
-                        <AnchorPane fx:id="sideOnPane" onScroll="#sideOnScroll" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                        <AnchorPane fx:id="sideOnPane" onScroll="#sideOnScroll" onMousePressed="#displayMousePressed" onMouseDragged="#sideOnMouseDrag" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
                     </content>
                 </Tab>
                 <Tab fx:id="calculations" text="Calculations">

@@ -12,6 +12,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
@@ -21,7 +22,6 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.scene.transform.Scale;
-import javafx.scene.transform.Translate;
 import javafx.stage.Stage;
 
 import javax.imageio.ImageIO;
@@ -44,6 +44,8 @@ public class RunwayController extends Application {
     private Runway rw;
 
     private boolean initialized = false;
+
+    private Point dragStartPos;
 
     public Button submitButton, clearObstacle;
 
@@ -421,6 +423,28 @@ public class RunwayController extends Application {
 
         sideOnPane.setScaleX(sideOnPane.getScaleX() * scaling);
         sideOnPane.setScaleY(sideOnPane.getScaleY() * scaling);
+    }
+
+    @FXML
+    protected void displayMousePressed(MouseEvent e) {
+        e.consume();
+        dragStartPos = new Point((int) e.getX(), (int) e.getY());
+    }
+
+    @FXML
+    protected void topDownMouseDrag(MouseEvent e) {
+        e.consume();
+
+        topDownPane.setTranslateX(topDownPane.getTranslateX() + e.getX() - dragStartPos.getX());
+        topDownPane.setTranslateY(topDownPane.getTranslateY() + e.getY() - dragStartPos.getY());
+    }
+
+    @FXML
+    protected void sideOnMouseDrag(MouseEvent e) {
+        e.consume();
+
+        sideOnPane.setTranslateX(sideOnPane.getTranslateX() + e.getX() - dragStartPos.getX());
+        sideOnPane.setTranslateY(sideOnPane.getTranslateY() + e.getY() - dragStartPos.getY());
     }
 
     private double getScale(ScrollEvent e) {
