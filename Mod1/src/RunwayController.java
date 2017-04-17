@@ -1,5 +1,6 @@
 import javafx.application.Application;
 import javafx.beans.property.StringProperty;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.print.PageLayout;
 import javafx.print.PrinterJob;
@@ -22,8 +23,10 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.scene.transform.Scale;
+import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
-
+import javafx.stage.*;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -353,20 +356,24 @@ public class RunwayController extends Application {
 
     public void print() {
         printToPrinter(getTab());
+    		//saveFile(getTab());
     }
-
-    protected void saveToFile(Node pan, String fileName, String extension) {
-        BufferedImage bi = new BufferedImage(511, 640, BufferedImage.TYPE_INT_RGB);
+    
+    protected void saveFile(Node pan){
+    	BufferedImage bi = new BufferedImage(511, 640, BufferedImage.TYPE_INT_RGB);
         BufferedImage image = javafx.embed.swing.SwingFXUtils.fromFXImage(pan.snapshot(new SnapshotParameters(), null), bi);
         Graphics2D gd = (Graphics2D) image.getGraphics();
-        File file = new File(fileName + extension);
-        try {
-            ImageIO.write(image, extension.substring(1), file);
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-    }
+    	 FileChooser fc = new FileChooser();
+         fc.setTitle("Save Image");
+         fc.getExtensionFilters().addAll(new ExtensionFilter("png file",".png"), new ExtensionFilter("jpeg file",".jpg"), new ExtensionFilter("gif file",".gif"));
+         File file = fc.showSaveDialog(null);
+         if (file != null) {
+             try {
+                 ImageIO.write(image, "png", file);
+             } catch (IOException ex) {
+             }
+         }
+     }
 
     private Node getTab() {
         if (topDown.isSelected()) {

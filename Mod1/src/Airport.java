@@ -14,8 +14,12 @@ public class Airport {
     public Airport(String name) {
         this.name = name;
     }
+    
+    public String getName() {
+		return name;
+	}
 
-    public Set<String> getRunwayIDs() {
+	public Set<String> getRunwayIDs() {
         return runways.keySet();
     }
 

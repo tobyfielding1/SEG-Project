@@ -37,7 +37,7 @@ import static javafx.scene.control.Alert.AlertType;
 
 public class Controller extends Application {
 
-    private Airport airport;
+    protected Airport airport;
 
     @FXML
     public TabPane runwayTabs;
@@ -253,41 +253,7 @@ public class Controller extends Application {
             alert.showAndWait();
         }
     }
-
-
-    protected void saveToFile(Node pan, String fileName, String extension) {
-        BufferedImage bi = new BufferedImage(511, 640, BufferedImage.TYPE_INT_RGB);
-        BufferedImage image = javafx.embed.swing.SwingFXUtils.fromFXImage(pan.snapshot(new SnapshotParameters(), null), bi);
-        Graphics2D gd = (Graphics2D) image.getGraphics();
-        File file = new File(fileName + extension);
-        try {
-            ImageIO.write(image, extension.substring(1), file);
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-    }
-
-    protected void printToPrinter(Node pan) {
-        PrinterJob job = PrinterJob.createPrinterJob();
-        if (job != null) {
-            if (job.showPrintDialog(null)) {
-                if (job.getJobSettings().getPageLayout().getPageOrientation().equals(PageOrientation.PORTRAIT)) {
-                    pan.getTransforms().add(new Scale(0.45, 0.45));
-                    pan.getTransforms().add(new Translate(-50, 0));
-                } else {
-                    pan.getTransforms().add(new Scale(0.75, 0.75));
-                    pan.getTransforms().add(new Translate(150, 300));
-                }
-            }
-            boolean printsucc = job.printPage(pan);
-            if (printsucc) {
-                job.endJob();
-                pan.getTransforms().clear();
-            }
-        }
-    }
-
+    
     @FXML
     protected void enter1(KeyEvent e) {
         if (e.getCode() == KeyCode.ENTER) {
