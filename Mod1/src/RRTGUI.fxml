@@ -1,13 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.effect.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckMenuItem?>
+<?import javafx.scene.control.ContextMenu?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.paint.LinearGradient?>
 <?import javafx.scene.paint.Stop?>
-<?import javafx.scene.text.*?>
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="683.0" prefWidth="1078.0" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller">
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="683.0" prefWidth="1078.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller">
     <children>
         <MenuBar fx:id="menu" prefHeight="25.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
             <menus>
@@ -15,6 +36,10 @@
                     <items>
                         <MenuItem fx:id="filePrintMenu" mnemonicParsing="false" text="Print" />
                         <MenuItem mnemonicParsing="false" onAction="#fileCloseMenuAction" text="Close" />
+                <MenuItem mnemonicParsing="false" onAction="#exportRunwayAction" text="Export this Runway" />
+                  <MenuItem mnemonicParsing="false" onAction="#openAction" text="Import Runway" />
+                  <MenuItem mnemonicParsing="false" text="Export Airport " />
+                  <MenuItem mnemonicParsing="false" text="Import and Switch Airports" />
                     </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="View">
@@ -51,7 +76,7 @@
                               <Insets left="43.0" right="43.0" />
                            </VBox.margin>
                         </Text>
-                                <TextField onKeyPressed="#enter1" fx:id="airportName" prefHeight="25.0" prefWidth="786.0" promptText="Please enter the name of your new Airport">
+                                <TextField fx:id="airportName" onKeyPressed="#enter1" prefHeight="25.0" prefWidth="786.0" promptText="Please enter the name of your new Airport">
                                     <VBox.margin>
                                         <Insets left="300.0" right="300.0" top="100.0" />
                                     </VBox.margin>
@@ -82,7 +107,7 @@
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #e6e6e6;">
                      <children>
-                        <Text fill="#a6a6bf" layoutX="12.0" layoutY="58.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Add A New Runway" textAlignment="CENTER">
+                        <Text fill="#a6a6bf" layoutX="12.0" layoutY="58.0" strokeType="OUTSIDE" strokeWidth="0.0" text="   Declare a Runway     or     Import a Runway" textAlignment="CENTER">
                            <font>
                               <Font name="System Bold" size="48.0" />
                            </font>
@@ -92,7 +117,7 @@
                               <Font size="25.0" />
                            </font>
                         </Label>
-                        <TextField onKeyPressed="#enter2" fx:id="rNameInputField" alignment="CENTER" layoutX="128.0" layoutY="138.0" prefHeight="60.0" prefWidth="222.0" promptText="eg. '09L'">
+                        <TextField fx:id="rNameInputField" alignment="CENTER" layoutX="128.0" layoutY="138.0" onKeyPressed="#enter2" prefHeight="60.0" prefWidth="222.0" promptText="eg. '09L'">
                            <font>
                               <Font name="System Bold" size="28.0" />
                            </font>
@@ -102,7 +127,7 @@
                               <Font size="25.0" />
                            </font>
                         </Label>
-                        <TextField onKeyPressed="#enter2" fx:id="toraInputField" layoutX="130.0" layoutY="246.0" prefHeight="31.0" prefWidth="100.0" promptText="in meters">
+                        <TextField fx:id="toraInputField" layoutX="130.0" layoutY="246.0" onKeyPressed="#enter2" prefHeight="31.0" prefWidth="100.0" promptText="in meters">
                            <font>
                               <Font size="15.0" />
                            </font>
@@ -112,7 +137,7 @@
                               <Font size="25.0" />
                            </font>
                         </Label>
-                        <TextField onKeyPressed="#enter2" fx:id="todaInputField" layoutX="249.0" layoutY="246.0" prefWidth="100.0" promptText="in meters">
+                        <TextField fx:id="todaInputField" layoutX="249.0" layoutY="246.0" onKeyPressed="#enter2" prefWidth="100.0" promptText="in meters">
                            <font>
                               <Font size="15.0" />
                            </font>
@@ -122,7 +147,7 @@
                               <Font size="25.0" />
                            </font>
                         </Label>
-                        <TextField onKeyPressed="#enter2" fx:id="asdaInputField" layoutX="129.0" layoutY="331.0" prefWidth="100.0" promptText="in meters">
+                        <TextField fx:id="asdaInputField" layoutX="129.0" layoutY="331.0" onKeyPressed="#enter2" prefWidth="100.0" promptText="in meters">
                            <font>
                               <Font size="15.0" />
                            </font>
@@ -132,16 +157,22 @@
                               <Font size="25.0" />
                            </font>
                         </Label>
-                        <TextField onKeyPressed="#enter2" fx:id="ldaInputField" layoutX="249.0" layoutY="331.0" prefWidth="100.0" promptText="in meters">
+                        <TextField fx:id="ldaInputField" layoutX="249.0" layoutY="331.0" onKeyPressed="#enter2" prefWidth="100.0" promptText="in meters">
                            <font>
                               <Font size="15.0" />
                            </font>
                         </TextField>
-                        <Button fx:id="create" defaultButton="true" layoutX="144.0" layoutY="394.0" mnemonicParsing="false" onAction="#createAction" text="Confirm and Add Runway">
+                        <Button fx:id="create" defaultButton="true" layoutX="100.0" layoutY="396.0" mnemonicParsing="false" onAction="#createAction" text="Confirm and Add Runway">
                            <font>
-                              <Font size="15.0" />
+                              <Font size="22.0" />
                            </font>
                         </Button>
+                        <Button defaultButton="true" layoutX="689.0" layoutY="120.0" mnemonicParsing="false" onAction="#openAction" text="Import from filesystem">
+                           <font>
+                              <Font size="22.0" />
+                           </font>
+                        </Button>
+                        <Line endX="100.0" layoutX="539.0" layoutY="329.0" rotate="90.0" scaleX="2.5" startX="-100.0" />
                      </children>
                   </AnchorPane>
               </content>
