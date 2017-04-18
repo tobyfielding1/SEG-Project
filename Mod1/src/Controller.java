@@ -21,15 +21,15 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.transform.Scale;
 import javafx.scene.transform.Translate;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.beans.XMLDecoder;
+import java.beans.XMLEncoder;
+import java.io.*;
 import java.util.Optional;
 import java.util.regex.Pattern;
 
@@ -37,10 +37,12 @@ import static javafx.scene.control.Alert.AlertType;
 
 public class Controller extends Application {
 
-    protected Airport airport;
+    Airport airport;
+
+    final FileChooser fileChooser = new FileChooser();
 
     @FXML
-    public TabPane runwayTabs;
+	public TabPane runwayTabs;
 
     public MenuItem filePrintMenu;
 
@@ -74,15 +76,28 @@ public class Controller extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         this.primaryStage = primaryStage;
-        Parent root = FXMLLoader.load(getClass().getResource("RRTGUI.fxml"));
-        primaryStage.setTitle("Runway Redeclaration Tool");
-        primaryStage.setScene(new Scene(root));
+		Parent root = FXMLLoader.load(getClass().getResource("RRTGUI.fxml"));
+		primaryStage.setTitle("Runway Redeclaration Tool");
+		primaryStage.setScene(new Scene(root));
         primaryStage.setResizable(false);
-        primaryStage.show();
+		primaryStage.show();
+		
+	}
+
+    private static void configureFileChooser(
+            final FileChooser fileChooser) {
+        fileChooser.setTitle("Choose an XML file");
+        fileChooser.setInitialDirectory(
+                new File(System.getProperty("user.home"))
+        );
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("XML", "*.xml")
+        );
     }
 
+
     private void createAndSelectNewTab(final TabPane tabPane, final String title) {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("RWTAB.fxml"));
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("RWTAB.fxml"));
         RunwayController rwController = new RunwayController(airport.getRunway(title), this);
         loader.setController(rwController);
         rwController.setAlwaysShowLegend(viewAlwaysShowLegend.isSelected());
@@ -93,42 +108,55 @@ public class Controller extends Application {
             e.printStackTrace();
         }
 
-        tab.setOnCloseRequest(event -> {
-            Alert alert = new Alert(AlertType.CONFIRMATION);
-            alert.setTitle("Close Runway");
-            alert.setHeaderText("You have chosen to close a Runway");
-            alert.setContentText("Would you like to remove it from view ?");//////////////////////////////or completely remove it from your Airport
+        tab.setOnCloseRequest(new EventHandler<javafx.event.Event>()
+        {
+            @Override
+            public void handle(javafx.event.Event event)
+            {
+                Alert alert = new Alert(AlertType.CONFIRMATION);
+                alert.setTitle("Close Runway");
+                alert.setHeaderText("You have chosen to close a Runway");
+                alert.setContentText("Would you like to remove it from view ?");//////////////////////////////or completely remove it from your Airport
 
-            ButtonType buttonTypeOne = new ButtonType("Remove from View");
-            ButtonType buttonTypeTwo = new ButtonType("Delete from Airport");
-            ButtonType buttonTypeCancel = new ButtonType("Cancel", ButtonData.CANCEL_CLOSE);
+                ButtonType buttonTypeOne = new ButtonType("Remove from View");
+                ButtonType buttonTypeTwo = new ButtonType("Delete from Airport");
+                ButtonType buttonTypeCancel = new ButtonType("Cancel", ButtonData.CANCEL_CLOSE);
 
-            alert.getButtonTypes().setAll(buttonTypeOne/*, buttonTypeTwo*/, buttonTypeCancel);
+                alert.getButtonTypes().setAll(buttonTypeOne/*, buttonTypeTwo*/,buttonTypeCancel);
 
-            Optional<ButtonType> result = alert.showAndWait();
-            if (result.get() == buttonTypeOne) {
-                tabPane.getTabs().remove(tab);
-            } else if (result.get() == buttonTypeTwo) {
-                tabPane.getTabs().remove(tab);
-                airport.removeRunway(tab.getText());
-            } else {
-                event.consume();
+                Optional<ButtonType> result = alert.showAndWait();
+                if (result.get() == buttonTypeOne){
+                    tabPane.getTabs().remove(tab);
+                } else if (result.get() == buttonTypeTwo) {
+                    tabPane.getTabs().remove(tab);
+                    airport.removeRunway(tab.getText());
+                }else{
+                    event.consume();
+                }
             }
         });
 
         filePrintMenu.addEventHandler(ActionEvent.ACTION,
-                event -> {
-                    if (tab.isSelected())
-                        rwController.print();
+                new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+                        if(tab.isSelected())
+                            rwController.print();
+                    }
                 });
 
         viewAlwaysShowLegend.addEventHandler(ActionEvent.ACTION,
-                event -> rwController.toggleLegend());
+                new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+                            rwController.toggleLegend();
+                    }
+                });
 
-        final ObservableList<Tab> tabs = tabPane.getTabs();
-        tab.closableProperty().setValue(true);
-        tabs.add(tabs.size() - 1, tab);
-        tabPane.getSelectionModel().select(tab);
+		final ObservableList<Tab> tabs = tabPane.getTabs();
+		tab.closableProperty().setValue(true);
+		tabs.add(tabs.size() - 1, tab);
+		tabPane.getSelectionModel().select(tab);
     }
 
     /*
@@ -154,28 +182,29 @@ public class Controller extends Application {
         readme.setHeaderText(null);
 
         TextArea textArea = new TextArea();
-
+        
         try {
-            FileReader fl = new FileReader("help.txt");
-            BufferedReader br = new BufferedReader(fl);
-
-            String help = "";
-            String ln = br.readLine();
-
-
-            while (ln != null) {
-                help += "\n";
-                help += ln;
-                ln = br.readLine();
-            }
-
-            textArea.setText(help);
-
+        	FileReader fl = new FileReader("help.txt");
+        	BufferedReader br = new BufferedReader(fl);
+        	
+        	String help = "";
+        	String ln = br.readLine();
+        	
+        	
+        	
+        	while (ln != null) {
+        		help += "\n";
+        		help += ln;
+        		ln = br.readLine();
+        	}
+        	
+        	textArea.setText(help);
+        	
         } catch (Exception e) {
-            textArea.setText("There was a problem loading the help file.");
+        	textArea.setText("There was a problem loading the help file.");
         }
-
-
+        
+        
         textArea.setEditable(false);
         textArea.setWrapText(true);
         textArea.setMaxWidth(Double.MAX_VALUE);
@@ -194,9 +223,59 @@ public class Controller extends Application {
         additionalInfoBar.setText("Airport created successfully");
     }
 
+
+    @FXML
+    protected void openAction(){
+        configureFileChooser(fileChooser);
+        File file = fileChooser.showOpenDialog(this.primaryStage);
+        if (file != null) {
+            XMLDecoder decoder =
+                    null;
+            try {
+                decoder = new XMLDecoder(new BufferedInputStream(
+                        new FileInputStream(file)));
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            try {
+                Runway rw = (Runway) decoder.readObject();
+                decoder.close();
+                airport.addRunway(rw);
+                createAndSelectNewTab(runwayTabs, rw.getName());
+                additionalInfoBar.setText("Runway imported successfully");
+
+            }catch(java.lang.ArrayIndexOutOfBoundsException e){
+                decoder.close();
+                e.printStackTrace();
+            }
+
+        }
+    }
+
+    @FXML
+    protected void exportRunwayAction(){
+        File file = fileChooser.showSaveDialog(this.primaryStage);
+        if (file != null) {
+            try {
+                FileOutputStream fos = new FileOutputStream(file);
+
+                // Create XML encoder.
+                XMLEncoder xenc = new XMLEncoder(new BufferedOutputStream(fos));
+
+                Runway r = airport.getRunway(runwayTabs.getSelectionModel().getSelectedItem().getText());
+
+                // Write object.
+                xenc.writeObject(r);
+                xenc.close();
+            } catch (IOException ex) {
+                System.out.println(ex.getMessage());
+            }
+        }
+    }
+
     //creates new runway
     @FXML
-    protected void createAction() {
+    protected void createAction(){
         try {
             String name = rNameInputField.getText();
             int tora = Integer.parseInt(toraInputField.getText());
@@ -253,25 +332,61 @@ public class Controller extends Application {
             alert.showAndWait();
         }
     }
-    
-    @FXML
-    protected void enter1(KeyEvent e) {
-        if (e.getCode() == KeyCode.ENTER) {
-            try {
-                createAirportAction();
-            } catch (IOException e1) {
-                e1.printStackTrace();
+
+
+    protected void saveToFile(Node pan, String fileName, String extension) {
+        BufferedImage bi = new BufferedImage(511, 640, BufferedImage.TYPE_INT_RGB);
+        BufferedImage image = javafx.embed.swing.SwingFXUtils.fromFXImage(pan.snapshot(new SnapshotParameters(), null), bi);
+        Graphics2D gd = (Graphics2D) image.getGraphics();
+        File file = new File(fileName + extension);
+        try {
+            ImageIO.write(image, extension.substring(1), file);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
+    protected void printToPrinter(Node pan) {
+        PrinterJob job = PrinterJob.createPrinterJob();
+        if (job != null) {
+            if (job.showPrintDialog(null)) {
+                if (job.getJobSettings().getPageLayout().getPageOrientation().equals(PageOrientation.PORTRAIT)) {
+                    pan.getTransforms().add(new Scale(0.45, 0.45));
+                    pan.getTransforms().add(new Translate(-50, 0));
+                } else {
+                    pan.getTransforms().add(new Scale(0.75, 0.75));
+                    pan.getTransforms().add(new Translate(150, 300));
+                }
+            }
+            boolean printsucc = job.printPage(pan);
+            if (printsucc) {
+                job.endJob();
+                pan.getTransforms().clear();
             }
         }
     }
-
+    
+    @FXML
+    protected void enter1(KeyEvent e) {
+		if (e.getCode() == KeyCode.ENTER) {
+			try {
+				createAirportAction();
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+		}
+	}
+    
     @FXML
     protected void enter2(KeyEvent e) {
-        if (e.getCode() == KeyCode.ENTER) {
-            createAction();
-
-        }
-    }
-
-
+		if (e.getCode() == KeyCode.ENTER) {
+				createAction();
+			
+		}
+	}
+    
+   
+    
+    
 }

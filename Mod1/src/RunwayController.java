@@ -312,7 +312,7 @@ public class RunwayController extends Application {
 			e.printStackTrace();
 		}
 	}
-	
+
 	protected Node getTab(){
 		if (topDown.isSelected()){
 			return topDownPane;
@@ -325,7 +325,7 @@ public class RunwayController extends Application {
 		}
 		return null;
 	}
-	
+
 	protected void printToPrinter(Node pan) {
 		PrinterJob job = PrinterJob.createPrinterJob();
 		if (job != null) {
@@ -352,7 +352,7 @@ public class RunwayController extends Application {
 	    protected void enter(KeyEvent e) {
 			if (e.getCode() == KeyCode.ENTER) {
 					submitButtonAction();
-				
+
 			}
 		}
 
