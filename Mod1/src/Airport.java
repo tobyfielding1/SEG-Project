@@ -1,4 +1,3 @@
-import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Set;
 /**
@@ -6,9 +5,9 @@ import java.util.Set;
  *
  * this class represents 'Model' in our MVC pattern
  */
-public class Airport implements Serializable {
+public class Airport {
 
-    private final String name;
+    private String name;
     private HashMap<String, Runway> runways = new HashMap<>();
 
     public Airport(String name) {
@@ -35,6 +34,18 @@ public class Airport implements Serializable {
         return runways.get(name);
     }
 
+    public Airport() {
+
+    }
+
+    public void setRunways(HashMap<String, Runway> runways) {
+        this.runways = runways;
+    }
+
+    public HashMap<String, Runway> getRunways() {
+        return runways;
+
+    }
 /*
     public void save(File file) {
 // Create output stream.

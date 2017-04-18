@@ -115,17 +115,16 @@ public class Controller extends Application {
             {
                 Alert alert = new Alert(AlertType.CONFIRMATION);
                 alert.setTitle("Close Runway");
-                alert.setHeaderText("You have chosen to close a Runway");
-                alert.setContentText("Would you like to remove it from view ?");//////////////////////////////or completely remove it from your Airport
+                alert.setHeaderText("You have chosen to remove a Runway");
+                alert.setContentText("Are you sure you wish to delete it from this Airport?");
 
-                ButtonType buttonTypeOne = new ButtonType("Remove from View");
-                ButtonType buttonTypeTwo = new ButtonType("Delete from Airport");
+                ButtonType buttonTypeTwo = new ButtonType("Remove Runway");
                 ButtonType buttonTypeCancel = new ButtonType("Cancel", ButtonData.CANCEL_CLOSE);
 
-                alert.getButtonTypes().setAll(buttonTypeOne/*, buttonTypeTwo*/,buttonTypeCancel);
+                alert.getButtonTypes().setAll(buttonTypeTwo,buttonTypeCancel);
 
                 Optional<ButtonType> result = alert.showAndWait();
-                if (result.get() == buttonTypeOne){
+                if (result.get() == buttonTypeCancel){
                     tabPane.getTabs().remove(tab);
                 } else if (result.get() == buttonTypeTwo) {
                     tabPane.getTabs().remove(tab);
@@ -223,6 +222,42 @@ public class Controller extends Application {
         additionalInfoBar.setText("Airport created successfully");
     }
 
+    @FXML
+    protected void openAirportAction(){
+        configureFileChooser(fileChooser);
+        File file = fileChooser.showOpenDialog(this.primaryStage);
+        if (file != null) {
+            XMLDecoder decoder =
+                    null;
+            try {
+                decoder = new XMLDecoder(new BufferedInputStream(
+                        new FileInputStream(file)));
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            try {
+                if (airport == null){
+                    addRunway.disableProperty().setValue(false);
+                    runwayTabs.getTabs().remove(0);
+                }
+
+                else if (runwayTabs.getTabs().size()-1 > 0)
+                    runwayTabs.getTabs().remove(0,runwayTabs.getTabs().size()-1);
+
+                airport = (Airport) decoder.readObject();
+
+                for(Runway rw: airport.getRunways().values())
+                    createAndSelectNewTab(runwayTabs, rw.getName());
+
+                additionalInfoBar.setText("Airport imported successfully");
+
+            }catch(java.lang.ArrayIndexOutOfBoundsException e){
+                decoder.close();
+                e.printStackTrace();
+            }
+
+        }
+    }
 
     @FXML
     protected void openAction(){
@@ -253,7 +288,29 @@ public class Controller extends Application {
     }
 
     @FXML
+    protected void exportAirportAction(){
+        fileChooser.setInitialFileName(airport.getName());
+        File file = fileChooser.showSaveDialog(this.primaryStage);
+        if (file != null) {
+            try {
+                FileOutputStream fos = new FileOutputStream(file);
+
+                // Create XML encoder.
+                XMLEncoder xenc = new XMLEncoder(new BufferedOutputStream(fos));
+
+                // Write object.
+                xenc.writeObject(airport);
+                xenc.close();
+            } catch (IOException ex) {
+                System.out.println(ex.getMessage());
+            }
+        }
+        fileChooser.setInitialFileName("");
+    }
+
+    @FXML
     protected void exportRunwayAction(){
+        fileChooser.setInitialFileName(airport.getName() + "-" + runwayTabs.getSelectionModel().getSelectedItem().getText());
         File file = fileChooser.showSaveDialog(this.primaryStage);
         if (file != null) {
             try {
@@ -271,6 +328,7 @@ public class Controller extends Application {
                 System.out.println(ex.getMessage());
             }
         }
+        fileChooser.setInitialFileName("");
     }
 
     //creates new runway

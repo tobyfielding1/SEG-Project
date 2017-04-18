@@ -97,7 +97,7 @@ public class Runway {
 	private String thresholdLabel;
 	private String takeoffThresholdLabel;
 
-	protected String calculations;
+	protected String calculations = "No Calculations - Obstacle not yet added";
 
 
 	private String obstacleStr;
@@ -187,7 +187,7 @@ public class Runway {
 	}
 
 	private void clearCalculations() {
-		calculations = "";
+		calculations = "No Calculations - Obstacle not yet added";
 	}
 
 	public void setBlastAllowance(int blastAllowance) {
