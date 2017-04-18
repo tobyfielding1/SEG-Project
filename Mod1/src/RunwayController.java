@@ -356,8 +356,8 @@ public class RunwayController extends Application {
     }
 
     public void print() {
-		//printToPrinter(getTab());
-		saveFile(getTab());
+		printToPrinter(getTab());
+		//saveFile(getTab());
     }
 
     protected void saveFile(Node pan){
@@ -390,9 +390,17 @@ public class RunwayController extends Application {
 	}
 
 	private void printToPrinter(Node pan) {
+		double xTranslate = pan.getTranslateX();
+		double yTranslate = pan.getTranslateY();
+		double xScale = pan.getScaleX();
+		double yScale = pan.getScaleY();
         PrinterJob job = PrinterJob.createPrinterJob();
         if (job != null) {
             if (job.showPrintDialog(null)) {
+            	pan.setTranslateX(0);
+             	pan.setTranslateY(0);
+             	pan.setScaleX(1);
+             	pan.setScaleY(1);
             	PageLayout pl = job.getPrinter().getDefaultPageLayout();
                 double XShift = pl.getPrintableWidth() / pan.getBoundsInParent().getWidth();
                 double YShift = pl.getPrintableHeight() / pan.getBoundsInParent().getHeight();
@@ -404,6 +412,10 @@ public class RunwayController extends Application {
                 if (td) {
                     job.endJob();
                     pan.getTransforms().clear();
+                    pan.setTranslateX(xTranslate);
+                 	pan.setTranslateY(yTranslate);
+                 	pan.setScaleX(xScale);
+                 	pan.setScaleY(yScale);
                 }
             }
         }
