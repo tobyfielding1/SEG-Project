@@ -166,10 +166,24 @@ public class RunwayController extends Application {
             submitButton.fire();
             initialized = true;
 
-            // It's a bit of a roundabout way to do it, but it keeps things separated nicely
-            for (int i = 0; i < advancedInputFields.length - 1; i++) {
-                addFrontEndNumericInputValidation(advancedInputFields[i], NAT_REGEX);
-            }
+            // Sets
+            tora.setPromptText(Integer.toString(rw.getOriginalTORA()) + "m");
+            toda.setPromptText(Integer.toString(rw.getOriginalTORA()) + "m");
+            asda.setPromptText(Integer.toString(rw.getOriginalASDA()) + "m");
+            lda.setPromptText(Integer.toString(rw.getOriginalLDA()) + "m");
+            resa.setPromptText(Integer.toString(rw.getRESA()) + "m");
+            blast.setPromptText(Integer.toString(rw.getBlastAllowance()) + "m");
+            stripEnd.setPromptText(Integer.toString(rw.getStripEnd()) + "m");
+            alstocs.setPromptText(Integer.toString(rw.getALSTOCSSlope()) + "m");
+
+            addFrontEndNumericInputValidation(tora, NAT_REGEX);
+            addFrontEndNumericInputValidation(toda, NAT_REGEX);
+            addFrontEndNumericInputValidation(asda, NAT_REGEX);
+            addFrontEndNumericInputValidation(lda, NAT_REGEX);
+            addFrontEndNumericInputValidation(resa, NAT_REGEX);
+            addFrontEndNumericInputValidation(blast, NAT_REGEX);
+            addFrontEndNumericInputValidation(stripEnd, NAT_REGEX);
+            addFrontEndNumericInputValidation(alstocs, NAT_REGEX);
 
             addFrontEndNumericInputValidation(thresholdDistance, INT_REGEX);
             addFrontEndNumericInputValidation(distCentrelineInputField, INT_REGEX);
@@ -579,13 +593,28 @@ public class RunwayController extends Application {
     }
 
     private void mouseDrag(MouseEvent e, Pane p) {
-        p.setTranslateX(sideOnPane.getTranslateX() + e.getX() - dragOldPos.getX());
-        p.setTranslateY(sideOnPane.getTranslateY() + e.getY() - dragOldPos.getY());
+        p.setTranslateX(p.getTranslateX() + e.getX() - dragOldPos.getX());
+        p.setTranslateY(p.getTranslateY() + e.getY() - dragOldPos.getY());
+
+        dragOldPos.setLocation(e.getX(), e.getY());
 
         reCentre(p);
     }
 
     private void reCentre(Pane p) {
+//        double realWidth = p.getWidth() * p.getScaleX();
+//        if (p.getTranslateX() + realWidth < 10) {
+//            p.setTranslateX(-realWidth + 10);
+//        } else if (p.getTranslateX() - p.getWidth() > 10) {
+//            p.setTranslateX(p.getWidth() - 10);
+//        }
+//
+//        double realHeight = p.getHeight() * p.getScaleY();
+//        if (p.getTranslateY() + realHeight < 10) {
+//            p.setTranslateY(-realHeight + 10);
+//        } else if (p.getTranslateY() - p.getHeight() > 10) {
+//            p.setTranslateY(p.getHeight() - 10);
+//        }
         double realWidth = p.getWidth() * p.getScaleX();
         if (p.getTranslateX() + realWidth < 10) {
             p.setTranslateX(-realWidth + 10);
