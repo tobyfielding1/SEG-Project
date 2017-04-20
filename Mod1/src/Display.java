@@ -43,7 +43,7 @@ public class Display {
     private Runway rw;
     private double scaleDir;
     private int xi;
-
+    
     public Display(Pane td, Pane so) {
         this.topDownPane = td;
         this.sideOnPane = so;
@@ -94,7 +94,6 @@ public class Display {
                 sideOnPane.getChildren().get(sideOnPane.getChildren().size() - 1).toBack();
             }
         }
-
     }
 
     private double drawObstacle() {
@@ -632,6 +631,9 @@ public class Display {
 
         //get main line of arrow start and end points
         double angle = Math.toRadians((Integer.parseInt(r.getName().substring(0,2)) - 9) * 10);
+        if ((Integer.parseInt(r.getName().substring(0,2))) > 18) {
+            angle = angle - Math.toRadians(180);
+        }
         int x1 = 700;
         int y1 = 80;
         double x2 = x1 - 40*Math.sin(angle);
@@ -662,5 +664,17 @@ public class Display {
 
         //add arrow and text to panel
         topDownPane.getChildren().addAll(main, wing1, wing2, t);
+    }
+
+    public void rotate() {
+        if (topDownPane.getRotate() == 0) {
+            int rotateAngle = (Integer.parseInt(rw.getName().substring(0,2)) - 9) * 10;
+            if ((Integer.parseInt(rw.getName().substring(0,2))) > 18) {
+                rotateAngle = rotateAngle - 180;
+            }
+            topDownPane.setRotate(rotateAngle);
+        } else {
+            topDownPane.setRotate(0);
+        }
     }
 }

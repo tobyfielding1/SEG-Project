@@ -621,4 +621,14 @@ public class RunwayController extends Application {
         }
     }
 
+	@FXML
+	protected void rotateButtonAction() {
+        displayValues();
+        displayCalculations(rw);
+        Display screen = new Display(topDownPane, sideOnPane);
+        screen.clearPanes();
+        screen.drawRunway(rw);
+        displayLegend();
+        screen.rotate();
+	}
 }
