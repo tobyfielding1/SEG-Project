@@ -1,5 +1,7 @@
 import javafx.application.Application;
 import javafx.beans.property.StringProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.print.PageLayout;
 import javafx.print.PrinterJob;
@@ -23,7 +25,6 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.scene.transform.Scale;
-import javafx.scene.transform.Translate;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
@@ -31,17 +32,17 @@ import javafx.stage.Stage;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.beans.XMLDecoder;
+import java.beans.XMLEncoder;
+import java.io.*;
+import java.util.TreeSet;
 
 public class RunwayController extends Application {
 
     public static final String NUMERIC_REGEX = "^[0-9]*$";
     private static final double SCALE_FACTOR = 1.1;
 
-    @FXML
+
     public Tab topDown, sideOn, calculations;
 
     private final Controller parent;
@@ -60,7 +61,7 @@ public class RunwayController extends Application {
     public TextField tora, toda, asda, lda, resa, blast, stripEnd, alstocs;
 
     // Combo box of obstacle types
-    public ComboBox obstacleTypeComboBox;
+    public ComboBox<String> obstacleList;
 
     // Output value text fields
     public TextField oldToraField, newToraField, oldTodaField, newTodaField, oldAsdaField, newAsdaField, oldLdaField, newLdaField;
@@ -79,6 +80,81 @@ public class RunwayController extends Application {
     public RunwayController(Runway rw, Controller parent) {
         this.rw = rw;
         this.parent = parent;
+
+    }
+
+    @FXML
+    protected void openObstacleAction(){
+        this.parent.configureFileChooser(this.parent.fileChooser);
+        File file = this.parent.fileChooser.showOpenDialog(this.parent.primaryStage);
+        if (file != null) {
+            XMLDecoder decoder =
+                    null;
+            try {
+                decoder = new XMLDecoder(new BufferedInputStream(
+                        new FileInputStream(file)));
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            try {
+                Obstacle rw = (Obstacle) decoder.readObject();
+                decoder.close();
+                this.parent.airport.addObstacle(rw);
+                this.parent.additionalInfoBar.setText("Obstacle imported successfully");
+
+            }catch(java.lang.ArrayIndexOutOfBoundsException e){
+                decoder.close();
+                e.printStackTrace();
+            }
+
+        }
+    }
+
+    @FXML
+    protected void exportObstacleAction(){
+        this.parent.fileChooser.setInitialFileName(this.parent.airport.getName() + "-" + obstacleList.getValue());
+        File file = this.parent.fileChooser.showSaveDialog(this.parent.primaryStage);
+        if (file != null) {
+            try {
+                FileOutputStream fos = new FileOutputStream(file);
+
+                // Create XML encoder.
+                XMLEncoder xenc = new XMLEncoder(new BufferedOutputStream(fos));
+
+                Obstacle r = this.parent.airport.getObstacles().get(obstacleList.getValue());
+
+                // Write object.
+                xenc.writeObject(r);
+                xenc.close();
+            } catch (IOException ex) {
+                System.out.println(ex.getMessage());
+            }
+        }
+        this.parent.fileChooser.setInitialFileName("");
+    }
+
+    @FXML
+    protected void loadObstaclesAction() {
+        obstacleList.getItems().setAll(new TreeSet(parent.airport.getObstacles().keySet()));
+        obstacleList.valueProperty().addListener(new ChangeListener<String>() {
+            @Override public void changed(ObservableValue ov, String t, String t1) {
+                if (parent.airport.getObstacles().containsKey(t1)) {
+                    thresholdDistance.clear();
+                    obstacleHeightInputField.clear();
+                    distCentrelineInputField.clear();
+
+                    if (rw.getDirection() <= 18 && !(String.valueOf(parent.airport.getObstacles().get(t1).getDist1stThresh()).equals("0") )) {
+                        thresholdDistance.setText(String.valueOf(parent.airport.getObstacles().get(t1).getDist1stThresh()));
+                    } else if (rw.getDirection() > 18 && !(String.valueOf(parent.airport.getObstacles().get(t1).getDist2ndThresh()).equals("0"))) {
+                        thresholdDistance.setText(String.valueOf(parent.airport.getObstacles().get(t1).getDist2ndThresh()));
+                    }
+
+                    obstacleHeightInputField.setText(String.valueOf(parent.airport.getObstacles().get(t1).getHeight()));
+                    distCentrelineInputField.setText(String.valueOf(parent.airport.getObstacles().get(t1).getCenterlineDist()));
+
+                }
+            }
+        });
     }
 
     @FXML
@@ -114,12 +190,13 @@ public class RunwayController extends Application {
     }
 
     public void start(Stage primaryStage) {
+
     }
 
     @FXML
     protected void clearObstacleAction() {
         rw.clearObstacle();
-        obstacleTypeComboBox.setValue("");
+        obstacleList.setValue("");
         thresholdDistance.clear();
         distCentrelineInputField.clear();
         obstacleHeightInputField.clear();
@@ -140,7 +217,7 @@ public class RunwayController extends Application {
                 parent.additionalInfoBar.setText("Obstacle added");
             }
             display();
-        } catch (Exception e) {
+        } catch (IOException e) {
             displayInputError(e);
         }
     }
@@ -271,8 +348,8 @@ public class RunwayController extends Application {
 
     //Gets obstacle from text fields
 
-    private Obstacle getObstacleTextFields() throws Exception {
-        String obstacleType = (String) obstacleTypeComboBox.getValue();
+    private Obstacle getObstacleTextFields() throws IOException {
+        String obstacleType = (String) obstacleList.getValue();
 
         Integer distLowerThreshold;
         Integer distUpperThreshold;
@@ -335,7 +412,42 @@ public class RunwayController extends Application {
             throw new IOException("Obstacle too tall (maximum: " + maxObstacleHeight + ").");
         }
 
-        return new Obstacle(obstacleType, distLowerThreshold, distUpperThreshold, distCentreThreshold, obstacleHeight);
+        if(parent.airport.getObstacles().containsKey(obstacleType) && (" "+obstacleType.substring(obstacleType.lastIndexOf(" ")+1)).equals(generateRunwayPairName())){
+            if (rw.getDirection() <= 18)
+                parent.airport.getObstacles().get(obstacleType).setDist1stThresh(distLowerThreshold);
+            else
+                parent.airport.getObstacles().get(obstacleType).setDist2ndThresh(distUpperThreshold);
+            parent.airport.getObstacles().get(obstacleType).setHeight(obstacleHeight);
+            parent.airport.getObstacles().get(obstacleType).setCenterlineDist(distCentreThreshold);
+            return parent.airport.getObstacles().get(obstacleType);
+        } else{
+            Obstacle o = new Obstacle(obstacleType, distLowerThreshold, distUpperThreshold, distCentreThreshold, obstacleHeight);
+            o.setRunways(generateRunwayPairName());
+            parent.airport.addObstacle(o);
+            loadObstaclesAction();
+            obstacleList.getSelectionModel().select(obstacleType + generateRunwayPairName());
+            return o;
+        }
+    }
+
+    private String generateRunwayPairName(){
+        String suffix;
+        String prefix = "";
+        if (rw.getDirection() <= 27 && rw.getDirection() >= 22)
+            prefix = "0";
+        if(rw.getName().substring(rw.getName().length() - 1).equals("L"))
+            suffix = "R";
+        else if(rw.getName().substring(rw.getName().length() - 1).equals("R"))
+            suffix = "L";
+        else if (rw.getName().substring(rw.getName().length() - 1).equals("C"))
+            suffix = "C";
+        else
+            suffix = "";
+
+        if (rw.getDirection() <= 18) {
+            return " ("+rw.getName() + "/" + (rw.getDirection() + 18) + suffix+")";
+        }else
+            return " ("+prefix +(rw.getDirection() - 18) + suffix + "/" + rw.getName()+")";
     }
 
     public int[] getAdvancedTextFields() throws Exception {

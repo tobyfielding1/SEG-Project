@@ -10,8 +10,15 @@ public class Airport {
     private String name;
     private HashMap<String, Runway> runways = new HashMap<>();
 
+    private HashMap<String, Obstacle> obstacles = new HashMap<>();
+
     public Airport(String name) {
         this.name = name;
+        obstacles.put("Airliner",new Obstacle("Airliner", 13));
+        obstacles.put("Helicopter",new Obstacle("Helicopter", 5));
+        obstacles.put("Small Jet",new Obstacle("Small Jet", 6));
+        obstacles.put("HGV",new Obstacle("HGV", 6));
+        obstacles.put("Car",new Obstacle("Car", 2));
     }
     
     public String getName() {
@@ -26,6 +33,10 @@ public class Airport {
         runways.put(runway.getName(), runway);
     }
 
+    public void addObstacle(Obstacle o) {
+        obstacles.put(o.getId() + o.getRunways(), o);
+    }
+
     public void removeRunway(String name) {
         runways.remove(name);
     }
@@ -35,7 +46,19 @@ public class Airport {
     }
 
     public Airport() {
+        obstacles.put("Airliner",new Obstacle("Airliner", 13));
+        obstacles.put("Helicopter",new Obstacle("Helicopter", 5));
+        obstacles.put("Small Jet",new Obstacle("Small Jet", 6));
+        obstacles.put("HGV",new Obstacle("HGV", 6));
+        obstacles.put("Car",new Obstacle("Car", 2));
+    }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setObstacles(HashMap<String, Obstacle> obstacles) {
+        this.obstacles = obstacles;
     }
 
     public void setRunways(HashMap<String, Runway> runways) {
@@ -46,16 +69,9 @@ public class Airport {
         return runways;
 
     }
-/*
-    public void save(File file) {
-// Create output stream.
-        FileOutputStream fos = new FileOutputStream(file + ".xml");
 
-        // Create XML encoder.
-        XMLEncoder xenc = new XMLEncoder(fos);
+    public HashMap<String, Obstacle> getObstacles() {
+        return obstacles;
 
-        // Write object.
-        xenc.writeObject(aFoo);
     }
-*/
 }

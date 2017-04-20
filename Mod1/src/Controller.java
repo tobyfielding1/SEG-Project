@@ -38,13 +38,15 @@ import static javafx.scene.control.Alert.AlertType;
 public class Controller extends Application {
 
     Airport airport;
+    ComboBox<String> expBox;
 
     final FileChooser fileChooser = new FileChooser();
 
     @FXML
 	public TabPane runwayTabs;
 
-    public MenuItem filePrintMenu;
+    public MenuItem filePrintMenu,m1,m2,m3,m4;
+
 
     public Stage primaryStage;
 
@@ -84,7 +86,7 @@ public class Controller extends Application {
 		
 	}
 
-    private static void configureFileChooser(
+    public static void configureFileChooser(
             final FileChooser fileChooser) {
         fileChooser.setTitle("Choose an XML file");
         fileChooser.setInitialDirectory(
@@ -124,9 +126,7 @@ public class Controller extends Application {
                 alert.getButtonTypes().setAll(buttonTypeTwo,buttonTypeCancel);
 
                 Optional<ButtonType> result = alert.showAndWait();
-                if (result.get() == buttonTypeCancel){
-                    tabPane.getTabs().remove(tab);
-                } else if (result.get() == buttonTypeTwo) {
+                if (result.get() == buttonTypeTwo) {
                     tabPane.getTabs().remove(tab);
                     airport.removeRunway(tab.getText());
                 }else{
@@ -222,6 +222,41 @@ public class Controller extends Application {
         additionalInfoBar.setText("Airport created successfully");
     }
 
+
+    @FXML
+    protected void enableMenuAction(){
+        filePrintMenu.disableProperty().setValue(false);
+        m1.disableProperty().setValue(false);
+        m2.disableProperty().setValue(false);
+        m3.disableProperty().setValue(false);
+        m4.disableProperty().setValue(false);
+    }
+
+    @FXML
+    protected void switchAirportAction(){
+        Alert alert = new Alert(AlertType.CONFIRMATION);
+        alert.setTitle("Switch Airport");
+        alert.setHeaderText("You have chosen to switch Airports");
+        alert.setContentText("Would you like to export this Airport before switching?");
+
+        ButtonType buttonTypeOne = new ButtonType("Save and switch");
+        ButtonType buttonTypeTwo = new ButtonType("Switch without saving");
+        ButtonType buttonTypeCancel = new ButtonType("Cancel", ButtonData.CANCEL_CLOSE);
+
+        alert.getButtonTypes().setAll(buttonTypeOne,buttonTypeTwo,buttonTypeCancel);
+
+        Optional<ButtonType> result = alert.showAndWait();
+
+        if (result.get() == buttonTypeOne) {
+            exportAirportAction();
+            openAirportAction();
+        } else if (result.get() == buttonTypeTwo){
+            openAirportAction();
+        }
+
+    }
+
+
     @FXML
     protected void openAirportAction(){
         configureFileChooser(fileChooser);
@@ -258,6 +293,35 @@ public class Controller extends Application {
 
         }
     }
+
+    @FXML
+    protected void openObstacleAction(){
+        configureFileChooser(fileChooser);
+        File file = fileChooser.showOpenDialog(this.primaryStage);
+        if (file != null) {
+            XMLDecoder decoder =
+                    null;
+            try {
+                decoder = new XMLDecoder(new BufferedInputStream(
+                        new FileInputStream(file)));
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            try {
+                Obstacle rw = (Obstacle) decoder.readObject();
+                decoder.close();
+                airport.addObstacle(rw);
+                createAndSelectNewTab(runwayTabs, rw.getId());
+                additionalInfoBar.setText("Obstacle imported successfully");
+
+            }catch(java.lang.ArrayIndexOutOfBoundsException e){
+                decoder.close();
+                e.printStackTrace();
+            }
+
+        }
+    }
+
 
     @FXML
     protected void openAction(){

@@ -32,13 +32,14 @@
     <children>
         <MenuBar fx:id="menu" prefHeight="25.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
             <menus>
-                <Menu mnemonicParsing="false" text="File">
+                <Menu fx:id="m" mnemonicParsing="false" text="File">
                     <items>
-                        <MenuItem fx:id="filePrintMenu" mnemonicParsing="false" text="Print" />
-                  <MenuItem mnemonicParsing="false" onAction="#openAirportAction" text="Switch Airport" />
-                  <MenuItem mnemonicParsing="false" onAction="#exportAirportAction" text="Export Airport " />
-                  <MenuItem mnemonicParsing="false" onAction="#openAction" text="Import Runway" />
-                <MenuItem mnemonicParsing="false" onAction="#exportAirportAction" text="Export current Runway" />
+                        <MenuItem fx:id="filePrintMenu" disable="true" mnemonicParsing="false" text="Print" />
+                  <MenuItem fx:id="m1" disable="true" mnemonicParsing="false" onAction="#switchAirportAction" text="Switch Airport" />
+                  <MenuItem fx:id="m2" disable="true" mnemonicParsing="false" onAction="#exportAirportAction" text="Export Airport " />
+                  <MenuItem fx:id="m3" disable="true" mnemonicParsing="false" onAction="#openAction" text="Import Runway" />
+                <MenuItem fx:id="m4" disable="true" mnemonicParsing="false" onAction="#exportAirportAction" text="Export current Runway" />
+                  <MenuItem mnemonicParsing="false" onAction="#openObstacleAction" text="Import Obstacle" />
                         <MenuItem mnemonicParsing="false" onAction="#fileCloseMenuAction" text="Close" />
                     </items>
                 </Menu>
@@ -78,7 +79,7 @@
                         </Text>
                         <Pane prefHeight="466.0" prefWidth="1076.0">
                            <children>
-                              <Button defaultButton="true" layoutX="162.0" layoutY="149.0" mnemonicParsing="false" onAction="#openAirportAction" prefHeight="57.0" prefWidth="230.0" text="Import Airport" textAlignment="CENTER">
+                              <Button defaultButton="true" layoutX="143.0" layoutY="127.0" mnemonicParsing="false" onAction="#openAirportAction" onMousePressed="#enableMenuAction" prefHeight="41.0" prefWidth="272.0" text="Import Airport from XML" textAlignment="CENTER">
                                  <contextMenu>
                                     <ContextMenu>
                                        <items>
@@ -95,7 +96,7 @@
                                               <Font name="System Bold" size="19.0" />
                                           </font>
                                       </TextField>
-                                      <Button defaultButton="true" layoutX="671.0" layoutY="198.0" mnemonicParsing="false" onMousePressed="#createAirportAction" prefHeight="38.0" prefWidth="272.0" text="Create Your Airport" textAlignment="CENTER">
+                                      <Button defaultButton="true" layoutX="672.0" layoutY="200.0" mnemonicParsing="false" onAction="#createAirportAction" onMousePressed="#enableMenuAction" prefHeight="38.0" prefWidth="272.0" text="Create Your Airport" textAlignment="CENTER">
                                           <font>
                                               <Font name="System Bold" size="17.0" />
                                           </font>
