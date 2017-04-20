@@ -83,6 +83,8 @@ public class Display {
         drawASDA();
         double LDAEnds[] = drawLDA();
 
+        drawCompass(rw, Color.BLACK);
+
         if (rw.getObstacle() != null) {
             double XObs = drawObstacle();
             if (rw.getTakeoffStrategy() != null) {
@@ -143,6 +145,7 @@ public class Display {
         centerLine.setStroke(Color.WHITE);
         centerLine.getStrokeDashArray().addAll(20.0, 20.0);
         sideOnPane.getChildren().add(centerLine);
+
     }
 
     private Rectangle Rectangle(double end1, double y, double end2, double height) {
@@ -622,5 +625,42 @@ public class Display {
         // 2. Input X coordinates of each segment beggining/end (first 6 values) and then the widths
         Polygon area = makeArea(startX, startX + length1, startX + length1 + length2, startX + length1 + length2 + length3, startX + length1 + length2 + length3 + length4, startX + length1 + length2 + length3 + length4 + length5, width1, width2);
         topDownPane.getChildren().add(area);
+    }
+
+    public void drawCompass(Runway r, Color arrowColor) {
+        //draw compass relative to runway
+
+        //get main line of arrow start and end points
+        double angle = Math.toRadians((Integer.parseInt(r.getName().substring(0,2)) - 9) * 10);
+        int x1 = 700;
+        int y1 = 80;
+        double x2 = x1 - 40*Math.sin(angle);
+        double y2 = y1 - 40*Math.cos(angle);
+
+        //get end points of arrow wings
+        double x3 =  x2 + 10*Math.sin(angle + 0.785398);
+        double y3 =  y2 + 10*Math.cos(angle + 0.785398);
+        double x4 =  x2 + 10*Math.sin(angle + 5.49779);
+        double y4 =  y2 + 10*Math.cos(angle + 5.49779);
+
+        //define line parameters
+        Line main = new Line(x1, y1, x2, y2);
+        main.setStroke(arrowColor);
+        main.setStrokeWidth(ARROW_THICKNESS);
+
+        Line wing1 = new Line(x2, y2, x3, y3);
+        wing1.setStroke(arrowColor);
+        wing1.setStrokeWidth(ARROW_THICKNESS);
+
+        Line wing2 = new Line(x2, y2, x4, y4);
+        wing2.setStroke(arrowColor);
+        wing2.setStrokeWidth(ARROW_THICKNESS);
+
+        //add text to tell the user that arrow points north
+        Text t;
+        t = new Text(650, 30, "Arrow Points North");
+
+        //add arrow and text to panel
+        topDownPane.getChildren().addAll(main, wing1, wing2, t);
     }
 }
