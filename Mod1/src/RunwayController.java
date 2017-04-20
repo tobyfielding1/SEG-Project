@@ -10,6 +10,7 @@ import javafx.scene.SnapshotParameters;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
@@ -43,8 +44,10 @@ public class RunwayController extends Application {
     public static final String INT_REGEX = "^-?[0-9]*$";
     private static final double SCALE_FACTOR = 1.1;
 
+    public TitledPane upper, lower;
 
     public Tab topDown, sideOn, calculations;
+    public Label startLabel;
 
     private final Controller parent;
     private Runway rw;
@@ -113,6 +116,7 @@ public class RunwayController extends Application {
 
     @FXML
     protected void exportObstacleAction(){
+        parent.configureFileChooser(parent.fileChooser);
         this.parent.fileChooser.setInitialFileName(this.parent.airport.getName() + "-" + obstacleList.getValue());
         File file = this.parent.fileChooser.showSaveDialog(this.parent.primaryStage);
         if (file != null) {
@@ -162,9 +166,12 @@ public class RunwayController extends Application {
     protected void submissionInit() {
         if (!initialized) {
             TextField[] advancedInputFields = {tora, toda, asda, lda, resa, blast, stripEnd, alstocs};
+            if (rw.getObstacle() != null )
+                obstacleList.getSelectionModel().select(rw.getObstacle().getId());
 
             submitButton.fire();
             initialized = true;
+
 
             // Sets
             tora.setPromptText(Integer.toString(rw.getOriginalTORA()) + "m");
@@ -188,6 +195,8 @@ public class RunwayController extends Application {
             addFrontEndNumericInputValidation(thresholdDistance, INT_REGEX);
             addFrontEndNumericInputValidation(distCentrelineInputField, INT_REGEX);
             addFrontEndNumericInputValidation(obstacleHeightInputField, NAT_REGEX);
+
+
         }
     }
 
@@ -227,7 +236,7 @@ public class RunwayController extends Application {
         try {
             if (initialized) {
                 rw.clearObstacle();
-                rw.setObstacle(getObstacleTextFields());
+                rw.putObstacle(getObstacleTextFields());
                 parent.additionalInfoBar.setText("Obstacle added");
             }
             display();
@@ -246,7 +255,7 @@ public class RunwayController extends Application {
             rw.setALSTOCSSlope(newValues[5]);
             rw.setStripEnd(newValues[6]);
             rw.setBlastAllowance(newValues[7]);
-            rw.setObstacle(temp);
+            rw.putObstacle(temp);
             display();
         } catch (Exception e) {
             displayInputError(e);
@@ -262,7 +271,18 @@ public class RunwayController extends Application {
         alert.showAndWait();
     }
 
+    @FXML
+    protected void compressUpper(){
+        upper.expandedProperty().setValue(false);
+    }
+
+    @FXML
+    protected void compressLower(){
+        lower.expandedProperty().setValue(false);
+    }
+
     private void display() {
+        startLabel.setText("");
         displayValues();
         displayCalculations(rw);
         Display screen = new Display(topDownPane, sideOnPane);
@@ -440,6 +460,7 @@ public class RunwayController extends Application {
             parent.airport.addObstacle(o);
             loadObstaclesAction();
             obstacleList.getSelectionModel().select(obstacleType + generateRunwayPairName());
+            o.setId(obstacleType + generateRunwayPairName());
             return o;
         }
     }
@@ -459,9 +480,9 @@ public class RunwayController extends Application {
             suffix = "";
 
         if (rw.getDirection() <= 18) {
-            return " ("+rw.getName() + "/" + (rw.getDirection() + 18) + suffix+")";
+            return " ("+rw.getName() + "," + (rw.getDirection() + 18) + suffix+")";
         }else
-            return " ("+prefix +(rw.getDirection() - 18) + suffix + "/" + rw.getName()+")";
+            return " ("+prefix +(rw.getDirection() - 18) + suffix + "," + rw.getName()+")";
     }
 
     public int[] getAdvancedTextFields() throws Exception {

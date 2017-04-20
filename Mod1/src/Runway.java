@@ -24,6 +24,8 @@ public class Runway {
 		this.name = name;
 	}
 
+	public void setObstacle(Obstacle obstacle) { this.obstacle = obstacle;}
+
 	public void setOriginalTORA(int originalTORA) {
 		this.originalTORA = originalTORA;
 	}
@@ -249,7 +251,7 @@ public class Runway {
 
 	//  returns false if obstacle is far away enough not to redeclare
 
-	public boolean setObstacle(Obstacle obstacle) {
+	public boolean putObstacle(Obstacle obstacle) {
 		clearObstacle();
 		this.obstacle = obstacle;
 		if (obstacle == null || Math.abs(obstacle.centerlineDist) > 75) {

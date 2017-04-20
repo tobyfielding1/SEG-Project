@@ -1,6 +1,6 @@
-import static org.junit.Assert.*;
-
 import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
 
 public class TestCases {
 	/* **************** Regression Testing ************************* */
@@ -12,14 +12,14 @@ public class TestCases {
 		Obstacle ob = new Obstacle("Plane", -50, 3646, 0, 12);
 
 		Runway run1 = new Runway("09L", 3902, 3902, 3902, 3595);
-		run1.setObstacle(ob);
+		run1.putObstacle(ob);
 		assertEquals(3345, run1.getTORA());
 		assertEquals(3345, run1.getTODA());
 		assertEquals(3345, run1.getASDA());
 		assertEquals(2985, run1.getLDA());
 
 		Runway run2 = new Runway("27R", 3884, 3962, 3884, 3884);
-		run2.setObstacle(ob);
+		run2.putObstacle(ob);
 		assertEquals(2986, run2.getTORA());
 		assertEquals(2986, run2.getTODA());
 		assertEquals(2986, run2.getASDA());
@@ -30,14 +30,14 @@ public class TestCases {
 		Obstacle ob = new Obstacle("Plane", 2853, 500, -20, 25);
 
 		Runway run1 = new Runway("09R", 3660, 3660, 3660, 3353);
-		run1.setObstacle(ob);
+		run1.putObstacle(ob);
 		assertEquals(1850, run1.getTORA());
 		assertEquals(1850, run1.getTODA());
 		assertEquals(1850, run1.getASDA());
 		assertEquals(2553, run1.getLDA());
 
 		Runway run2 = new Runway("27L", 3660, 3660, 3660, 3660);
-		run2.setObstacle(ob);
+		run2.putObstacle(ob);
 		assertEquals(2860, run2.getTORA());
 		assertEquals(2860, run2.getTODA());
 		assertEquals(2860, run2.getASDA());
@@ -48,14 +48,14 @@ public class TestCases {
 		Obstacle ob = new Obstacle("Plane", 150, 3203, 60, 15);
 
 		Runway run1 = new Runway("09R", 3660, 3660, 3660, 3353);
-		run1.setObstacle(ob);
+		run1.putObstacle(ob);
 		assertEquals(2903, run1.getTORA());
 		assertEquals(2903, run1.getTODA());
 		assertEquals(2903, run1.getASDA());
 		assertEquals(2393, run1.getLDA());
 
 		Runway run2 = new Runway("27L", 3660, 3660, 3660, 3660);
-		run2.setObstacle(ob);
+		run2.putObstacle(ob);
 		assertEquals(2393, run2.getTORA());
 		assertEquals(2393, run2.getTODA());
 		assertEquals(2393, run2.getASDA());
@@ -66,14 +66,14 @@ public class TestCases {
 		Obstacle ob = new Obstacle("Plane", 3546, 50, 20, 20);
 
 		Runway run1 = new Runway("09L", 3902, 3902, 3902, 3595);
-		run1.setObstacle(ob);
+		run1.putObstacle(ob);
 		assertEquals(2793, run1.getTORA());
 		assertEquals(2793, run1.getTODA());
 		assertEquals(2793, run1.getASDA());
 		assertEquals(3246, run1.getLDA());
 
 		Runway run2 = new Runway("27R", 3884, 3962, 3884, 3884);
-		run2.setObstacle(ob);
+		run2.putObstacle(ob);
 		assertEquals(3534, run2.getTORA());
 		assertEquals(3612, run2.getTODA());
 		assertEquals(3534, run2.getASDA());
@@ -91,7 +91,7 @@ public class TestCases {
 		 */
 		Obstacle ob = new Obstacle("Plane", 3546, 50, 74, 20);
 		Runway run1 = new Runway("09L", 3902, 3902, 3902, 3595);
-		run1.setObstacle(ob);
+		run1.putObstacle(ob);
 		assertEquals(2793, run1.getTORA());
 		assertEquals(2793, run1.getTODA());
 		assertEquals(2793, run1.getASDA());
@@ -106,7 +106,7 @@ public class TestCases {
 		 */
 		Obstacle ob = new Obstacle("Plane", 3546, 50, 75, 20);
 		Runway run1 = new Runway("09L", 3902, 3902, 3902, 3595);
-		run1.setObstacle(ob);
+		run1.putObstacle(ob);
 		assertEquals(2793, run1.getTORA());
 		assertEquals(2793, run1.getTODA());
 		assertEquals(2793, run1.getASDA());
@@ -121,7 +121,7 @@ public class TestCases {
 		 */
 		Obstacle ob = new Obstacle("Plane", 3546, 50, 76, 20);
 		Runway run1 = new Runway("09L", 3902, 3902, 3902, 3595);
-		run1.setObstacle(ob);
+		run1.putObstacle(ob);
 		assertEquals(3902, run1.getTORA());
 		assertEquals(3902, run1.getTODA());
 		assertEquals(3902, run1.getASDA());
@@ -136,7 +136,7 @@ public class TestCases {
 		 */
 		Obstacle ob = new Obstacle("Plane", 3546, 50, -74, 20);
 		Runway run1 = new Runway("09L", 3902, 3902, 3902, 3595);
-		run1.setObstacle(ob);
+		run1.putObstacle(ob);
 		assertEquals(2793, run1.getTORA());
 		assertEquals(2793, run1.getTODA());
 		assertEquals(2793, run1.getASDA());
@@ -151,7 +151,7 @@ public class TestCases {
 		 */
 		Obstacle ob = new Obstacle("Plane", 3546, 50, -75, 20);
 		Runway run1 = new Runway("09L", 3902, 3902, 3902, 3595);
-		run1.setObstacle(ob);
+		run1.putObstacle(ob);
 		assertEquals(2793, run1.getTORA());
 		assertEquals(2793, run1.getTODA());
 		assertEquals(2793, run1.getASDA());
@@ -166,7 +166,7 @@ public class TestCases {
 		 */
 		Obstacle ob = new Obstacle("Plane", 3546, 50, -76, 20);
 		Runway run1 = new Runway("09L", 3902, 3902, 3902, 3595);
-		run1.setObstacle(ob);
+		run1.putObstacle(ob);
 		assertEquals(3902, run1.getTORA());
 		assertEquals(3902, run1.getTODA());
 		assertEquals(3902, run1.getASDA());
@@ -180,7 +180,7 @@ public class TestCases {
 		 */
 		Obstacle ob = new Obstacle("Plane", -59, 50, 0, 20);
 		Runway run1 = new Runway("09L", 3902, 3902, 3902, 3595);
-		run1.setObstacle(ob);
+		run1.putObstacle(ob);
 		assertEquals(3354, run1.getTORA());
 		assertEquals(3354, run1.getTODA());
 		assertEquals(3354, run1.getASDA());
@@ -195,7 +195,7 @@ public class TestCases {
 		 */
 		Obstacle ob = new Obstacle("Plane", -60, 50, 0, 20);
 		Runway run1 = new Runway("09L", 3902, 3902, 3902, 3595);
-		run1.setObstacle(ob);
+		run1.putObstacle(ob);
 		assertEquals(3355, run1.getTORA());
 		assertEquals(3355, run1.getTODA());
 		assertEquals(3355, run1.getASDA());
@@ -209,7 +209,7 @@ public class TestCases {
 		 */
 		Obstacle ob = new Obstacle("Plane", -368, 50, 0, 20);
 		Runway run1 = new Runway("09L", 3902, 3902, 3902, 3595);
-		run1.setObstacle(ob);
+		run1.putObstacle(ob);
 		assertEquals(3902, run1.getTORA());
 		assertEquals(3902, run1.getTODA());
 		assertEquals(3902, run1.getASDA());
@@ -224,7 +224,7 @@ public class TestCases {
 		 */
 		Obstacle ob = new Obstacle("Plane", 3654, 50, 0, 20);
 		Runway run1 = new Runway("09L", 3902, 3902, 3902, 3595);
-		run1.setObstacle(ob);
+		run1.putObstacle(ob);
 		assertEquals(2901, run1.getTORA());
 		assertEquals(2901, run1.getTODA());
 		assertEquals(2901, run1.getASDA());
@@ -239,7 +239,7 @@ public class TestCases {
 		 */
 		Obstacle ob = new Obstacle("Plane", 3655, 50, 0, 20);
 		Runway run1 = new Runway("09L", 3902, 3902, 3902, 3595);
-		run1.setObstacle(ob);
+		run1.putObstacle(ob);
 		assertEquals(2902, run1.getTORA());
 		assertEquals(2902, run1.getTODA());
 		assertEquals(2902, run1.getASDA());
@@ -253,7 +253,7 @@ public class TestCases {
 		 */
 		Obstacle ob = new Obstacle("Plane", 3656, 50, 0, 20);
 		Runway run1 = new Runway("09L", 3902, 3902, 3902, 3595);
-		run1.setObstacle(ob);
+		run1.putObstacle(ob);
 		assertEquals(3902, run1.getTORA());
 		assertEquals(3902, run1.getTODA());
 		assertEquals(3902, run1.getASDA());
@@ -267,7 +267,7 @@ public class TestCases {
 		 */
 		Obstacle ob = new Obstacle("Plane",3546 , -59, 0, 20);
 		Runway run1 = new Runway("27L", 3660, 3660, 3660, 3660);
-		run1.setObstacle(ob);
+		run1.putObstacle(ob);
 		assertEquals(3419, run1.getTORA());
 		assertEquals(3419, run1.getTODA());
 		assertEquals(3419, run1.getASDA());
@@ -281,7 +281,7 @@ public class TestCases {
 		 */
 		Obstacle ob = new Obstacle("Plane",3546 , -60, 0, 20);
 		Runway run1 = new Runway("27L", 3660, 3660, 3660, 3660);
-		run1.setObstacle(ob);
+		run1.putObstacle(ob);
 		assertEquals(3420, run1.getTORA());
 		assertEquals(3420, run1.getTODA());
 		assertEquals(3420, run1.getASDA());
@@ -295,7 +295,7 @@ public class TestCases {
 		 */
 		Obstacle ob = new Obstacle("Plane",3546 , -61, 0, 20);
 		Runway run1 = new Runway("27L", 3660, 3660, 3660, 3660);
-		run1.setObstacle(ob);
+		run1.putObstacle(ob);
 		assertEquals(3660, run1.getTORA());
 		assertEquals(3660, run1.getTODA());
 		assertEquals(3660, run1.getASDA());
@@ -310,7 +310,7 @@ public class TestCases {
 		 */
 		Obstacle ob = new Obstacle("Plane",3546 , 3719, 0, 20);
 		Runway run1 = new Runway("27L", 3660, 3660, 3660, 3660);
-		run1.setObstacle(ob);
+		run1.putObstacle(ob);
 		assertEquals(2659, run1.getTORA());
 		assertEquals(2659, run1.getTODA());
 		assertEquals(2659, run1.getASDA());
@@ -325,7 +325,7 @@ public class TestCases {
 		 */
 		Obstacle ob = new Obstacle("Plane",3546 , 3720, 0, 20);
 		Runway run1 = new Runway("27L", 3660, 3660, 3660, 3660);
-		run1.setObstacle(ob);
+		run1.putObstacle(ob);
 		assertEquals(2660, run1.getTORA());
 		assertEquals(2660, run1.getTODA());
 		assertEquals(2660, run1.getASDA());
@@ -340,7 +340,7 @@ public class TestCases {
 		 */
 		Obstacle ob = new Obstacle("Plane",3546 , 3721, 0, 20);
 		Runway run1 = new Runway("27L", 3660, 3660, 3660, 3660);
-		run1.setObstacle(ob);
+		run1.putObstacle(ob);
 		assertEquals(3660, run1.getTORA());
 		assertEquals(3660, run1.getTODA());
 		assertEquals(3660, run1.getASDA());
@@ -356,7 +356,7 @@ public class TestCases {
 		 */
 		Obstacle ob = null;
 		Runway run1 = new Runway("09L", 3902, 3902, 3902, 3595);
-		run1.setObstacle(ob);
+		run1.putObstacle(ob);
 		assertEquals(3902, run1.getTORA());
 		assertEquals(3902, run1.getTODA());
 		assertEquals(3902, run1.getASDA());
@@ -370,7 +370,7 @@ public class TestCases {
 		 */
 		Obstacle ob = new Obstacle("Plane", -10000, 50, 0, 20);
 		Runway run1 = new Runway("09L", 3902, 3902, 3902, 3595);
-		run1.setObstacle(ob);
+		run1.putObstacle(ob);
 		assertEquals(3902, run1.getTORA());
 		assertEquals(3902, run1.getTODA());
 		assertEquals(3902, run1.getASDA());
@@ -384,7 +384,7 @@ public class TestCases {
 		 */
 		Obstacle ob = new Obstacle("Plane", 1000000, 50, 0, 20);
 		Runway run1 = new Runway("09L", 3902, 3902, 3902, 3595);
-		run1.setObstacle(ob);
+		run1.putObstacle(ob);
 		assertEquals(3902, run1.getTORA());
 		assertEquals(3902, run1.getTODA());
 		assertEquals(3902, run1.getASDA());
@@ -398,7 +398,7 @@ public class TestCases {
 		 */
 		Obstacle ob = new Obstacle("Plane", 50, 50, 0, 20);
 		Runway run1 = new Runway("09L", 1, 1, 1, 1);
-		run1.setObstacle(ob);
+		run1.putObstacle(ob);
 		assertEquals(0, run1.getTORA());
 		assertEquals(0, run1.getTODA());
 		assertEquals(0, run1.getASDA());
@@ -415,7 +415,7 @@ public class TestCases {
 		 */
 		Obstacle ob = new Obstacle("Plane", 50, 50, 0, 1);
 		Runway run1 = new Runway("09L", 3902, 3902, 3902, 3595);
-		run1.setObstacle(ob);
+		run1.putObstacle(ob);
 		assertEquals(3245, run1.getTORA());
 		assertEquals(3245, run1.getTODA());
 		assertEquals(3245, run1.getASDA());
@@ -429,7 +429,7 @@ public class TestCases {
 		Obstacle ob = new Obstacle("Plane", 50, 50, 0, 1);
 		Runway run1 = new Runway("09L", 3902, 3902, 3902, 3595);
 		run1.setRESA(250);
-		run1.setObstacle(ob);
+		run1.putObstacle(ob);
 		assertEquals(3245, run1.getTORA());
 		assertEquals(3245, run1.getTODA());
 		assertEquals(3245, run1.getASDA());
@@ -444,7 +444,7 @@ public class TestCases {
 		Obstacle ob = new Obstacle("Plane", 50, 50, 0, 1);
 		Runway run1 = new Runway("09L", 3902, 3902, 3902, 3595);
 		run1.setRESA(220);
-		run1.setObstacle(ob);
+		run1.putObstacle(ob);
 		assertEquals(3245, run1.getTORA());
 		assertEquals(3245, run1.getTODA());
 		assertEquals(3245, run1.getASDA());

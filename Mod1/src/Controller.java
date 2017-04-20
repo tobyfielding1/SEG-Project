@@ -90,7 +90,7 @@ public class Controller extends Application {
             final FileChooser fileChooser) {
         fileChooser.setTitle("Choose an XML file");
         fileChooser.setInitialDirectory(
-                new File(System.getProperty("user.home"))
+                new File(System.getProperty("user.dir"))
         );
         fileChooser.getExtensionFilters().addAll(
                 new FileChooser.ExtensionFilter("XML", "*.xml")
@@ -353,6 +353,7 @@ public class Controller extends Application {
 
     @FXML
     protected void exportAirportAction(){
+        configureFileChooser(fileChooser);
         fileChooser.setInitialFileName(airport.getName());
         File file = fileChooser.showSaveDialog(this.primaryStage);
         if (file != null) {
@@ -374,6 +375,7 @@ public class Controller extends Application {
 
     @FXML
     protected void exportRunwayAction(){
+        configureFileChooser(fileChooser);
         fileChooser.setInitialFileName(airport.getName() + "-" + runwayTabs.getSelectionModel().getSelectedItem().getText());
         File file = fileChooser.showSaveDialog(this.primaryStage);
         if (file != null) {

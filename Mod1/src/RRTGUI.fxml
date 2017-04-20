@@ -38,7 +38,7 @@
                   <MenuItem fx:id="m1" disable="true" mnemonicParsing="false" onAction="#switchAirportAction" text="Switch Airport" />
                   <MenuItem fx:id="m2" disable="true" mnemonicParsing="false" onAction="#exportAirportAction" text="Export Airport " />
                   <MenuItem fx:id="m3" disable="true" mnemonicParsing="false" onAction="#openAction" text="Import Runway" />
-                <MenuItem fx:id="m4" disable="true" mnemonicParsing="false" onAction="#exportAirportAction" text="Export current Runway" />
+                <MenuItem fx:id="m4" disable="true" mnemonicParsing="false" onAction="#exportRunwayAction" text="Export current Runway" />
                   <MenuItem mnemonicParsing="false" onAction="#openObstacleAction" text="Import Obstacle" />
                         <MenuItem mnemonicParsing="false" onAction="#fileCloseMenuAction" text="Close" />
                     </items>
