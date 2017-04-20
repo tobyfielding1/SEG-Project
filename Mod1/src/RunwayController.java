@@ -39,7 +39,8 @@ import java.util.TreeSet;
 
 public class RunwayController extends Application {
 
-    public static final String NUMERIC_REGEX = "^[0-9]*$";
+    public static final String NAT_REGEX = "^[0-9]*$";
+    public static final String INT_REGEX = "^-?[0-9]*$";
     private static final double SCALE_FACTOR = 1.1;
 
 
@@ -159,21 +160,20 @@ public class RunwayController extends Application {
 
     @FXML
     protected void submissionInit() {
-        TextField[] obstacleInputFields = {thresholdDistance, distCentrelineInputField, obstacleHeightInputField};
-        TextField[] advancedInputFields = {tora, toda, asda, lda, resa, blast, stripEnd, alstocs};
-
         if (!initialized) {
+            TextField[] advancedInputFields = {tora, toda, asda, lda, resa, blast, stripEnd, alstocs};
+
             submitButton.fire();
             initialized = true;
 
             // It's a bit of a roundabout way to do it, but it keeps things separated nicely
             for (int i = 0; i < advancedInputFields.length - 1; i++) {
-                addFrontEndNumericInputValidation(advancedInputFields[i], NUMERIC_REGEX);
+                addFrontEndNumericInputValidation(advancedInputFields[i], NAT_REGEX);
             }
 
-            for (int i = 0; i < obstacleInputFields.length - 1; i++) {
-                addFrontEndNumericInputValidation(obstacleInputFields[i], NUMERIC_REGEX);
-            }
+            addFrontEndNumericInputValidation(thresholdDistance, INT_REGEX);
+            addFrontEndNumericInputValidation(distCentrelineInputField, INT_REGEX);
+            addFrontEndNumericInputValidation(obstacleHeightInputField, NAT_REGEX);
         }
     }
 
@@ -588,7 +588,7 @@ public class RunwayController extends Application {
     private void reCentre(Pane p) {
         double realWidth = p.getWidth() * p.getScaleX();
         if (p.getTranslateX() + realWidth < 10) {
-            p.setTranslateX(10);
+            p.setTranslateX(-realWidth + 10);
         } else if (p.getTranslateX() - p.getWidth() > 10) {
             p.setTranslateX(p.getWidth() - 10);
         }
