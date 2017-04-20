@@ -507,8 +507,4 @@ public class Controller extends Application {
 			
 		}
 	}
-    
-   
-    
-    
 }
