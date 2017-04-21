@@ -202,8 +202,9 @@
                               <Font size="31.0" />
                            </font>
                         </Label>
-                              <AnchorPane fx:id="topDownPane" prefHeight="574.0" prefWidth="816.0" />
-                        <ToggleButton fx:id="rotateButton" layoutX="15.0" layoutY="15.0" mnemonicParsing="false" onAction="#rotateButtonAction" opacity="0.8" text="Rotate to Match Compass" />
+                        <AnchorPane fx:id="topDownPane" prefHeight="574.0" prefWidth="816.0" />
+                        <Button layoutX="15.0" layoutY="15.0" mnemonicParsing="false" onAction="#topDownCentreButtonAction" opacity="0.8" text="Reset pan/zoom" />
+                         <ToggleButton fx:id="rotateButton" layoutX="130.0" layoutY="15.0" mnemonicParsing="false" onAction="#rotateButtonAction" opacity="0.8" text="Rotate to Match Compass Heading" />
                      </children>
                   </Pane>
                     </content>
@@ -212,7 +213,8 @@
                     <content>
                   <Pane onMouseDragged="#sideOnMouseDrag" onMousePressed="#displayMousePressed" onScroll="#sideOnScroll" prefHeight="574.0" prefWidth="816.0">
                      <children>
-                              <AnchorPane fx:id="sideOnPane" prefHeight="574.0" prefWidth="816.0" />
+                         <AnchorPane fx:id="sideOnPane" prefHeight="574.0" prefWidth="816.0"/>
+                         <Button layoutX="15.0" layoutY="15.0" mnemonicParsing="false" onAction="#sideOnCentreButtonAction" opacity="0.8" text="Reset pan/zoom" />
                      </children>
                   </Pane>
                     </content>

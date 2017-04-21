@@ -671,8 +671,8 @@ public class RunwayController extends Application {
         }
     }
 
-	@FXML
-	protected void rotateButtonAction() {
+    @FXML
+    protected void rotateButtonAction() {
         displayValues();
         displayCalculations(rw);
         Display screen = new Display(topDownPane, sideOnPane);
@@ -680,5 +680,21 @@ public class RunwayController extends Application {
         screen.drawRunway(rw);
         displayLegend();
         screen.rotate();
-	}
+    }
+
+    @FXML
+    protected void topDownCentreButtonAction() {
+        topDownPane.setTranslateX(0);
+        topDownPane.setTranslateY(0);
+        topDownPane.setScaleX(1);
+        topDownPane.setScaleY(1);
+    }
+
+    @FXML
+    protected void sideOnCentreButtonAction() {
+        sideOnPane.setTranslateX(0);
+        sideOnPane.setTranslateY(0);
+        sideOnPane.setScaleX(1);
+        sideOnPane.setScaleY(1);
+    }
 }
