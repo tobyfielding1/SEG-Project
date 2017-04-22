@@ -635,9 +635,13 @@ public class Display {
             angle = angle - Math.toRadians(180);
         }
         int x1 = 700;
-        int y1 = 80;
-        double x2 = x1 - 40*Math.sin(angle);
-        double y2 = y1 - 40*Math.cos(angle);
+        int y1 = 60;
+        //define main part of arrow using 2 lines
+        double x2 = x1 - 20*Math.sin(angle);
+        double y2 = y1 - 20*Math.cos(angle);
+        double xhalf2 = x1 - 20*Math.sin(angle + Math.toRadians(180));
+        double yhalf2 = y1 - 20*Math.cos(angle + Math.toRadians(180));
+
 
         //get end points of arrow wings
         double x3 =  x2 + 10*Math.sin(angle + 0.785398);
@@ -649,6 +653,10 @@ public class Display {
         Line main = new Line(x1, y1, x2, y2);
         main.setStroke(arrowColor);
         main.setStrokeWidth(ARROW_THICKNESS);
+
+        Line mainHalf2 = new Line(x1, y1, xhalf2, yhalf2);
+        mainHalf2.setStroke(arrowColor);
+        mainHalf2.setStrokeWidth(ARROW_THICKNESS);
 
         Line wing1 = new Line(x2, y2, x3, y3);
         wing1.setStroke(arrowColor);
@@ -663,7 +671,7 @@ public class Display {
         t = new Text(650, 30, "Arrow Points North");
 
         //add arrow and text to panel
-        topDownPane.getChildren().addAll(main, wing1, wing2, t);
+        topDownPane.getChildren().addAll(main, mainHalf2, wing1, wing2, t);
     }
 
     public void rotate() {
