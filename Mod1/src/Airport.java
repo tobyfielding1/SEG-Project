@@ -34,7 +34,7 @@ public class Airport {
     }
 
     public void addObstacle(Obstacle o) {
-        obstacles.put(o.getId() + o.getRunways(), o);
+        obstacles.put(o.getId(), o);
     }
 
     public void removeRunway(String name) {

@@ -23,6 +23,7 @@ import javafx.scene.transform.Scale;
 import javafx.scene.transform.Translate;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -83,6 +84,31 @@ public class Controller extends Application {
 		primaryStage.setScene(new Scene(root));
         primaryStage.setResizable(false);
 		primaryStage.show();
+        primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>()
+        {
+            @Override
+            public void handle(WindowEvent event)
+            {
+                Alert alert = new Alert(AlertType.CONFIRMATION);
+                alert.setTitle("Quit");
+                alert.setHeaderText("Any unsaved changes to your Airport will be lost");
+                alert.setContentText("Do you wish to save before quitting?");
+
+                ButtonType buttonTypeOne = new ButtonType("Save and Quit");
+                ButtonType buttonTypeTwo = new ButtonType("Quit without saving");
+                ButtonType buttonTypeCancel = new ButtonType("Cancel", ButtonData.CANCEL_CLOSE);
+
+                alert.getButtonTypes().setAll(buttonTypeOne,buttonTypeTwo,buttonTypeCancel);
+
+                Optional<ButtonType> result = alert.showAndWait();
+                if (result.get() == buttonTypeOne) {
+                    exportAirportAction();
+                }else if (result.get() == buttonTypeTwo){}
+                else{
+                    event.consume();
+                }
+            }
+        });
 		
 	}
 
@@ -166,7 +192,12 @@ public class Controller extends Application {
         // get a handle to the stage
         Stage stage = (Stage) menu.getScene().getWindow();
         // do what you have to do
-        stage.close();
+        stage.fireEvent(
+                new WindowEvent(
+                        stage,
+                        WindowEvent.WINDOW_CLOSE_REQUEST
+                )
+        );
     }
 
 
@@ -220,16 +251,16 @@ public class Controller extends Application {
         runwayTabs.getTabs().remove(0);
 
         additionalInfoBar.setText("Airport created successfully");
+        enableMenuAction();
     }
 
 
     @FXML
     protected void enableMenuAction(){
-        filePrintMenu.disableProperty().setValue(false);
-        m1.disableProperty().setValue(false);
-        m2.disableProperty().setValue(false);
-        m3.disableProperty().setValue(false);
-        m4.disableProperty().setValue(false);
+        menu.setVisible(true);
+        Stage stage = (Stage) menu.getScene().getWindow();
+        // do what you have to do
+        stage.setTitle(stage.getTitle() + " - " + airport.getName());
     }
 
     @FXML
@@ -272,24 +303,34 @@ public class Controller extends Application {
             }
             try {
                 if (airport == null){
+                    airport = (Airport) decoder.readObject();
                     addRunway.disableProperty().setValue(false);
                     runwayTabs.getTabs().remove(0);
                 }
 
-                else if (runwayTabs.getTabs().size()-1 > 0)
+                else if (runwayTabs.getTabs().size()-1 > 0){
+                    airport = (Airport) decoder.readObject();
                     runwayTabs.getTabs().remove(0,runwayTabs.getTabs().size()-1);
-
-                airport = (Airport) decoder.readObject();
+                }
 
                 for(Runway rw: airport.getRunways().values())
                     createAndSelectNewTab(runwayTabs, rw.getName());
 
                 additionalInfoBar.setText("Airport imported successfully");
 
+            }catch(java.lang.ClassCastException e1){
+                decoder.close();
+                Alert alert = new Alert(AlertType.ERROR);
+                alert.setTitle("Error Dialog");
+                alert.setHeaderText("The file you want to import is of the wrong type");
+                alert.setContentText("Airports files are named with the airport name only, runways use 'airport - designator', and obstacles use 'airport - obstacleName'.");
+                alert.showAndWait();
+                openAirportAction();
             }catch(java.lang.ArrayIndexOutOfBoundsException e){
                 decoder.close();
                 e.printStackTrace();
             }
+            enableMenuAction();
 
         }
     }
@@ -313,7 +354,14 @@ public class Controller extends Application {
                 airport.addObstacle(rw);
                 createAndSelectNewTab(runwayTabs, rw.getId());
                 additionalInfoBar.setText("Obstacle imported successfully");
-
+            }catch(java.lang.ClassCastException e1){
+                decoder.close();
+                Alert alert = new Alert(AlertType.ERROR);
+                alert.setTitle("Error Dialog");
+                alert.setHeaderText("The file you want to import is of the wrong type");
+                alert.setContentText("Airports files are named with the airport name only, runways use 'airport - designator', and obstacles use 'airport - obstacleName'.");
+                alert.showAndWait();
+                openObstacleAction();
             }catch(java.lang.ArrayIndexOutOfBoundsException e){
                 decoder.close();
                 e.printStackTrace();
@@ -342,7 +390,14 @@ public class Controller extends Application {
                 airport.addRunway(rw);
                 createAndSelectNewTab(runwayTabs, rw.getName());
                 additionalInfoBar.setText("Runway imported successfully");
-
+            }catch(java.lang.ClassCastException e1){
+                decoder.close();
+                Alert alert = new Alert(AlertType.ERROR);
+                alert.setTitle("Error Dialog");
+                alert.setHeaderText("The file you want to import is of the wrong type");
+                alert.setContentText("Airports files are named with the airport name only, runways use 'airport - designator', and obstacles use 'airport - obstacleName'.");
+                alert.showAndWait();
+                openAction();
             }catch(java.lang.ArrayIndexOutOfBoundsException e){
                 decoder.close();
                 e.printStackTrace();

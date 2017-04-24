@@ -36,6 +36,7 @@ import java.awt.image.BufferedImage;
 import java.beans.XMLDecoder;
 import java.beans.XMLEncoder;
 import java.io.*;
+import java.util.Optional;
 import java.util.TreeSet;
 
 public class RunwayController extends Application {
@@ -106,6 +107,26 @@ public class RunwayController extends Application {
                 this.parent.airport.addObstacle(rw);
                 this.parent.additionalInfoBar.setText("Obstacle imported successfully");
 
+                Alert alert = new Alert(AlertType.CONFIRMATION);
+                alert.setTitle("Confirmation Dialog");
+                alert.setHeaderText("A new obstacle has been added");
+                alert.setContentText("Would you also like to place it on this runway and recalculate?");
+
+                Optional<ButtonType> result = alert.showAndWait();
+                if (result.get() == ButtonType.OK){
+                    loadObstaclesAction();
+                    obstacleList.getSelectionModel().select(rw.getId());// ... user chose OK
+                } else {
+                    // ... user chose CANCEL or closed the dialog
+                }
+            }catch(java.lang.ClassCastException e1){
+                decoder.close();
+                Alert alert = new Alert(AlertType.ERROR);
+                alert.setTitle("Error Dialog");
+                alert.setHeaderText("The file you want to import is of the wrong type");
+                alert.setContentText("Airports files are named with the airport name only, runways use 'airport - designator', and obstacles use 'airport - obstacleName'.");
+                alert.showAndWait();
+                openObstacleAction();
             }catch(java.lang.ArrayIndexOutOfBoundsException e){
                 decoder.close();
                 e.printStackTrace();
@@ -455,12 +476,11 @@ public class RunwayController extends Application {
             parent.airport.getObstacles().get(obstacleType).setCenterlineDist(distCentreThreshold);
             return parent.airport.getObstacles().get(obstacleType);
         } else{
-            Obstacle o = new Obstacle(obstacleType, distLowerThreshold, distUpperThreshold, distCentreThreshold, obstacleHeight);
+            Obstacle o = new Obstacle(obstacleType + generateRunwayPairName(), distLowerThreshold, distUpperThreshold, distCentreThreshold, obstacleHeight);
             o.setRunways(generateRunwayPairName());
             parent.airport.addObstacle(o);
             loadObstaclesAction();
             obstacleList.getSelectionModel().select(obstacleType + generateRunwayPairName());
-            o.setId(obstacleType + generateRunwayPairName());
             return o;
         }
     }
