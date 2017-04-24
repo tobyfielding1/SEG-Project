@@ -101,9 +101,9 @@ public class Display {
 
         Rectangle obs;
         if (scaleDir > 0)
-            obs = new Rectangle(x = (rw.getObstacle().getDist1stThresh() + (rw.getOriginalTORA() - rw.getOriginalLDA())) * scaleDir + xi - 10, rw.getObstacle().centerlineDist + centreLine - 10, 20, 20);
+            obs = new Rectangle(x = (rw.getObstacle().getDist1stThresh() + (rw.getOriginalTORA() - rw.getOriginalLDA())) * scaleDir + xi - 10, -rw.getObstacle().centerlineDist + centreLine - 10, 20, 20);
         else
-            obs = new Rectangle(x = (rw.getObstacle().getDist2ndThresh() + (rw.getOriginalTORA() - rw.getOriginalLDA())) * scaleDir + xi - 10, rw.getObstacle().centerlineDist + centreLine - 10, 20, 20);
+            obs = new Rectangle(x = (rw.getObstacle().getDist2ndThresh() + (rw.getOriginalTORA() - rw.getOriginalLDA())) * scaleDir + xi - 10, -rw.getObstacle().centerlineDist + centreLine - 10, 20, 20);
 
         obs.setFill(OBSTACLE_COLOR);
         obs.setStroke(Color.BLACK);
