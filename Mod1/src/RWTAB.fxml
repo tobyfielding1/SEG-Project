@@ -218,7 +218,7 @@
             <tabs>
                 <Tab fx:id="topDown" text="Top Down View">
                     <content>
-                  <Pane onMouseDragged="#topDownMouseDrag" onMouseEntered="#submissionInit" onMousePressed="#displayMousePressed" onScroll="#topDownScroll" prefHeight="574.0" prefWidth="816.0">
+                  <Pane onMouseDragged="#topDownMouseDrag" onMouseEntered="#submissionInit" onMousePressed="#displayMousePressed" onScroll="#topDownScroll" style="-fx-background-color: #e0ebe0" prefHeight="574.0" prefWidth="816.0">
                      <children>
                         <Label fx:id="startLabel" layoutX="50.0" layoutY="250.0" text="Move mouse here to load runway..." textFill="#aeaeae">
                            <font>
@@ -234,7 +234,7 @@
                 </Tab>
                 <Tab fx:id="sideOn" text="Side-On View">
                     <content>
-                  <Pane onMouseDragged="#sideOnMouseDrag" onMousePressed="#displayMousePressed" onScroll="#sideOnScroll" prefHeight="574.0" prefWidth="816.0">
+                  <Pane onMouseDragged="#sideOnMouseDrag" onMousePressed="#displayMousePressed" onScroll="#sideOnScroll" style="-fx-background-color: white" prefHeight="574.0" prefWidth="816.0">
                      <children>
                          <AnchorPane fx:id="sideOnPane" prefHeight="574.0" prefWidth="816.0" />
                          <Button layoutX="15.0" layoutY="15.0" mnemonicParsing="false" onAction="#sideOnCentreButtonAction" opacity="0.8" text="Reset pan/zoom" />

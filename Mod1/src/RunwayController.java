@@ -192,23 +192,13 @@ public class RunwayController extends Application {
     @FXML
     protected void submissionInit() {
         if (!initialized) {
-            TextField[] advancedInputFields = {tora, toda, asda, lda, resa, blast, stripEnd, alstocs};
             if (rw.getObstacle() != null )
                 obstacleList.getSelectionModel().select(rw.getObstacle().getId());
 
             submitButton.fire();
             initialized = true;
 
-
-            // Sets
-            tora.setPromptText(Integer.toString(rw.getOriginalTORA()) + "m");
-            toda.setPromptText(Integer.toString(rw.getOriginalTORA()) + "m");
-            asda.setPromptText(Integer.toString(rw.getOriginalASDA()) + "m");
-            lda.setPromptText(Integer.toString(rw.getOriginalLDA()) + "m");
-            resa.setPromptText(Integer.toString(rw.getRESA()) + "m");
-            blast.setPromptText(Integer.toString(rw.getBlastAllowance()) + "m");
-            stripEnd.setPromptText(Integer.toString(rw.getStripEnd()) + "m");
-            alstocs.setPromptText(Integer.toString(rw.getALSTOCSSlope()) + "m");
+            setAdvancedParameterFieldPompts();
 
             addFrontEndNumericInputValidation(tora, NAT_REGEX);
             addFrontEndNumericInputValidation(toda, NAT_REGEX);
@@ -225,6 +215,17 @@ public class RunwayController extends Application {
 
 
         }
+    }
+
+    private void setAdvancedParameterFieldPompts() {
+        tora.setPromptText(Integer.toString(rw.getOriginalTORA()) + "m");
+        toda.setPromptText(Integer.toString(rw.getOriginalTODA()) + "m");
+        asda.setPromptText(Integer.toString(rw.getOriginalASDA()) + "m");
+        lda.setPromptText(Integer.toString(rw.getOriginalLDA()) + "m");
+        resa.setPromptText(Integer.toString(rw.getRESA()) + "m");
+        blast.setPromptText(Integer.toString(rw.getBlastAllowance()) + "m");
+        stripEnd.setPromptText(Integer.toString(rw.getStripEnd()) + "m");
+        alstocs.setPromptText(Integer.toString(rw.getALSTOCSSlope()) + "m");
     }
 
     public void addFrontEndNumericInputValidation(TextField t, String regex) {
@@ -285,6 +286,7 @@ public class RunwayController extends Application {
             rw.setStripEnd(newValues[6]);
             rw.setBlastAllowance(newValues[7]);
             rw.putObstacle(temp);
+            setAdvancedParameterFieldPompts();
             display();
         } catch (Exception e) {
             displayInputError(e);
