@@ -83,33 +83,9 @@ public class Controller extends Application {
 		primaryStage.setTitle("Runway Redeclaration Tool");
 		primaryStage.setScene(new Scene(root));
         primaryStage.setResizable(false);
-		primaryStage.show();
-        primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>()
-        {
-            @Override
-            public void handle(WindowEvent event)
-            {
-                Alert alert = new Alert(AlertType.CONFIRMATION);
-                alert.setTitle("Quit");
-                alert.setHeaderText("Any unsaved changes to your Airport will be lost");
-                alert.setContentText("Do you wish to save before quitting?");
 
-                ButtonType buttonTypeOne = new ButtonType("Save and Quit");
-                ButtonType buttonTypeTwo = new ButtonType("Quit without saving");
-                ButtonType buttonTypeCancel = new ButtonType("Cancel", ButtonData.CANCEL_CLOSE);
 
-                alert.getButtonTypes().setAll(buttonTypeOne,buttonTypeTwo,buttonTypeCancel);
-
-                Optional<ButtonType> result = alert.showAndWait();
-                if (result.get() == buttonTypeOne) {
-                    exportAirportAction();
-                }else if (result.get() == buttonTypeTwo){}
-                else{
-                    event.consume();
-                }
-            }
-        });
-		
+        primaryStage.show();
 	}
 
     public static void configureFileChooser(
@@ -261,6 +237,30 @@ public class Controller extends Application {
         Stage stage = (Stage) menu.getScene().getWindow();
         // do what you have to do
         stage.setTitle(stage.getTitle() + " - " + airport.getName());
+        stage.setOnCloseRequest(new EventHandler<WindowEvent>()
+        {
+            @Override
+            public void handle(WindowEvent event)
+            {
+                event.consume();
+                Alert alert = new Alert(AlertType.CONFIRMATION);
+                alert.setTitle("Quit");
+                alert.setHeaderText("Any unsaved changes to your Airport will be lost");
+                alert.setContentText("Do you wish to save before quitting?");
+
+                ButtonType buttonTypeOne = new ButtonType("Save and Quit");
+                ButtonType buttonTypeTwo = new ButtonType("Quit without saving");
+                ButtonType buttonTypeCancel = new ButtonType("Cancel", ButtonData.CANCEL_CLOSE);
+
+                alert.getButtonTypes().setAll(buttonTypeOne,buttonTypeTwo,buttonTypeCancel);
+
+                Optional<ButtonType> result = alert.showAndWait();
+                if (result.get() == buttonTypeOne) {
+                    exportAirportAction();
+                    stage.close();
+                }else if (result.get() == buttonTypeTwo){stage.close();}
+            }
+        });
     }
 
     @FXML
@@ -331,41 +331,6 @@ public class Controller extends Application {
                 e.printStackTrace();
             }
             enableMenuAction();
-
-        }
-    }
-
-    @FXML
-    protected void openObstacleAction(){
-        configureFileChooser(fileChooser);
-        File file = fileChooser.showOpenDialog(this.primaryStage);
-        if (file != null) {
-            XMLDecoder decoder =
-                    null;
-            try {
-                decoder = new XMLDecoder(new BufferedInputStream(
-                        new FileInputStream(file)));
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
-            try {
-                Obstacle rw = (Obstacle) decoder.readObject();
-                decoder.close();
-                airport.addObstacle(rw);
-                createAndSelectNewTab(runwayTabs, rw.getId());
-                additionalInfoBar.setText("Obstacle imported successfully");
-            }catch(java.lang.ClassCastException e1){
-                decoder.close();
-                Alert alert = new Alert(AlertType.ERROR);
-                alert.setTitle("Error Dialog");
-                alert.setHeaderText("The file you want to import is of the wrong type");
-                alert.setContentText("Airports files are named with the airport name only, runways use 'airport - designator', and obstacles use 'airport - obstacleName'.");
-                alert.showAndWait();
-                openObstacleAction();
-            }catch(java.lang.ArrayIndexOutOfBoundsException e){
-                decoder.close();
-                e.printStackTrace();
-            }
 
         }
     }

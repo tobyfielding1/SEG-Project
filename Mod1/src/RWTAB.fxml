@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
@@ -20,7 +25,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.TextFlow?>
 
-<HBox fx:id="thisPanel" style="-fx-border-color: #737373; -fx-border-width: 2;" xmlns="http://javafx.com/javafx/8.0.71" xmlns:fx="http://javafx.com/fxml/1">
+<HBox fx:id="thisPanel" style="-fx-border-color: #737373; -fx-border-width: 2;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
     <children>
         <AnchorPane minHeight="0.0" minWidth="0.0" prefWidth="270.0">
             <children>
@@ -76,9 +81,9 @@
                                 </AnchorPane>
                             </content>
                         </TitledPane>
-                        <TitledPane fx:id="lower" expanded="false" onMousePressed="#compressUpper" text="Add or Edit an Obstacle" textFill="#f20202">
+                        <TitledPane fx:id="lower" onMousePressed="#compressUpper" text="Add or Edit an Obstacle" textFill="#f20202">
                             <content>
-                                <AnchorPane minHeight="0.0" minWidth="0.0" prefWidth="274.0">
+                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="281.0" prefWidth="274.0">
                                     <children>
                                         <Label disable="true" layoutX="5.0" layoutY="6.0" text="Obstacle Name" visible="false" />
                                         <ComboBox fx:id="obstacleList" editable="true" layoutX="5.0" layoutY="37.0" onMouseEntered="#loadObstaclesAction" prefHeight="27.0" prefWidth="253.0" promptText="enter name or select from list" />
@@ -127,7 +132,7 @@
                                     </Label>
                                  </children>
                               </GridPane>
-                              <Button layoutX="137.0" layoutY="4.0" mnemonicParsing="false" onAction="#exportObstacleAction" prefHeight="27.0" prefWidth="120.0" text="Export this Obstacle">
+                              <Button fx:id="expObs" layoutX="137.0" layoutY="4.0" mnemonicParsing="false" onAction="#exportObstacleAction" prefHeight="27.0" prefWidth="120.0" text="Export this Obstacle" visible="false">
                                  <font>
                                     <Font size="11.5" />
                                  </font>
@@ -137,6 +142,11 @@
                                     <Font size="11.5" />
                                  </font>
                               </Button>
+                              <Label fx:id="obsLab" layoutX="6.0" layoutY="259.0" prefHeight="17.0" prefWidth="264.0" text="Obstacle not set" textFill="#cd4d23">
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font>
+                              </Label>
                                     </children>
                                 </AnchorPane>
                             </content>

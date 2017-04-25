@@ -45,6 +45,9 @@ public class RunwayController extends Application {
     public static final String INT_REGEX = "^-?[0-9]*$";
     private static final double SCALE_FACTOR = 1.1;
 
+    public Button expObs;
+    public Label obsLab;
+
     public TitledPane upper, lower;
 
     public Tab topDown, sideOn, calculations;
@@ -116,6 +119,7 @@ public class RunwayController extends Application {
                 if (result.get() == ButtonType.OK){
                     loadObstaclesAction();
                     obstacleList.getSelectionModel().select(rw.getId());// ... user chose OK
+                    submitButton.fire();
                 } else {
                     // ... user chose CANCEL or closed the dialog
                 }
@@ -138,7 +142,10 @@ public class RunwayController extends Application {
     @FXML
     protected void exportObstacleAction(){
         parent.configureFileChooser(parent.fileChooser);
-        this.parent.fileChooser.setInitialFileName(this.parent.airport.getName() + "-" + obstacleList.getValue());
+        Obstacle r = this.parent.airport.getObstacles().get(obstacleList.getValue());
+        if ((" "+r.getId().substring(r.getId().lastIndexOf(" ")+1)).equals(generateRunwayPairName()))
+            r.setId(r.getId().substring(0, r.getId().lastIndexOf(" ")));
+        this.parent.fileChooser.setInitialFileName(this.parent.airport.getName() + "-" + r.getId());
         File file = this.parent.fileChooser.showSaveDialog(this.parent.primaryStage);
         if (file != null) {
             try {
@@ -146,8 +153,6 @@ public class RunwayController extends Application {
 
                 // Create XML encoder.
                 XMLEncoder xenc = new XMLEncoder(new BufferedOutputStream(fos));
-
-                Obstacle r = this.parent.airport.getObstacles().get(obstacleList.getValue());
 
                 // Write object.
                 xenc.writeObject(r);
@@ -165,6 +170,7 @@ public class RunwayController extends Application {
         obstacleList.valueProperty().addListener(new ChangeListener<String>() {
             @Override public void changed(ObservableValue ov, String t, String t1) {
                 if (parent.airport.getObstacles().containsKey(t1)) {
+                    expObs.setVisible(true);
                     thresholdDistance.clear();
                     obstacleHeightInputField.clear();
                     distCentrelineInputField.clear();
@@ -248,6 +254,7 @@ public class RunwayController extends Application {
         displayCalculations(rw);
         display();
         parent.additionalInfoBar.setText("Obstacle removed");
+        obsLab.setText("Obstacle not set");
     }
 
 
@@ -259,6 +266,7 @@ public class RunwayController extends Application {
                 rw.clearObstacle();
                 rw.putObstacle(getObstacleTextFields());
                 parent.additionalInfoBar.setText("Obstacle added");
+                obsLab.setText("Obstacle set - " + rw.getObstacle().getId());
             }
             display();
         } catch (IOException e) {
