@@ -31,7 +31,7 @@
             <children>
                 <VBox fx:id="leftPanel" onMouseEntered="#submissionInit" prefHeight="606.0" prefWidth="276.0" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
                     <children>
-                        <TitledPane fx:id="upper" expanded="false" onMousePressed="#compressLower" text="Edit Advanced Parameters">
+                        <TitledPane fx:id="upper" onMousePressed="#compressLower" text="Edit Advanced Parameters">
                             <font>
                                 <Font size="13.0" />
                             </font>
@@ -61,8 +61,8 @@
                                                 <Button onAction="#advancedSubmitAction" text="Submit" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="9" />
                                             </children>
                                             <columnConstraints>
-                                                <ColumnConstraints hgrow="SOMETIMES" maxWidth="171.0" minWidth="10.0" prefWidth="142.0" />
-                                                <ColumnConstraints hgrow="ALWAYS" maxWidth="114.00000762939453" minWidth="10.0" prefWidth="97.0" />
+                                                <ColumnConstraints hgrow="SOMETIMES" maxWidth="171.0" minWidth="10.0" prefWidth="149.0" />
+                                                <ColumnConstraints hgrow="ALWAYS" maxWidth="114.00000762939453" minWidth="10.0" prefWidth="90.0" />
                                             </columnConstraints>
                                             <rowConstraints>
                                                 <RowConstraints maxHeight="20.0" minHeight="20.0" prefHeight="20.0" vgrow="SOMETIMES" />
