@@ -459,25 +459,7 @@ public class Controller extends Application {
                 throw new Exception("Invalid runway designator: name must be in the form of a number between 01 and 36, possibly followed by a L, R or C");
             }
 
-            if (tora < 720) {
-                throw new Exception("Invalid TORA value: must be at least 720.");
-            }
-
-            if (toda < tora) {
-                throw new Exception("Invalid TODA value: must be at least as big as TORA (" + tora + ").");
-            }
-
-            if (asda < tora) {
-                throw new Exception("Invalid ASDA value: must be at least as big as TORA (" + tora + ").");
-            }
-
-            if (asda > toda) {
-                throw new Exception("Invalid ASDA value: must be at most as big as TODA (" + toda + ").");
-            }
-
-            if (lda > tora) {
-                throw new Exception("Invalid LDA value: must be at most as big as TORA (" + tora + ").");
-            }
+            checkRunwayValues(tora, toda, asda, lda);
 
             airport.addRunway(new Runway(name, tora, toda, asda, lda));
             createAndSelectNewTab(runwayTabs, rNameInputField.getText());
@@ -502,6 +484,28 @@ public class Controller extends Application {
             alert.setHeaderText("There was a problem with your input");
             alert.setContentText(e.getMessage());
             alert.showAndWait();
+        }
+    }
+
+    public void checkRunwayValues(int tora, int toda, int asda, int lda) throws Exception {
+        if (tora < 720) {
+            throw new Exception("Invalid TORA value: must be at least 720.");
+        }
+
+        if (toda < tora) {
+            throw new Exception("Invalid TODA value: must be at least as big as TORA (" + tora + ").");
+        }
+
+        if (asda < tora) {
+            throw new Exception("Invalid ASDA value: must be at least as big as TORA (" + tora + ").");
+        }
+
+        if (asda > toda) {
+            throw new Exception("Invalid ASDA value: must be at most as big as TODA (" + toda + ").");
+        }
+
+        if (lda > tora) {
+            throw new Exception("Invalid LDA value: must be at most as big as TORA (" + tora + ").");
         }
     }
 

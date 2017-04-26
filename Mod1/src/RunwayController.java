@@ -570,6 +570,8 @@ public class RunwayController extends Application {
             }
         }
 
+        parent.checkRunwayValues(newValues[0], newValues[1], newValues[2], newValues[3]);
+
         return newValues;
     }
 
@@ -668,7 +670,7 @@ public class RunwayController extends Application {
         p.setScaleX(p.getScaleX() * scaling);
         p.setScaleY(p.getScaleY() * scaling);
 
-        reCentre(p);
+//        reCentre(p);
     }
 
     @FXML
@@ -695,7 +697,7 @@ public class RunwayController extends Application {
 
         dragOldPos.setLocation(e.getX(), e.getY());
 
-        reCentre(p);
+//        reCentre(p);
     }
 
     private void reCentre(Pane p) {
