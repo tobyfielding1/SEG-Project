@@ -31,14 +31,14 @@
             <children>
                 <VBox fx:id="leftPanel" onMouseEntered="#submissionInit" prefHeight="606.0" prefWidth="276.0" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
                     <children>
-                        <TitledPane fx:id="upper" expanded="false" onMousePressed="#compressLower" text="Edit Advanced Parameters">
+                        <TitledPane fx:id="upper" onMousePressed="#compressLower" text="Edit Advanced Parameters">
                             <font>
                                 <Font size="13.0" />
                             </font>
                             <content>
                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefWidth="274.0">
                                     <children>
-                                        <GridPane layoutY="2.0" style="-fx-grid-lines-visible: false; cell-border-color: lightgrey;" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
+                                        <GridPane layoutX="20.4" layoutY="20.4" prefHeight="276.0" prefWidth="260.0" style="-fx-grid-lines-visible: false; cell-border-color: lightgrey;" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="4.0" AnchorPane.topAnchor="10.0">
                                             <children>
                                                 <Label text="  Attribute" GridPane.columnIndex="0" GridPane.rowIndex="0" />
                                                 <Label text="Value" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="0" />
@@ -52,7 +52,7 @@
                                                 <TextField fx:id="lda" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                                                 <Label text=" RESA" textAlignment="CENTER" GridPane.rowIndex="5" />
                                                 <TextField fx:id="resa" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-                                                <Label text=" ALS/TOCS Slope" textAlignment="CENTER" GridPane.rowIndex="6" />
+                                                <Label text=" ALS/TOCS Gradient: 1 to :" textAlignment="CENTER" GridPane.rowIndex="6" />
                                                 <TextField fx:id="alstocs" GridPane.columnIndex="1" GridPane.rowIndex="6" />
                                                 <Label text=" Strip End" textAlignment="CENTER" GridPane.rowIndex="7" />
                                                 <TextField fx:id="stripEnd" GridPane.columnIndex="1" GridPane.rowIndex="7" />
@@ -61,8 +61,8 @@
                                                 <Button onAction="#advancedSubmitAction" text="Submit" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="9" />
                                             </children>
                                             <columnConstraints>
-                                                <ColumnConstraints hgrow="SOMETIMES" maxWidth="101.0" minWidth="10.0" prefWidth="101.0" />
-                                                <ColumnConstraints hgrow="ALWAYS" maxWidth="80.0" minWidth="10.0" prefWidth="40.0" />
+                                                <ColumnConstraints hgrow="SOMETIMES" maxWidth="171.0" minWidth="10.0" prefWidth="142.0" />
+                                                <ColumnConstraints hgrow="ALWAYS" maxWidth="114.00000762939453" minWidth="10.0" prefWidth="97.0" />
                                             </columnConstraints>
                                             <rowConstraints>
                                                 <RowConstraints maxHeight="20.0" minHeight="20.0" prefHeight="20.0" vgrow="SOMETIMES" />

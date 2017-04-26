@@ -1,4 +1,5 @@
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -275,6 +276,7 @@ public class Controller extends Application {
 
     @FXML
     protected void switchAirportAction(){
+        Stage stage = (Stage) menu.getScene().getWindow();
         Alert alert = new Alert(AlertType.CONFIRMATION);
         alert.setTitle("Switch Airport");
         alert.setHeaderText("You have chosen to switch Airports");
@@ -290,9 +292,23 @@ public class Controller extends Application {
 
         if (result.get() == buttonTypeOne) {
             exportAirportAction();
-            openAirportAction();
+            stage.close();
+            Platform.runLater(() -> {
+                try {
+                    new Controller().start(new Stage());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            });
         } else if (result.get() == buttonTypeTwo){
-            openAirportAction();
+            stage.close();
+            Platform.runLater(() -> {
+                try {
+                    new Controller().start(new Stage());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            });
         }
 
     }

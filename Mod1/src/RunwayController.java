@@ -242,7 +242,7 @@ public class RunwayController extends Application {
         resa.setPromptText(Integer.toString(rw.getRESA()) + "m");
         blast.setPromptText(Integer.toString(rw.getBlastAllowance()) + "m");
         stripEnd.setPromptText(Integer.toString(rw.getStripEnd()) + "m");
-        alstocs.setPromptText(Integer.toString(rw.getALSTOCSSlope()) + "m");
+        alstocs.setPromptText(Integer.toString(rw.getALSTOCSSlope()));
     }
 
     public void addFrontEndNumericInputValidation(TextField t, String regex) {
