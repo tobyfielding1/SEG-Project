@@ -263,6 +263,9 @@ public class RunwayController extends Application {
 
     @FXML
     protected void clearObstacleAction() {
+        boolean temp = alwaysShowLegend;
+        setAlwaysShowLegend(false);
+        setAlwaysShowLegend(temp);
         rw.clearObstacle();
         obstacleList.setValue("");
         thresholdDistance.clear();
@@ -278,6 +281,9 @@ public class RunwayController extends Application {
 
     @FXML
     protected void submitButtonAction() {
+boolean temp = alwaysShowLegend;
+        setAlwaysShowLegend(false);
+        setAlwaysShowLegend(temp);
 
         try {
             if (initialized) {
@@ -474,7 +480,11 @@ public class RunwayController extends Application {
 
         // Only parses input box that will be active
         if (rw.getDirection() <= 18) {
+            try {
             distLowerThreshold = new Integer(thresholdDistance.getText());
+        }catch(java.lang.NumberFormatException e){
+            throw new IOException("Please enter a valid number for the threshold distance");
+        }
 
             int minDistLowerThreshold = -60 - rw.getOriginalThreshold();
             if (distLowerThreshold < minDistLowerThreshold) {
@@ -488,7 +498,11 @@ public class RunwayController extends Application {
 
             distUpperThreshold = null;
         } else {
+            try {
             distUpperThreshold = new Integer(thresholdDistance.getText());
+    }catch(java.lang.NumberFormatException e){
+        throw new IOException("Please enter a valid number for the threshold distance");
+    }
 
             int minDistUpperThreshold = -60 - rw.getOriginalThreshold();
             if (distUpperThreshold < minDistUpperThreshold) {

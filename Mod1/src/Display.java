@@ -238,6 +238,13 @@ public class Display {
         t2 = new Text((startX + endX) / 2, (paneHeight / 2) + y - 5, text);
         t2.setX(t2.getX() - t2.getText().length() * 2.65);
 
+        t2.setStroke(Color.BLACK);
+        t2.setFont(Font.font(14));
+        t2.setStrokeWidth(1.2);
+        ds = new DropShadow();
+        ds.setColor(Color.LINEN);
+        t2.setEffect(ds);
+
         t2.setFont(Font.font(14));
         t2.setStroke(Color.GRAY);
         t2.setStrokeWidth(0.7);
@@ -291,12 +298,12 @@ public class Display {
         Line w1 = new Line(tipX, centreLine, wingX, centreLine + 30);
         w1.setStroke(Color.GREEN);
         w1.setStrokeLineCap(StrokeLineCap.ROUND);
-        w1.setStrokeWidth(6);
+        w1.setStrokeWidth(8);
 
         Line w2 = new Line(tipX, centreLine, wingX, centreLine - 30);
         w2.setStroke(Color.GREEN);
         w2.setStrokeLineCap(StrokeLineCap.ROUND);
-        w2.setStrokeWidth(6);
+        w2.setStrokeWidth(8);
 
         Line w3 = new Line(tip2x, centreLine, midx, centreLine );
         w3.setStroke(Color.GREEN);
