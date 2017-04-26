@@ -464,26 +464,21 @@ public class Controller extends Application {
             int asda = Integer.parseInt(asdaInputField.getText());
             int lda = Integer.parseInt(ldaInputField.getText());
 
-            if (airport.isUniqueRunwayName(name)) {
-
-                if (!Pattern.matches("^(0[1-9]|[1-2][0-9]|3[0-6])[LRC]?$", name)) {
-                    throw new Exception("Invalid runway designator: name must be in the form of a number between 01 and 36, possibly followed by a L, R or C");
-                }
-
-                checkRunwayValues(tora, toda, asda, lda);
-
-                airport.addRunway(new Runway(name, tora, toda, asda, lda));
-                createAndSelectNewTab(runwayTabs, rNameInputField.getText());
-                rNameInputField.clear();
-                toraInputField.clear();
-                asdaInputField.clear();
-                ldaInputField.clear();
-                todaInputField.clear();
-
-                additionalInfoBar.setText("Runway added successfully");
-            } else {
-                throw new Exception("Runway designator " + name + " already exists");
+            if (!Pattern.matches("^(0[1-9]|[1-2][0-9]|3[0-6])[LRC]?$", name)) {
+                throw new Exception("Invalid runway designator: name must be in the form of a number between 01 and 36, possibly followed by a L, R or C");
             }
+
+            checkRunwayValues(tora, toda, asda, lda);
+
+            airport.addRunway(new Runway(name, tora, toda, asda, lda));
+            createAndSelectNewTab(runwayTabs, rNameInputField.getText());
+            rNameInputField.clear();
+            toraInputField.clear();
+            asdaInputField.clear();
+            ldaInputField.clear();
+            todaInputField.clear();
+
+            additionalInfoBar.setText("Runway added successfully");
         } catch (NumberFormatException e) {
             additionalInfoBar.setText("Invalid runway value: look for non-number characters in the TORA, TODA, ASDA, and LDA fields.");
             Alert alert = new Alert(AlertType.ERROR);
