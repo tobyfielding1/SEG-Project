@@ -608,7 +608,7 @@ boolean temp = alwaysShowLegend;
 
 
     public void saveFile() {
-        saveFile(getTab());
+        saveFile(viewsTabs.getSelectionModel().getSelectedItem().getContent());
         //saveFile(getTab());
     }
 

@@ -1,27 +1,98 @@
-Help topics:
-
-0. The menu bar
-	Right under the title bar (the top-most bar which contains the title of the application, as well as the buttons for closing, minimising and maximizing the application window) is the menu bar. Its menus contain this help section, an option to hide the legend for the runway display and a print function (under the File menu).
-
 1. The Welcome Page
 
-	To begin, type in the name of your airport and click the "Create your airport" button or press Enter. This will take you to the "Add a new Runway" page.
+		1.1 To begin, type in the name of your airport and click the "Create your airport" button or press Enter. This will take you to the "Add a new Runway" page.
+
+		1.2 Alternatively an existing airport can be loaded from a previously saved airport xml file. To do this click the the “Import Airport from XML” button   
 
 2. The "Add a new Runway" page
 
-	Type in the name of your desired runway, along with the TORA, TODA, ASDA and LDA parameters. When finished, click "Confirm and Add Runway" or press Enter. This will add the runway to the Airport's runway list and open the main page for this runway.
+		2.1 Type in the name of your desired runway, along with the TORA, TODA, ASDA and LDA parameters. When finished, click "Confirm and Add Runway" or press Enter. This will add the runway to the Airport's runway list and open the main page for this runway.
+
+		2.2 Alternatively an existing runway can be loaded from a previously saved runway xml file. To do this click the the “Import from filesystem” button  
 
 3. The main page
 
-	3.1. The runway tabs
-		Each runway has its own tab, so you can easily switch between all the runways of an airport. The runway tabs are located under the menu bar.
-	
-	3.2. The view tabs
-		Under the runway tabs, on the right-hand side of the application, there are three tabs called "Top-down View", "Side-on View" and "Calculations". Use them to switch between different visualisations of the runway and the redeclaration calculations.
+    3.1 The menu bar
 
-	3.3. The obstacle panel
-		Under the runway tabs, on the left-hand side of the application, is the obstacle panel. Here, you can add an obstacle to the runway simulation. Enter the details required and press Enter or click "Include Obstacle" to add an obstacle, or press "Clear Obstacle" to remove it.
+		3.1.1 Right under the title bar (the top-most bar which contains the title of the application, as well as the buttons for closing, minimising and maximizing the application window) is the menu bar. Its menus contain this help section, an option to hide the legend for the runway display and a print function (under the File menu).
 
-	3.4 The value table
-		Under the obstacle panel, on the left-hand side of the application is the value table, containing original and recalculated TORA, TODA, ASDA and LDA values.
+		3.1.1.1 Switch Airport - This can be used to change the airport that is currently being used in the tool.
 
+		3.1.1.2 Export Airport - This can be used to save the current state of the program. This will include : The airport, The runways, The obstacles 
+
+		3.1.1.3 Export Runway - This can be used to save the current runway that is selected to an xml file.
+
+		3.1.1.4 Import Runway - This can be used to import a previous runway xml file that was saved.
+
+		3.1.1.5 Save as file image - This can be used to save the current view of the tool to a image file..
+
+		3.1.1.6 Print - This can be used to print the current view of the tool
+    
+	3.2 The runway tabs
+
+		3.2.1 Each runway has its own tab, so you can easily switch between all the runways of an airport. The runway tabs are located under the menu bar.
+
+		3.2.2 To add a runway to the runway and still have access to an existing one, click on the “Add Runway…” tab and it allows for a new runway to be added
+    
+    3.3 The view tabs
+       
+		3.3.1 Under the runway tabs, on the right-hand side of the application, there are three tabs called "Top-down View", "Side-on View" and "Calculations". Use them to switch between different visualisations of the runway and the redeclaration calculations.
+
+  	3.4 Edit Advanced Parameters panel
+  
+		3.4.1 Under the runway tabs, on the left-hand side of the application, is the obstacle  Edit Advanced Parameters panel. Here, you can edit the dimensions of the runway and change details. Click on the value/values you would like to change and click the “Submit” button to change the values. 
+
+  	3.5 The Obstacle panel
+  
+		3.5.1. Under the runway tabs, on the left-hand side of the application, is the obstacle panel. Here, you can add an obstacle to the runway simulation. Enter the details required and press Enter or click "Include Obstacle" to add an obstacle, or press "Clear Obstacle" to remove it.
+
+		3.5.2 Import Obstacle - To import a previously saved obstacle, click on the “Import Obstacle” button and find the filename of the obstacle wishing to be imported.
+
+		3.5.3 Export this Obstacle - To save an obstacle, fill out the obstacle parameters and then set the obstacle. After this is done the obstacle and now be exported. The obstacle that is currently set is shown below the two buttons.  
+
+
+   	3.6 The value table
+
+		3.6.1 Under the obstacle panel, on the left-hand side of the application is the value table, containing original and recalculated TORA, TODA, ASDA and LDA values.
+
+	3.7 Pan/Zoom
+    
+		3.7.1 To zoom in on the runway use the scroll wheel on the mouse or the two finger touch on a touchpad for a laptop.
+
+		3.7.2 To pan the runway click on the runway and move the mouse in the direction wishing to be panned
+
+		3.7.3 Reset pan/zoom - To go back to the default pan and zoom settings click on the “Reset pan/zoom” button
+
+	3.8 Compas
+
+		3.8.1 To rotate the runway to match the compass heading click on the “Rotate to Match Compass Heading” button so that it is “Selected”
+
+		3.8.2 To make the runway horizontal in the tool again click on the  Rotate to Match Compass Heading” button so that it is “Unselected”
+
+
+
+FAQ’s
+
+Q: Why am I getting an error message when trying to import an existing Airport ?
+
+A: If the error message “The file you want to import is of the wrong type” shows up, this is because the file trying to be imported is not in the correct format. The usual cause for this is that its is a different type of xml file trying to be imported e.g. “runway” or “obstacle”
+
+Q: Why am I getting an error message when trying to import an existing Runway ?
+
+A: If the error message “The file you want to import is of the wrong type” shows up, this is because the file trying to be imported is not in the correct format. The usual cause for this is that its is a different type of xml file trying to be imported e.g. “runway” or “obstacle”
+
+Q: Why am I getting an error message when trying to import an existing Obstacle ?
+
+A: If the error message “The file you want to import is of the wrong type” shows up, this is because the file trying to be imported is not in the correct format. The usual cause for this is that its is a different type of xml file trying to be imported e.g. “runway” or “airport”
+
+Q: Why is saving another obstacle the one I want ?
+
+A: When saving an obstacle it will be the one that is set that is being saved. To save the obstacle make sure it is included on the runway first before you try and save it.
+
+Q: Why does the legend look strange when trying to save as an image ?
+
+A: To save an image make sure you have reset the pan and zoom and the “Rotate to Match Compass Heading” button is disabled. Then save the image. 
+
+Q: Why does the printing look strange ?
+
+A: To print, make sure you have reset the pan and zoom and the “Rotate to Match Compass Heading” button is disabled. Then print.

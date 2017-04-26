@@ -74,4 +74,8 @@ public class Airport {
         return obstacles;
 
     }
+
+    public boolean isUniqueRunwayName(String name) {
+        return !runways.containsKey(name);
+    }
 }
