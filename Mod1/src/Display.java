@@ -41,9 +41,12 @@ public class Display {
     private int centreLine;
 
     private Runway rw;
+
     private double scaleDir;
     private int xi;
     
+
+
     public Display(Pane td, Pane so) {
         this.topDownPane = td;
         this.sideOnPane = so;

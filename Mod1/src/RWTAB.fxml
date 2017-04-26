@@ -81,7 +81,7 @@
                                 </AnchorPane>
                             </content>
                         </TitledPane>
-                        <TitledPane fx:id="lower" onMousePressed="#compressUpper" text="Add or Edit an Obstacle" textFill="#f20202">
+                        <TitledPane fx:id="lower" expanded="false" onMousePressed="#compressUpper" text="Add or Edit an Obstacle" textFill="#f20202">
                             <content>
                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="281.0" prefWidth="274.0">
                                     <children>

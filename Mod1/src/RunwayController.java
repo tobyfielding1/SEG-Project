@@ -405,6 +405,10 @@ public class RunwayController extends Application {
             addLegendItem(Color.GREEN, "Direction of Travel", currentY, true);
             currentY += 20;
         }
+        if (alwaysShowLegend) {
+            addLegendItem(Color.DARKSALMON, "Threshold", currentY, true);
+            currentY += 20;
+        }
 
         if (rw.getObstacle() != null && alwaysShowLegend) {
             addLegendItem(Display.SLOPE_COLOR, "Slope", currentY, false);
