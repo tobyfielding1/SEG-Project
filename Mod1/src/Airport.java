@@ -29,8 +29,12 @@ public class Airport {
         return runways.keySet();
     }
 
-    public void addRunway(Runway runway) {
-        runways.put(runway.getName(), runway);
+    public void addRunway(Runway runway) throws Exception{
+        if (runways.containsKey(runway.getName())) {
+            throw new Exception("Runway designator " + runway.getName() + " already exists");
+        } else {
+            runways.put(runway.getName(), runway);
+        }
     }
 
     public void addObstacle(Obstacle o) {

@@ -5,6 +5,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Rectangle2D;
 import javafx.print.PageOrientation;
 import javafx.print.PrinterJob;
 import javafx.scene.Node;
@@ -23,6 +24,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.transform.Scale;
 import javafx.scene.transform.Translate;
 import javafx.stage.FileChooser;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
@@ -227,7 +229,13 @@ public class Controller extends Application {
         textArea.setMaxWidth(Double.MAX_VALUE);
         textArea.setMaxHeight(Double.MAX_VALUE);
 
+        Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
+        textArea.setPrefSize(primaryScreenBounds.getWidth() * 0.8, primaryScreenBounds.getHeight() * 0.8);
+
         readme.getDialogPane().setContent(textArea);
+
+        readme.setX(0);
+        readme.setY(0);
         readme.showAndWait();
     }
 
@@ -464,26 +472,21 @@ public class Controller extends Application {
             int asda = Integer.parseInt(asdaInputField.getText());
             int lda = Integer.parseInt(ldaInputField.getText());
 
-            if (airport.isUniqueRunwayName(name)) {
-
-                if (!Pattern.matches("^(0[1-9]|[1-2][0-9]|3[0-6])[LRC]?$", name)) {
-                    throw new Exception("Invalid runway designator: name must be in the form of a number between 01 and 36, possibly followed by a L, R or C");
-                }
-
-                checkRunwayValues(tora, toda, asda, lda);
-
-                airport.addRunway(new Runway(name, tora, toda, asda, lda));
-                createAndSelectNewTab(runwayTabs, rNameInputField.getText());
-                rNameInputField.clear();
-                toraInputField.clear();
-                asdaInputField.clear();
-                ldaInputField.clear();
-                todaInputField.clear();
-
-                additionalInfoBar.setText("Runway added successfully");
-            } else {
-                throw new Exception("Runway designator " + name + " already exists");
+            if (!Pattern.matches("^(0[1-9]|[1-2][0-9]|3[0-6])[LRC]?$", name)) {
+                throw new Exception("Invalid runway designator: name must be in the form of a number between 01 and 36, possibly followed by a L, R or C");
             }
+
+            checkRunwayValues(tora, toda, asda, lda);
+
+            airport.addRunway(new Runway(name, tora, toda, asda, lda));
+            createAndSelectNewTab(runwayTabs, rNameInputField.getText());
+            rNameInputField.clear();
+            toraInputField.clear();
+            asdaInputField.clear();
+            ldaInputField.clear();
+            todaInputField.clear();
+
+            additionalInfoBar.setText("Runway added successfully");
         } catch (NumberFormatException e) {
             additionalInfoBar.setText("Invalid runway value: look for non-number characters in the TORA, TODA, ASDA, and LDA fields.");
             Alert alert = new Alert(AlertType.ERROR);
