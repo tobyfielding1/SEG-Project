@@ -304,6 +304,10 @@ boolean temp = alwaysShowLegend;
     @FXML
     protected void advancedSubmitAction() {
         try {
+            boolean temp1 = alwaysShowLegend;
+            setAlwaysShowLegend(false);
+            setAlwaysShowLegend(temp1);
+
             int[] newValues = getAdvancedTextFields();
             Obstacle temp = rw.getObstacle();
             rw = new Runway(rw.getName(), newValues[0], newValues[1], newValues[2], newValues[3]);
