@@ -460,7 +460,7 @@ public class Display {
             end2 = xi + rw.getTORA() * scaleDir;
         }
 
-        drawDistance(end1, end2, 50, "TORA = " + rw.getTORA(), Color.BLACK);
+        drawDistance(end1, end2, 75, "TORA = " + rw.getTORA(), Color.BLACK);
         return new double[]{end1, end2};
     }
 
@@ -476,7 +476,7 @@ public class Display {
             end2 = xi + rw.getTODA() * scaleDir;
         }
 
-        drawDistance(end1, end2, 90, "TODA = " + rw.getTODA(), Color.BLACK);
+        drawDistance(end1, end2, 115, "TODA = " + rw.getTODA(), Color.BLACK);
 
     }
 
@@ -492,7 +492,7 @@ public class Display {
             end2 = xi + rw.getASDA() * scaleDir;
         }
 
-        drawDistance(end1, end2, 70, "ASDA = " + rw.getASDA(), Color.BLACK);
+        drawDistance(end1, end2, 95, "ASDA = " + rw.getASDA(), Color.BLACK);
     }
 
     private double[] drawLDA() {
@@ -539,7 +539,7 @@ public class Display {
             end2 = xObs;
         }
 
-        drawDistance(end1, end2, 50, rw.getTakeoffThresholdLabel(), Color.RED);
+        drawDistance(end1, end2, 75, rw.getTakeoffThresholdLabel(), Color.RED);
     }
 
     private void drawLDADisplacement(double[] ldaEnds, double xObs) {

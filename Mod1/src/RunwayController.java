@@ -27,7 +27,6 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.scene.transform.Scale;
 import javafx.stage.FileChooser;
-import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 
 import javax.imageio.ImageIO;
@@ -121,7 +120,7 @@ public class RunwayController extends Application {
                     obstacleList.getSelectionModel().select(rw.getId());// ... user chose OK
                     submitButton.fire();
                 } else {
-                    // ... user chose CANCEL or closed the dialog
+
                 }
             }catch(java.lang.ClassCastException e1){
                 decoder.close();
@@ -140,9 +139,14 @@ public class RunwayController extends Application {
     }
 
     @FXML
-    protected void exportObstacleAction(){
+    protected void exportObstacleAction() {
+
         parent.configureFileChooser(parent.fileChooser);
-        Obstacle r = this.parent.airport.getObstacles().get(obstacleList.getValue());
+        Obstacle r = null;
+        try {
+            r = getObstacleTextFields();
+
+
         if ((" "+r.getId().substring(r.getId().lastIndexOf(" ")+1)).equals(generateRunwayPairName()))
             r.setId(r.getId().substring(0, r.getId().lastIndexOf(" ")));
         this.parent.fileChooser.setInitialFileName(this.parent.airport.getName() + "-" + r.getId());
@@ -162,6 +166,10 @@ public class RunwayController extends Application {
             }
         }
         this.parent.fileChooser.setInitialFileName("");
+    } catch (IOException e) {
+            displayInputError(e);
+        }
+
     }
 
     @FXML
@@ -192,11 +200,16 @@ public class RunwayController extends Application {
     @FXML
     protected void submissionInit() {
         if (!initialized) {
-            if (rw.getObstacle() != null )
+            if (rw.getObstacle() != null ) {
+                loadObstaclesAction();
                 obstacleList.getSelectionModel().select(rw.getObstacle().getId());
+            }
 
             submitButton.fire();
             initialized = true;
+            if (rw.getObstacle() != null ) {
+                submitButton.fire();
+            }
 
             setAdvancedParameterFieldPompts();
 
@@ -369,22 +382,22 @@ public class RunwayController extends Application {
     private void displayLegend() {
         int currentY = 60;
 
-        if (rw.getClearway() > 0 || alwaysShowLegend) {
+        if (rw.getClearway() > 0 && alwaysShowLegend) {
             addLegendItem(Display.CLEARWAY_COLOR, "Clearway", currentY, true);
             currentY += 20;
         }
 
-        if (rw.getStopway() > 0 || alwaysShowLegend) {
+        if (rw.getStopway() > 0 && alwaysShowLegend) {
             addLegendItem(Display.STOPWAY_COLOR, "Stopway", currentY, true);
             currentY += 20;
         }
 
-        if (rw.getObstacle() != null || alwaysShowLegend) {
+        if (rw.getObstacle() != null && alwaysShowLegend) {
             addLegendItem(Display.OBSTACLE_COLOR, "Obstacle", currentY, true);
             currentY += 20;
         }
 
-        if (rw.getObstacle() != null || alwaysShowLegend) {
+        if (rw.getObstacle() != null && alwaysShowLegend) {
             addLegendItem(Display.SLOPE_COLOR, "Slope", currentY, false);
             currentY += 20;
         }
@@ -416,10 +429,20 @@ public class RunwayController extends Application {
     private Obstacle getObstacleTextFields() throws IOException {
         String obstacleType = (String) obstacleList.getValue();
 
+        if (obstacleType.equals(""))
+            throw new IOException("You must give a name for the obstacle in the box provided");
+
+
         Integer distLowerThreshold;
         Integer distUpperThreshold;
-        int distCentreThreshold = Integer.parseInt(distCentrelineInputField.getText());
-        int obstacleHeight = Integer.parseInt(obstacleHeightInputField.getText());
+        Integer distCentreThreshold;
+        Integer obstacleHeight;
+        try {
+            distCentreThreshold = Integer.parseInt(distCentrelineInputField.getText());
+            obstacleHeight = Integer.parseInt(obstacleHeightInputField.getText());
+        }catch(java.lang.NumberFormatException e){
+            throw new IOException("Please enter a valid number for both the obstacle height and the distance from centreline");
+        }
 
 //		String intRegex = "-?[0-9]+";
 //
@@ -537,21 +560,26 @@ public class RunwayController extends Application {
 		//saveFile(getTab());
     }
 
+    public void saveFile() {
+        saveFile(getTab());
+        //saveFile(getTab());
+    }
+
     protected void saveFile(Node pan){
-    	BufferedImage bi = new BufferedImage(511, 640, BufferedImage.TYPE_INT_RGB);
+        BufferedImage bi = new BufferedImage(511, 640, BufferedImage.TYPE_INT_RGB);
         BufferedImage image = javafx.embed.swing.SwingFXUtils.fromFXImage(pan.snapshot(new SnapshotParameters(), null), bi);
         Graphics2D gd = (Graphics2D) image.getGraphics();
-    	 FileChooser fc = new FileChooser();
-         fc.setTitle("Save Image");
-         fc.getExtensionFilters().addAll(new ExtensionFilter("png file",".png"), new ExtensionFilter("jpeg file",".jpg"), new ExtensionFilter("gif file",".gif"));
-         File file = fc.showSaveDialog(null);
-         if (file != null) {
-             try {
-                 ImageIO.write(image, "png", file);
-             } catch (IOException ex) {
-             }
-         }
-     }
+        FileChooser fc = new FileChooser();
+        fc.setTitle("Save Image");
+        fc.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("png file",".png"), new FileChooser.ExtensionFilter("jpeg file",".jpg"), new FileChooser.ExtensionFilter("gif file",".gif"));
+        File file = fc.showSaveDialog(null);
+        if (file != null) {
+            try {
+                ImageIO.write(image, "png", file);
+            } catch (IOException ex) {
+            }
+        }
+    }
     
 	protected Node getTab(){
 		if (topDown.isSelected()){

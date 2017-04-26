@@ -46,7 +46,7 @@ public class Controller extends Application {
     @FXML
 	public TabPane runwayTabs;
 
-    public MenuItem filePrintMenu,m1,m2,m3,m4;
+    public MenuItem filePrintMenu,saveImage,m1,m2,m3,m4;
 
 
     public Stage primaryStage;
@@ -143,6 +143,16 @@ public class Controller extends Application {
                     public void handle(ActionEvent event) {
                         if(tab.isSelected())
                             rwController.print();
+                    }
+                });
+
+
+        saveImage.addEventHandler(ActionEvent.ACTION,
+                new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+                        if(tab.isSelected())
+                            rwController.saveFile();
                     }
                 });
 
@@ -406,6 +416,7 @@ public class Controller extends Application {
                 XMLEncoder xenc = new XMLEncoder(new BufferedOutputStream(fos));
 
                 Runway r = airport.getRunway(runwayTabs.getSelectionModel().getSelectedItem().getText());
+                r.clearObstacle();
 
                 // Write object.
                 xenc.writeObject(r);
@@ -415,6 +426,23 @@ public class Controller extends Application {
             }
         }
         fileChooser.setInitialFileName("");
+    }
+
+    @FXML
+    protected void saveFile(Node pan){
+        BufferedImage bi = new BufferedImage(511, 640, BufferedImage.TYPE_INT_RGB);
+        BufferedImage image = javafx.embed.swing.SwingFXUtils.fromFXImage(pan.snapshot(new SnapshotParameters(), null), bi);
+        Graphics2D gd = (Graphics2D) image.getGraphics();
+        FileChooser fc = new FileChooser();
+        fc.setTitle("Save Image");
+        fc.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("png file",".png"), new FileChooser.ExtensionFilter("jpeg file",".jpg"), new FileChooser.ExtensionFilter("gif file",".gif"));
+        File file = fc.showSaveDialog(null);
+        if (file != null) {
+            try {
+                ImageIO.write(image, "png", file);
+            } catch (IOException ex) {
+            }
+        }
     }
 
     //creates new runway
@@ -474,20 +502,6 @@ public class Controller extends Application {
             alert.setHeaderText("There was a problem with your input");
             alert.setContentText(e.getMessage());
             alert.showAndWait();
-        }
-    }
-
-
-    protected void saveToFile(Node pan, String fileName, String extension) {
-        BufferedImage bi = new BufferedImage(511, 640, BufferedImage.TYPE_INT_RGB);
-        BufferedImage image = javafx.embed.swing.SwingFXUtils.fromFXImage(pan.snapshot(new SnapshotParameters(), null), bi);
-        Graphics2D gd = (Graphics2D) image.getGraphics();
-        File file = new File(fileName + extension);
-        try {
-            ImageIO.write(image, extension.substring(1), file);
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
         }
     }
 
