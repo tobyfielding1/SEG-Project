@@ -35,7 +35,10 @@ import java.awt.image.BufferedImage;
 import java.beans.XMLDecoder;
 import java.beans.XMLEncoder;
 import java.io.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Optional;
 import java.util.TreeSet;
 
@@ -48,6 +51,8 @@ public class RunwayController extends Application {
 
     public Button expObs;
     public Label obsLab;
+
+    public TextArea rwLabel,rwLabel1;
 
     public TitledPane upper, lower;
 
@@ -76,7 +81,7 @@ public class RunwayController extends Application {
 
     // Output value text fields
     public TextField oldToraField, newToraField, oldTodaField, newTodaField, oldAsdaField, newAsdaField, oldLdaField, newLdaField;
-
+    public Pane sidePane;
     @FXML
     public AnchorPane topDownPane, sideOnPane;
 
@@ -437,15 +442,19 @@ boolean temp = alwaysShowLegend;
 
         legendItems.add(r1);
         legendItems.add(t1);
+        legendItems.add(r2);
+        legendItems.add(t2);
         if (bothPanels) tabMain.getChildren().addAll(r1, t1);
-        sideOnPane.getChildren().addAll(r2, t2);
+        sidePane.getChildren().addAll(r2, t2);
     }
 
     public void setAlwaysShowLegend(boolean alwaysShowLegend) {
         this.alwaysShowLegend = alwaysShowLegend;
         if (!alwaysShowLegend){
-            for(Object o : legendItems)
+            for(Object o : legendItems) {
                 tabMain.getChildren().remove(o);
+                sidePane.getChildren().remove(o);
+            }
             legendItems.clear();
         }
     }
@@ -596,6 +605,8 @@ boolean temp = alwaysShowLegend;
 		//saveFile(getTab());
     }
 
+
+
     public void saveFile() {
         saveFile(getTab());
         //saveFile(getTab());
@@ -631,7 +642,13 @@ boolean temp = alwaysShowLegend;
 	}
 
 	private void printToPrinter(Node pan) {
-		double xTranslate = pan.getTranslateX();
+	    rwLabel.setVisible(true);
+        rwLabel1.setVisible(true);
+        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm");
+        Date date = new Date();
+        rwLabel.setText("Airport: " + parent.airport.getName() + "\nRunway: "+ rw.getName() + "    Date: " + dateFormat.format(date));
+        rwLabel1.setText("Airport: " + parent.airport.getName() + "\nRunway: "+ rw.getName() + "    Date: " + dateFormat.format(date));
+        double xTranslate = pan.getTranslateX();
 		double yTranslate = pan.getTranslateY();
 		double xScale = pan.getScaleX();
 		double yScale = pan.getScaleY();
@@ -661,6 +678,8 @@ boolean temp = alwaysShowLegend;
             }
         }
         pan.getTransforms().clear();
+        rwLabel.setVisible(false);
+        rwLabel1.setVisible(false);
     }
 
     public void toggleLegend() {

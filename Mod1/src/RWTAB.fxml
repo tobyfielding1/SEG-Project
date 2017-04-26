@@ -228,16 +228,26 @@
                         <AnchorPane fx:id="topDownPane" prefHeight="574.0" prefWidth="816.0" />
                         <Button layoutX="15.0" layoutY="15.0" mnemonicParsing="false" onAction="#topDownCentreButtonAction" opacity="0.8" text="Reset pan/zoom" />
                          <ToggleButton fx:id="rotateButton" layoutX="130.0" layoutY="15.0" mnemonicParsing="false" onAction="#rotateButtonAction" opacity="0.8" text="Rotate to Match Compass Heading" />
+                        <TextArea fx:id="rwLabel" prefHeight="55.0" prefWidth="608.0" visible="false" wrapText="true">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </TextArea>
                      </children>
                   </Pane>
                     </content>
                 </Tab>
                 <Tab fx:id="sideOn" text="Side-On View">
                     <content>
-                  <Pane onMouseDragged="#sideOnMouseDrag" onMousePressed="#displayMousePressed" onScroll="#sideOnScroll" prefHeight="574.0" prefWidth="816.0" style="-fx-background-color: white">
+                  <Pane fx:id="sidePane" onMouseDragged="#sideOnMouseDrag" onMousePressed="#displayMousePressed" onScroll="#sideOnScroll" prefHeight="574.0" prefWidth="816.0" style="-fx-background-color: white">
                      <children>
                          <AnchorPane fx:id="sideOnPane" prefHeight="574.0" prefWidth="816.0" />
                          <Button layoutX="15.0" layoutY="15.0" mnemonicParsing="false" onAction="#sideOnCentreButtonAction" opacity="0.8" text="Reset pan/zoom" />
+                        <TextArea fx:id="rwLabel1" prefHeight="53.0" prefWidth="608.0" visible="false" wrapText="true">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </TextArea>
                      </children>
                   </Pane>
                     </content>
@@ -246,7 +256,7 @@
                     <content>
                         <TextFlow fx:id="calculationsTextFlow">
                             <children>
-                                <TextArea fx:id="calculationsTextArea" editable="false" minHeight="574.0" minWidth="816.0" style="-fx-background-color: lightgrey;" />
+                                <TextArea fx:id="calculationsTextArea" editable="false" minHeight="463.0" minWidth="816.0" prefHeight="574.0" prefWidth="816.0" style="-fx-background-color: lightgrey;" />
                             </children>
                         </TextFlow>
                     </content>
