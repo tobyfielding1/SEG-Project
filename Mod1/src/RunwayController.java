@@ -592,7 +592,7 @@ boolean temp = alwaysShowLegend;
     }
 
     public void print() {
-		printToPrinter(viewsTabs.getSelectionModel().getSelectedItem().getTabPane());
+		printToPrinter(viewsTabs.getSelectionModel().getSelectedItem().getContent());
 		//saveFile(getTab());
     }
 
