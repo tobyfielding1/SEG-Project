@@ -561,7 +561,7 @@ public class RunwayController extends Application {
     }
 
     public int[] getAdvancedTextFields() throws Exception {
-        TextField[] advancedInputFields = {tora, toda, asda, lda, resa, blast, stripEnd, alstocs};
+        TextField[] advancedInputFields = {tora, toda, asda, lda, resa, alstocs, stripEnd, blast};
 
         int[] initValues = {rw.getOriginalTORA(), rw.getOriginalTODA(), rw.getOriginalASDA(), rw.getOriginalLDA(), rw.getRESA(), rw.getALSTOCSSlope(), rw.getStripEnd(), rw.getBlastAllowance()};
         int[] newValues = new int[initValues.length];
