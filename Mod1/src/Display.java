@@ -1,12 +1,12 @@
-
-
 import javafx.scene.Group;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.StrokeLineCap;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
@@ -30,7 +30,7 @@ public class Display {
     public static final Paint OBSTACLE_COLOR = Color.RED;
     public static final Paint SLOPE_COLOR = Color.TURQUOISE;
 
-    private final double ARROW_THICKNESS = 0.8;
+    private final double ARROW_THICKNESS = 1.1;
     private int runwayPixelWidth;
 
     private final Font INDICATOR_FONT = Font.font("Arial Black", FontWeight.BOLD, 18);
@@ -209,15 +209,23 @@ public class Display {
 
         arrow = makeHArrow(startX, endX, (paneHeight / 2) + y, color);
 
+
         Text t;
         t = new Text((startX + endX) / 2, (paneHeight / 2) + y - 5, text);
         t.setX(t.getX() - t.getText().length() * 2.65);
 
-        t.setStroke(Color.GRAY);
-        t.setStrokeWidth(0.7);
+
+
+        t.setStroke(Color.WHITE);
+        t.setFont(Font.font(14));
+        t.setStrokeWidth(1.2);
+        DropShadow ds = new DropShadow();
+        ds.setColor(Color.BLACK);
+        t.setEffect(ds);
 
         arrow.getChildren().add(t);
         topDownPane.getChildren().add(arrow);
+
 
         Group arrow2;
 
@@ -227,6 +235,7 @@ public class Display {
         t2 = new Text((startX + endX) / 2, (paneHeight / 2) + y - 5, text);
         t2.setX(t2.getX() - t2.getText().length() * 2.65);
 
+        t2.setFont(Font.font(14));
         t2.setStroke(Color.GRAY);
         t2.setStrokeWidth(0.7);
 
@@ -261,36 +270,56 @@ public class Display {
         int tipX;
         int wingX;
         int centreLine = paneHeight / 2;
+        int midx;
+        int tip2x;
 
         if (scaleDir > 0) {
-            tipX = xi - 4;
-            wingX = tipX - 15;
+            tipX = xi - 6;
+            tip2x = xi -8;
+            wingX = tipX - 25;
+            midx = tipX-65;
         } else {
-            tipX = xi + 4;
-            wingX = tipX + 20;
+            tipX = xi + 6;
+            wingX = tipX + 25;
+            midx = tipX + 65;
+            tip2x = xi + 8;
         }
 
         Line w1 = new Line(tipX, centreLine, wingX, centreLine + 30);
         w1.setStroke(Color.GREEN);
-        w1.setStrokeWidth(3);
+        w1.setStrokeLineCap(StrokeLineCap.ROUND);
+        w1.setStrokeWidth(6);
 
         Line w2 = new Line(tipX, centreLine, wingX, centreLine - 30);
         w2.setStroke(Color.GREEN);
-        w2.setStrokeWidth(3);
+        w2.setStrokeLineCap(StrokeLineCap.ROUND);
+        w2.setStrokeWidth(6);
 
-        topDownPane.getChildren().addAll(w1, w2);
+        Line w3 = new Line(tip2x, centreLine, midx, centreLine );
+        w3.setStroke(Color.GREEN);
+        w3.setStrokeLineCap(StrokeLineCap.ROUND);
+        w3.setStrokeWidth(8);
+
+        topDownPane.getChildren().addAll(w1, w2,w3);
 
 
         Line w12 = new Line(tipX, centreLine, wingX, centreLine + 10);
         w12.setStroke(Color.GREEN);
-        w12.setStrokeWidth(3);
+        w12.setStrokeLineCap(StrokeLineCap.ROUND);
+        w12.setStrokeWidth(4);
 
         Line w22 = new Line(tipX, centreLine, wingX, centreLine - 10);
         w22.setStroke(Color.GREEN);
-        w22.setStrokeWidth(3);
+        w22.setStrokeLineCap(StrokeLineCap.ROUND);
+        w22.setStrokeWidth(4);
+
+        Line w23 = new Line(tip2x, centreLine, midx, centreLine );
+        w23.setStroke(Color.GREEN);
+        w23.setStrokeLineCap(StrokeLineCap.ROUND);
+        w23.setStrokeWidth(4);
 
 
-        sideOnPane.getChildren().addAll(w12, w22);
+        sideOnPane.getChildren().addAll(w12, w22,w23);
     }
 
     private void drawIndicator() {

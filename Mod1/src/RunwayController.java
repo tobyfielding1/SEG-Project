@@ -35,6 +35,7 @@ import java.awt.image.BufferedImage;
 import java.beans.XMLDecoder;
 import java.beans.XMLEncoder;
 import java.io.*;
+import java.util.ArrayList;
 import java.util.Optional;
 import java.util.TreeSet;
 
@@ -51,6 +52,8 @@ public class RunwayController extends Application {
 
     public Tab topDown, sideOn, calculations;
     public Label startLabel;
+
+    public Pane tabMain;
 
     private final Controller parent;
     private Runway rw;
@@ -83,6 +86,7 @@ public class RunwayController extends Application {
     public TextFlow calculationsTextFlow;
 
     private boolean alwaysShowLegend;
+    private ArrayList<Object> legendItems = new ArrayList<Object>();
 
     public RunwayController(Runway rw, Controller parent) {
         this.rw = rw;
@@ -397,10 +401,17 @@ public class RunwayController extends Application {
             currentY += 20;
         }
 
+        if (alwaysShowLegend) {
+            addLegendItem(Color.GREEN, "Direction of Travel", currentY, true);
+            currentY += 20;
+        }
+
         if (rw.getObstacle() != null && alwaysShowLegend) {
             addLegendItem(Display.SLOPE_COLOR, "Slope", currentY, false);
             currentY += 20;
         }
+
+
     }
 
     private void addLegendItem(Paint color, String name, int y, boolean bothPanels) {
@@ -416,12 +427,19 @@ public class RunwayController extends Application {
         Text t1 = new Text(70, y + 10, name);
         Text t2 = new Text(70, y + 10, name);
 
-        if (bothPanels) topDownPane.getChildren().addAll(r1, t1);
+        legendItems.add(r1);
+        legendItems.add(t1);
+        if (bothPanels) tabMain.getChildren().addAll(r1, t1);
         sideOnPane.getChildren().addAll(r2, t2);
     }
 
     public void setAlwaysShowLegend(boolean alwaysShowLegend) {
         this.alwaysShowLegend = alwaysShowLegend;
+        if (!alwaysShowLegend){
+            for(Object o : legendItems)
+                tabMain.getChildren().remove(o);
+            legendItems.clear();
+        }
     }
 
     //Gets obstacle from text fields
