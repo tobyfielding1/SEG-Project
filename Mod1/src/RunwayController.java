@@ -313,6 +313,7 @@ boolean temp = alwaysShowLegend;
             rw.setBlastAllowance(newValues[7]);
             rw.putObstacle(temp);
             setAdvancedParameterFieldPompts();
+            parent.additionalInfoBar.setText("Runway " + rw.getName() + " values changed");
             display();
         } catch (Exception e) {
             displayInputError(e);
