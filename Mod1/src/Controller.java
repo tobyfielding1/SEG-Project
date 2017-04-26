@@ -310,7 +310,6 @@ public class Controller extends Application {
                 }
             });
         }
-
     }
 
 
@@ -344,7 +343,7 @@ public class Controller extends Application {
 
                 additionalInfoBar.setText("Airport imported successfully");
 
-            }catch(java.lang.ClassCastException e1){
+            }catch(Exception e1) {
                 decoder.close();
                 Alert alert = new Alert(AlertType.ERROR);
                 alert.setTitle("Error Dialog");
@@ -352,9 +351,6 @@ public class Controller extends Application {
                 alert.setContentText("Airports files are named with the airport name only, runways use 'airport - designator', and obstacles use 'airport - obstacleName'.");
                 alert.showAndWait();
                 openAirportAction();
-            }catch(java.lang.ArrayIndexOutOfBoundsException e){
-                decoder.close();
-                e.printStackTrace();
             }
             enableMenuAction();
 
@@ -381,7 +377,7 @@ public class Controller extends Application {
                 airport.addRunway(rw);
                 createAndSelectNewTab(runwayTabs, rw.getName());
                 additionalInfoBar.setText("Runway imported successfully");
-            }catch(java.lang.ClassCastException e1){
+            }catch(Exception e1) {
                 decoder.close();
                 Alert alert = new Alert(AlertType.ERROR);
                 alert.setTitle("Error Dialog");
@@ -389,9 +385,6 @@ public class Controller extends Application {
                 alert.setContentText("Airports files are named with the airport name only, runways use 'airport - designator', and obstacles use 'airport - obstacleName'.");
                 alert.showAndWait();
                 openAction();
-            }catch(java.lang.ArrayIndexOutOfBoundsException e){
-                decoder.close();
-                e.printStackTrace();
             }
 
         }

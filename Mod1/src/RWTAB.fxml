@@ -31,7 +31,7 @@
             <children>
                 <VBox fx:id="leftPanel" onMouseEntered="#submissionInit" prefHeight="606.0" prefWidth="276.0" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
                     <children>
-                        <TitledPane fx:id="upper" onMousePressed="#compressLower" text="Edit Advanced Parameters">
+                        <TitledPane fx:id="upper" expanded="false" onMousePressed="#compressLower" text="Edit Advanced Parameters">
                             <font>
                                 <Font size="13.0" />
                             </font>
@@ -214,7 +214,7 @@
                 </VBox>
             </children>
         </AnchorPane>
-        <TabPane style="-fx-tab-min-height: 51; -fx-tab-min-width: 100;" tabClosingPolicy="UNAVAILABLE">
+        <TabPane fx:id="viewsTabs" style="-fx-tab-min-height: 51; -fx-tab-min-width: 100;" tabClosingPolicy="UNAVAILABLE">
             <tabs>
                 <Tab fx:id="topDown" text="Top Down View">
                     <content>

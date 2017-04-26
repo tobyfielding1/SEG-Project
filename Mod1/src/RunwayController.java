@@ -44,6 +44,7 @@ public class RunwayController extends Application {
     public static final String NAT_REGEX = "^[0-9]*$";
     public static final String INT_REGEX = "^-?[0-9]*$";
     private static final double SCALE_FACTOR = 1.1;
+    public TabPane viewsTabs;
 
     public Button expObs;
     public Label obsLab;
@@ -126,7 +127,7 @@ public class RunwayController extends Application {
                 } else {
 
                 }
-            }catch(java.lang.ClassCastException e1){
+            }catch(Exception e1) {
                 decoder.close();
                 Alert alert = new Alert(AlertType.ERROR);
                 alert.setTitle("Error Dialog");
@@ -134,9 +135,6 @@ public class RunwayController extends Application {
                 alert.setContentText("Airports files are named with the airport name only, runways use 'airport - designator', and obstacles use 'airport - obstacleName'.");
                 alert.showAndWait();
                 openObstacleAction();
-            }catch(java.lang.ArrayIndexOutOfBoundsException e){
-                decoder.close();
-                e.printStackTrace();
             }
 
         }
@@ -594,7 +592,7 @@ boolean temp = alwaysShowLegend;
     }
 
     public void print() {
-		printToPrinter(getTab());
+		printToPrinter(viewsTabs.getSelectionModel().getSelectedItem().getTabPane());
 		//saveFile(getTab());
     }
 
