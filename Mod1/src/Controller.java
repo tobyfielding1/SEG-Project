@@ -73,7 +73,7 @@ public class Controller extends Application {
     @FXML
     private MenuBar menu;
     @FXML
-    private CheckMenuItem viewAlwaysShowLegend;
+    public CheckMenuItem viewAlwaysShowLegend;
 
     public static void main(String[] args) {
         launch(args);

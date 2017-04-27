@@ -266,9 +266,6 @@ public class RunwayController extends Application {
 
     @FXML
     protected void clearObstacleAction() {
-        boolean temp = alwaysShowLegend;
-        setAlwaysShowLegend(false);
-        setAlwaysShowLegend(temp);
         rw.clearObstacle();
         obstacleList.setValue("");
         thresholdDistance.clear();
@@ -284,9 +281,6 @@ public class RunwayController extends Application {
 
     @FXML
     protected void submitButtonAction() {
-boolean temp = alwaysShowLegend;
-        setAlwaysShowLegend(false);
-        setAlwaysShowLegend(temp);
 
         try {
             if (initialized) {
@@ -304,9 +298,6 @@ boolean temp = alwaysShowLegend;
     @FXML
     protected void advancedSubmitAction() {
         try {
-            boolean temp1 = alwaysShowLegend;
-            setAlwaysShowLegend(false);
-            setAlwaysShowLegend(temp1);
 
             int[] newValues = getAdvancedTextFields();
             Obstacle temp = rw.getObstacle();
@@ -398,6 +389,12 @@ boolean temp = alwaysShowLegend;
 
 
     private void displayLegend() {
+
+        for(Object o : legendItems) {
+            tabMain.getChildren().remove(o);
+            sidePane.getChildren().remove(o);
+        }
+        legendItems.clear();
         int currentY = 60;
 
         if (rw.getClearway() > 0 && alwaysShowLegend) {
@@ -455,13 +452,6 @@ boolean temp = alwaysShowLegend;
 
     public void setAlwaysShowLegend(boolean alwaysShowLegend) {
         this.alwaysShowLegend = alwaysShowLegend;
-        if (!alwaysShowLegend){
-            for(Object o : legendItems) {
-                tabMain.getChildren().remove(o);
-                sidePane.getChildren().remove(o);
-            }
-            legendItems.clear();
-        }
     }
 
     //Gets obstacle from text fields
