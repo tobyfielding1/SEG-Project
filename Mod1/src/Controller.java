@@ -5,6 +5,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.geometry.Rectangle2D;
 import javafx.print.PageOrientation;
 import javafx.print.PrinterJob;
@@ -34,12 +35,14 @@ import java.awt.image.BufferedImage;
 import java.beans.XMLDecoder;
 import java.beans.XMLEncoder;
 import java.io.*;
+import java.net.URL;
 import java.util.Optional;
+import java.util.ResourceBundle;
 import java.util.regex.Pattern;
 
 import static javafx.scene.control.Alert.AlertType;
 
-public class Controller extends Application {
+public class Controller extends Application implements Initializable {
 
     Airport airport;
     ComboBox<String> expBox;
@@ -51,7 +54,10 @@ public class Controller extends Application {
 
     public MenuItem filePrintMenu,saveImage,m1,m2,m3,m4;
 
-
+    @FXML
+    public Button importAirpBtn;
+    public Button createAirpBtn;
+    
     public Stage primaryStage;
 
     public TextField toraInputField;
@@ -60,6 +66,7 @@ public class Controller extends Application {
     public TextField ldaInputField;
     public TextField rNameInputField;
     public Button create;
+    public Button importRunway;
 
     public Tab addRunway;
 
@@ -74,9 +81,11 @@ public class Controller extends Application {
     private MenuBar menu;
     @FXML
     public CheckMenuItem viewAlwaysShowLegend;
+    public MenuItem colorSwapper;
 
     public static void main(String[] args) {
         launch(args);
+        
     }
 
     @Override
@@ -89,6 +98,8 @@ public class Controller extends Application {
 
 
         primaryStage.show();
+        
+        
 	}
 
     public static void configureFileChooser(
@@ -166,6 +177,14 @@ public class Controller extends Application {
                             rwController.toggleLegend();
                     }
                 });
+        
+        colorSwapper.addEventHandler(ActionEvent.ACTION, new EventHandler<ActionEvent>() {
+        	@Override
+        	public void handle(ActionEvent event) {
+        		rwController.swapColours();
+        	}
+        });
+        
 
 		final ObservableList<Tab> tabs = tabPane.getTabs();
 		tab.closableProperty().setValue(true);
@@ -564,4 +583,30 @@ public class Controller extends Application {
 			
 		}
 	}
+    
+    @FXML 
+    protected void changeColours() {
+    	
+    }
+
+	@Override
+	public void initialize(URL arg0, ResourceBundle arg1) {
+		importAirpBtn.setAccessibleHelp("Press this button to choose an XML file to import an airport from");
+		createAirpBtn.setAccessibleHelp("Press this button to submit the name of the airport entered in the field");
+		
+		
+		rNameInputField.setAccessibleHelp("Enter the name / designator of the runway you wish to view");
+		toraInputField.setAccessibleHelp("Enter the TORA value, in meters");
+		todaInputField.setAccessibleHelp("Enter the TODA value, in meters");
+		asdaInputField.setAccessibleHelp("Enter the ASDA value, in meters");
+		ldaInputField.setAccessibleHelp("Enter the LDA value, in meters");
+		
+		create.setAccessibleHelp("Press this button to submit the runway's designator and TORA, TODA, ASDA, LDA values and create your runway.");
+		importRunway.setAccessibleHelp("Press this button to choose an XML file to import a runway from");
+	
+		
+	}
+
+
+
 }

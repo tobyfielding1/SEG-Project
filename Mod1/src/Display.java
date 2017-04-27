@@ -17,19 +17,37 @@ public class Display {
     private Pane topDownPane;
     private Pane sideOnPane;
 
-    final Paint clearwayColor = Color.YELLOW;
-    final Paint stopwayColor = new Color(0.3, 0.3, 1, 0.98);
-    final Paint obstacleColor = Color.RED;
-    final Paint slopeColor = Color.TURQUOISE;
-    final Paint areaColor = Color.LIGHTGRAY;
-
+   
     final double arrowThickness = 0.8;
 
-    public static final Paint CLEARWAY_COLOR = Color.YELLOW;
-    public static final Paint STOPWAY_COLOR = new Color(0.3, 0.3, 1, 0.98);
-    public static final Paint OBSTACLE_COLOR = Color.RED;
-    public static final Paint SLOPE_COLOR = Color.TURQUOISE;
+    
+    
+    public static final  Paint CLEARWAY_COLOR1 = Color.YELLOW;
+    public static final Paint STOPWAY_COLOR1 = new Color(0.3, 0.3, 1, 0.98);
+    public static final Paint OBSTACLE_COLOR1 = Color.RED;
+    public static final Paint SLOPE_COLOR1 = Color.TURQUOISE;
+    public static final Paint DIRECTION_COLOR1 = Color.GREEN;
+    public static final Paint THRESHOLD_COLOR1 = Color.DARKSALMON;
 
+    
+    public static final  Paint CLEARWAY_COLOR2 = Color.WHITE;
+    public static final Paint STOPWAY_COLOR2 =  Color.CADETBLUE;
+    public static final Paint OBSTACLE_COLOR2 =  Color.BLACK;
+    public static final Paint SLOPE_COLOR2 =  Color.GOLDENROD;
+    public static final Paint DIRECTION_COLOR2 = Color.YELLOW;
+    public static final Paint THRESHOLD_COLOR2 =  Color.DARKBLUE;
+
+    public static  Paint CLEARWAY_COLOR = CLEARWAY_COLOR1;
+    public static Paint STOPWAY_COLOR = STOPWAY_COLOR1;
+    public static  Paint OBSTACLE_COLOR = OBSTACLE_COLOR1;
+    public static  Paint SLOPE_COLOR = SLOPE_COLOR1;
+    public static Paint DIRECTION_COLOR = DIRECTION_COLOR1;
+    public static Paint THRESHOLD_COLOR = THRESHOLD_COLOR1;
+
+    
+    public static int colorScheme = 1;
+    
+    
     private final double ARROW_THICKNESS = 1.1;
     private int runwayPixelWidth;
 
@@ -263,7 +281,7 @@ public class Display {
             thresh = xi + (rw.getOriginalTORA() - rw.getOriginalLDA()) * scaleDir;
 
         Rectangle threshold = new Rectangle(thresh, paneHeight / 2 - runwayPixelWidth / 2, 5, runwayPixelWidth);
-        threshold.setFill(Color.DARKSALMON);
+        threshold.setFill(Display.THRESHOLD_COLOR);
 
         topDownPane.getChildren().add(threshold);
 
@@ -271,7 +289,7 @@ public class Display {
 
         threshold2.setHeight(threshold.getHeight() / 2);
         threshold2.setY(threshold.getY() + threshold2.getHeight() / 2);
-        threshold2.setFill(Color.DARKSALMON);
+        threshold2.setFill(Display.THRESHOLD_COLOR);
 
         sideOnPane.getChildren().add(threshold2);
     }
@@ -296,17 +314,17 @@ public class Display {
         }
 
         Line w1 = new Line(tipX, centreLine, wingX, centreLine + 30);
-        w1.setStroke(Color.GREEN);
+        w1.setStroke(Display.DIRECTION_COLOR);
         w1.setStrokeLineCap(StrokeLineCap.ROUND);
         w1.setStrokeWidth(8);
 
         Line w2 = new Line(tipX, centreLine, wingX, centreLine - 30);
-        w2.setStroke(Color.GREEN);
+        w2.setStroke(Display.DIRECTION_COLOR);
         w2.setStrokeLineCap(StrokeLineCap.ROUND);
         w2.setStrokeWidth(8);
 
         Line w3 = new Line(tip2x, centreLine, midx, centreLine );
-        w3.setStroke(Color.GREEN);
+        w3.setStroke(Display.DIRECTION_COLOR);
         w3.setStrokeLineCap(StrokeLineCap.ROUND);
         w3.setStrokeWidth(8);
 
@@ -314,17 +332,17 @@ public class Display {
 
 
         Line w12 = new Line(tipX, centreLine, wingX, centreLine + 10);
-        w12.setStroke(Color.GREEN);
+        w12.setStroke(Display.DIRECTION_COLOR);
         w12.setStrokeLineCap(StrokeLineCap.ROUND);
         w12.setStrokeWidth(4);
 
         Line w22 = new Line(tipX, centreLine, wingX, centreLine - 10);
-        w22.setStroke(Color.GREEN);
+        w22.setStroke(Display.DIRECTION_COLOR);
         w22.setStrokeLineCap(StrokeLineCap.ROUND);
         w22.setStrokeWidth(4);
 
         Line w23 = new Line(tip2x, centreLine, midx, centreLine );
-        w23.setStroke(Color.GREEN);
+        w23.setStroke(Display.DIRECTION_COLOR);
         w23.setStrokeLineCap(StrokeLineCap.ROUND);
         w23.setStrokeWidth(4);
 
@@ -479,7 +497,7 @@ public class Display {
     	double y3 = paneHeight/2;
     	
     	tri.getPoints().addAll(new Double[] {x1,y1,x2,y2,x3,y3});
-    	tri.setFill(Color.GREEN);
+    	tri.setFill(Display.DIRECTION_COLOR);
     	
     	tri.setVisible(true);
     	sideOnPane.getChildren().add(tri);
@@ -638,7 +656,7 @@ public class Display {
 
         area.getPoints().addAll(points);
 
-        area.setFill(areaColor);
+        area.setFill(Color.LIGHTGRAY);
         area.setStroke(Color.BLACK);
         area.setStrokeWidth(0.1);
 
@@ -723,5 +741,28 @@ public class Display {
         } else {
             topDownPane.setRotate(0);
         }
+    }
+    
+    
+    public void swapColours() {
+    	if (colorScheme == 1) {
+    		    CLEARWAY_COLOR = CLEARWAY_COLOR2;
+    		     STOPWAY_COLOR = STOPWAY_COLOR2;
+    		      OBSTACLE_COLOR = OBSTACLE_COLOR2;
+    		      SLOPE_COLOR = SLOPE_COLOR2;
+    		     DIRECTION_COLOR = DIRECTION_COLOR2;
+    		     THRESHOLD_COLOR = THRESHOLD_COLOR2;
+    		     
+    		     colorScheme = 2;
+    	} else {
+    		CLEARWAY_COLOR = CLEARWAY_COLOR1;
+		    STOPWAY_COLOR = STOPWAY_COLOR1;
+		    OBSTACLE_COLOR = OBSTACLE_COLOR1;
+		    SLOPE_COLOR = SLOPE_COLOR1;
+		    DIRECTION_COLOR = DIRECTION_COLOR1;
+		    THRESHOLD_COLOR = THRESHOLD_COLOR1;
+		    
+		    colorScheme = 1;
+    	}
     }
 }

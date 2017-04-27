@@ -3,6 +3,7 @@ import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.print.PageLayout;
 import javafx.print.PrinterJob;
 import javafx.scene.Node;
@@ -35,14 +36,16 @@ import java.awt.image.BufferedImage;
 import java.beans.XMLDecoder;
 import java.beans.XMLEncoder;
 import java.io.*;
+import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Optional;
+import java.util.ResourceBundle;
 import java.util.TreeSet;
 
-public class RunwayController extends Application {
+public class RunwayController extends Application implements Initializable {
 
     public static final String NAT_REGEX = "^[0-9]*$";
     public static final String INT_REGEX = "^-?[0-9]*$";
@@ -68,7 +71,9 @@ public class RunwayController extends Application {
 
     private Point dragOldPos;
 
-    public Button submitButton, clearObstacle;
+    public Button submitButton, clearObstacle, rotLeft, rotRight;
+    
+    public Double rotation = 0.0;
 
     // Obstacle input value text fields
     public TextField thresholdDistance, distCentrelineInputField, obstacleHeightInputField;
@@ -413,11 +418,11 @@ public class RunwayController extends Application {
         }
 
         if (alwaysShowLegend) {
-            addLegendItem(Color.GREEN, "Direction of Travel", currentY, true);
+            addLegendItem(Display.DIRECTION_COLOR, "Direction of Travel", currentY, true);
             currentY += 20;
         }
         if (alwaysShowLegend) {
-            addLegendItem(Color.DARKSALMON, "Threshold", currentY, true);
+            addLegendItem(Display.THRESHOLD_COLOR, "Threshold", currentY, true);
             currentY += 20;
         }
 
@@ -787,6 +792,7 @@ public class RunwayController extends Application {
         screen.clearPanes();
         screen.drawRunway(rw);
         displayLegend();
+        rotation = 0.0;
         screen.rotate();
     }
 
@@ -805,4 +811,47 @@ public class RunwayController extends Application {
         sideOnPane.setScaleX(1);
         sideOnPane.setScaleY(1);
     }
+
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		// TODO Auto-generated method stub
+		
+		
+		thresholdDistance.setAccessibleText("Distance from threshold");
+		thresholdDistance.setAccessibleHelp("Enter the distance between the obstacle and the Treshold. Enter a negative number if obstacle is situated before LDA.");
+		
+		distCentrelineInputField.setAccessibleText("Distance from centre line");
+		distCentrelineInputField.setAccessibleHelp("Enter the distance between the obstacle and the centre line. Enter a negative number if obstacle is situated below the centreline.");
+	
+		
+		obstacleHeightInputField.setAccessibleText("Obstacle height");
+		obstacleHeightInputField.setAccessibleHelp("Enter the obstacle height");
+	
+		
+	}
+	
+	
+	@FXML
+	protected void rotateL() {
+		rotation -=5;
+		topDownPane.setRotate(rotation);
+		
+		
+	}
+	
+	@FXML
+	protected void rotateR() {
+		rotation += 5;
+		topDownPane.setRotate(rotation);
+	}
+
+	protected void swapColours() {
+		displayValues();
+        displayCalculations(rw);
+        Display screen = new Display(topDownPane, sideOnPane);
+        screen.swapColours();
+        screen.clearPanes();
+        screen.drawRunway(rw);
+        displayLegend();
+	}
 }
